@@ -26,16 +26,18 @@ class Game
       puts "  1 2 3"
     end
 
-   def move
-        @move = gets.chomp
-        puts "the move was #{@move}"
-        # return Game.drawgrid.thegrid[:a1] = 'x'
-        drawgrid #redraw thegrid
-   end
+    def play
+      #draw the board
+      drawgrid
+      #make a move
+      Player.move
+      #check for win
+      #
+      #if no win
+      #repeat game
+    end
 end
 
 newgame = Game.new
-newgame.drawgrid
+newplayer = Player.new("X")
 
-newplayer = Player.new
-newplayer.human_move
