@@ -1,6 +1,6 @@
 require_relative 'player'
 
-class Game
+class Game 
   #initial values
   #globals listed here
   def initialize
@@ -11,11 +11,11 @@ class Game
     }
   end
   
-    #accessor method
-    attr_reader :thegrid
-  
+    #accessor methods
+    #attr_accessor :drawgrid
+
     #display grid on console
-    def DrawGrid
+    def drawgrid
       puts ""
       puts "a #{@thegrid[:a1]}|#{@thegrid[:a2]}|#{@thegrid[:a3]}"
       puts "----------"
@@ -25,10 +25,17 @@ class Game
       puts "----------"
       puts "  1 2 3"
     end
+
+   def move
+        @move = gets.chomp
+        puts "the move was #{@move}"
+        # return Game.drawgrid.thegrid[:a1] = 'x'
+        drawgrid #redraw thegrid
+   end
 end
 
 newgame = Game.new
-newgame.DrawGrid
+newgame.drawgrid
 
 newplayer = Player.new
-newplayer.Human
+newplayer.human_move
