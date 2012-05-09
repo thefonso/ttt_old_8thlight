@@ -3,16 +3,18 @@ require_relative 'player'
 class Game 
   #initial values
   #globals listed here
-  def initialize
+  def initialize(player_h, player_c)
+    #bring into existence the board and the players
+    @player_h = player_h
+    @player_c = player_c
+  
     @thegrid = {
         :a1=>" ", :a2=>" ", :a3=>" ",
         :b1=>" ", :b2=>" ", :b2=>" ",
         :c1=>" ", :c2=>" ", :c3=>" "
     }
   end
-  
-    #accessor methods
-    #attr_accessor :drawgrid
+
 
     #display grid on console
     def drawgrid
@@ -30,14 +32,33 @@ class Game
       #draw the board
       drawgrid
       #make a move
-      Player.move
-      #check for win
-      #
-      #if no win
-      #repeat game
+      while win != true
+
+        player_h.move_human
+        #check for win
+        win
+        if win != true
+          #redraw grid
+          drawgrid
+          #switch players
+          player_c.move_computer
+          # play again
+          play
+        else
+          #print winning message
+          puts "winner"
+        end
+      end
+    end
+
+    def win
+      false
     end
 end
 
-newgame = Game.new
-newplayer = Player.new("X")
+game = Game.new(player_h, player_c)
+game.play
+
+player_h = Player.new("X")
+player_c = Player.new("O")
 
