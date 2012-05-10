@@ -1,19 +1,20 @@
 class Player
-  
+  attr_reader :boardpiece
+
   def initialize(letter)
     @boardpiece = letter
   end
 
   def move_human(game)
+    puts "human move..."
     @move = gets.chomp
-    puts "human move was #{@move}"
   end
 
   def move_computer(game)
-    #looks for possible winning move in "win"
+    puts "computer move..."
+    #looks for possible winning move in "ai_moves"
     #for now ....acts like human
     @move = gets.chomp
-    puts "computer move was #{@move}"
   end
 
   def human

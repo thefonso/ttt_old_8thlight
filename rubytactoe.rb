@@ -32,33 +32,35 @@ class Game
       #draw the board
       drawgrid
       #make a move
-      while win != true
 
-        player_h.move_human
-        #check for win
-        win
-        if win != true
-          #redraw grid
-          drawgrid
-          #switch players
-          player_c.move_computer
-          # play again
-          play
-        else
-          #print winning message
-          puts "winner"
-        end
+      4.times do
+
+       @move = @player_h.move_human("X")
+       index = @move.to_sym
+       @thegrid[index] = @player_h.boardpiece
+       
+       drawgrid 
+       
+       #switch players
+       @move = @player_c.move_computer("O")
+       index = @move.to_sym
+       @thegrid[index] = @player_c.boardpiece
+      
+       drawgrid
       end
     end
 
     def win
+      #match current answers located in #thegrid
+      #with possable answers array
       false
     end
 end
 
-game = Game.new(player_h, player_c)
-game.play
 
 player_h = Player.new("X")
 player_c = Player.new("O")
+
+game = Game.new(player_h, player_c)
+game.play
 
