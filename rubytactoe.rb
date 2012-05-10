@@ -32,21 +32,23 @@ class Game
       #draw the board
       drawgrid
       #make a move
+      turn = 0
 
-      4.times do
+      9.times do
+        if turn.even?
+          @player = @player_h.move_human("X")
+          @marker = @player_h.boardpiece
+        else
+          @player = @player_c.move_computer("O")
+          @marker = @player_c.boardpiece
+        end
 
-       @move = @player_h.move_human("X")
-       index = @move.to_sym
-       @thegrid[index] = @player_h.boardpiece
-       
-       drawgrid 
-       
-       #switch players
-       @move = @player_c.move_computer("O")
-       index = @move.to_sym
-       @thegrid[index] = @player_c.boardpiece
-      
+        @move = @player
+        index = @move.to_sym
+        @thegrid[index] = @marker
+
        drawgrid
+       turn += 1
       end
     end
 
