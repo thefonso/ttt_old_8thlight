@@ -45,7 +45,13 @@ class Game
 
         @move = @player
         index = @move.to_sym
-        @thegrid[index] = @marker
+
+        if @thegrid[index] != " "
+          puts "try again"
+          #how to maintain user
+        else
+          @thegrid[index] = @marker
+        end
 
        drawgrid
        turn += 1
