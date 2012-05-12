@@ -8,7 +8,7 @@ class Player
   def move_human(game)
     puts "human move..."
     @move = gets.chomp
-    #check thegrid for... ans exist?
+    #check thegrid for... ans. exist?
   end
 
   def move_computer(game)

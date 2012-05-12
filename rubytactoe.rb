@@ -10,9 +10,11 @@ class Game
   
     @thegrid = {
         :a1=>" ", :a2=>" ", :a3=>" ",
-        :b1=>" ", :b2=>" ", :b2=>" ",
+        :b1=>" ", :b2=>" ", :b3=>" ",
         :c1=>" ", :c2=>" ", :c3=>" "
     }
+
+    @taken = []
   end
 
 
@@ -38,24 +40,38 @@ class Game
         if turn.even?
           @player = @player_h.move_human("X")
           @marker = @player_h.boardpiece
+
+          @move = @player
+          index = @move.to_sym
+          does_move_exist(index,@marker)
         else
           @player = @player_c.move_computer("O")
           @marker = @player_c.boardpiece
+
+          @move = @player
+          index = @move.to_sym
+          does_move_exist(index,@marker)
         end
 
-        @move = @player
-        index = @move.to_sym
-
-        if @thegrid[index] != " "
-          puts "try again"
-          #how to maintain user
-        else
-          @thegrid[index] = @marker
-        end
 
        drawgrid
        turn += 1
       end
+    end
+    
+    def does_move_exist(symbol,letter)
+      @symbol = symbol
+      @marker_two = letter
+      if @thegrid[@symbol] != " "
+        puts "Spot taken...try again"
+        #clear old move, make new move
+        @move = gets.chomp.to_sym 
+        does_move_exist(@move,@marker_two)
+      else
+        @symbol = @move.to_sym
+        @thegrid[@symbol] = @marker
+      end
+      
     end
 
     def win
