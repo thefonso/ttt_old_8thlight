@@ -90,53 +90,55 @@ class Player
     
     # select all values where value is X for thegrid and copy those into keys_with_x
     keys_with_x = $thegrid.select{ |k, v| v == "X" }.keys
+    block_moves = @ai_winmoves.select{ |k, v| v == "X" }.keys
     
     puts "keys_with_x: "
     puts keys_with_x.to_s
     
+    # human_keys = v.select{ |k, v| v == "X"}.keys
+    @intersection = block_moves & keys_with_x
+    @thing = []
     @human_winmoves.each do |k,v|
       #get common elements between two arrays..recall from above that v contains a hash
       human_keys = v.select{ |k, v| v == "X"}.keys
-      intersection = human_keys & keys_with_x
+      @intersection = human_keys & keys_with_x
       
       if $thegrid[:b2] == " "   #AND center spot is empty
         ai_spot = "b2"
         puts "take center "+ai_spot
         @move = ai_spot.to_sym  #must return this answer as a symbol
         return @move
-      elsif intersection.length >= 2
+      elsif @intersection.length >= 2
         puts "where does a intersect b"
-        puts intersection.to_s # FIXME - there is some number jazz I can do here ....what was it?
+        puts @intersection.to_s # FIXME - how to add per iteration to array?
         puts "answer key:"
+        puts k
+        @thing << k # this is how
+        puts "@thing array"
+        puts @thing.to_s
         puts @anskey[k] #wm key here
         puts "symbol?"
         puts @anskey[k].is_a?(Symbol)
         puts "symbol?"
         answer = @anskey[k].to_sym
         puts answer.is_a?(Symbol)
-        if k =~ /wm/ and $thegrid[answer] == " "#potential human win found then...block this
-          hum_answer = @anskey[k]
-          puts "k inside loop: "
-          puts k
-          puts "ai blocks human: "+hum_answer.to_s
-          ai_answer = hum_answer.to_sym
-          puts "symbol? "
-          puts ai_answer.is_a?(Symbol)
-          @move = ai_answer
-          return @move
-        else
-          # just take a random move
-           # scan board for available moves...
-           available_moves = $thegrid.select{ |k, v| v == " " }.keys
-           move_taken = available_moves[rand(available_moves.length)]
-           puts "random move 2: "
-           puts move_taken
-           # return random move
-           @move = move_taken
-           return @move
+        puts "inside thing loop: "
+        puts "answers:"
+        @thing.each do |k| #potential human win found then...block this
+          
+          puts @anskey[k] #FIXME - get this over to "9.times" in rubytactoe play method
+
         end
       else
-
+        # just take a random move
+         # scan board for available moves...
+         available_moves = $thegrid.select{ |k, v| v == " " }.keys
+         move_taken = available_moves[rand(available_moves.length)]
+         puts "random move 2: "
+         puts move_taken
+         # return random move
+         @move = move_taken
+         # return @move
       end
       # show me the ones where two keys_with_x intersect human_keys
       
