@@ -66,8 +66,10 @@ class Game
         # puts drawgrid
       else
         #TODO check for a win by O...if win then exit game
-        @player = @player_c.move_computer("O")
-        @move = @player
+        @move = @player_c.move_computer("O")
+        
+        puts "9x loop symbol value"
+        puts @move
         puts "symbol inside 9x loop:"
         puts @move.is_a?(Symbol)
         @marker = @player_c.boardpiece
