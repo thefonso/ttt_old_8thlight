@@ -67,11 +67,13 @@ class Game
       else
         #TODO check for a win by O...if win then exit game
         @player = @player_c.move_computer("O")
-        @move = @player.to_sym
-        puts "9x loop symbol value"
-        puts @move
+        @move = @player
+        # @move = @player.to_sym
         puts "symbol inside 9x loop:"
         puts @move.is_a?(Symbol)
+        puts "9x loop symbol value"
+        puts @move
+
         @marker = @player_c.boardpiece
         
         does_move_exist(@move,@marker)
@@ -92,9 +94,9 @@ class Game
   def does_move_exist(move,letter) # FIXME - what am I returning?
     @symbol = move
     @marker_two = letter
+    puts "@symbol value in does_move_exist"
+    puts @symbol
     if $thegrid[@symbol] != " " and  @marker_two == "O"
-      puts "@symbol value in does_move_exist"
-      puts @symbol
       puts "Spot taken...ai...trying again"
       # scan board for available moves...
       available_moves = $thegrid.select{ |k, v| v == " " }.keys
@@ -114,6 +116,8 @@ class Game
       #return this move on the board
       puts "does_move_exist..says spot available..."
       $thegrid[@move.to_sym] = @marker
+      
+      # FIXME add to where_ai_been here?
     end
   end
 

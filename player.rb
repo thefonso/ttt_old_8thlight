@@ -97,8 +97,10 @@ class Player
     
     # human_keys = v.select{ |k, v| v == "X"}.keys
     @intersection = block_moves & keys_with_x
-    @thing = []
-    @human_winmoves.each do |k,v|
+    
+    @thing = [] # initialize thing array
+    
+    @human_winmoves.each do |k,v| # for test - go threw each win moves.
       #get common elements between two arrays..recall from above that v contains a hash
       human_keys = v.select{ |k, v| v == "X"}.keys
       @intersection = human_keys & keys_with_x
@@ -114,25 +116,28 @@ class Player
         puts k
         @thing << k # adds per iteration
         puts "@thing array"
-        puts @thing.to_s
-        puts @anskey[k] #wm key here
+        puts @thing.to_s # for test - find each intersection
+        puts "@thing array last value"
+        puts @thing.last.to_s
+        puts "value"
+        puts @anskey[@thing.last]
         puts "symbol?"
-        puts @anskey[k].is_a?(Symbol)
-        puts "symbol?"
-        answer = @anskey[k].to_sym
+        answer = @anskey[@thing.last].to_sym
         puts answer.is_a?(Symbol)
-        puts "inside thing loop: "
-        puts "answers:"
-        @thing.each do |k| #potential human win found then...block this
-          answer = @anskey[k].to_sym
-          puts "@thing symbol?"
-          puts answer.is_a?(Symbol)
-          puts "value"
-          puts answer
-          @move = answer  #FIXME - get this over to "9.times" in rubytactoe play method
-        end
-        return @move
+        @move = answer # for test - at last intersection value found...return it as move value 
+        # debug
+        # @thing.each do |k| #potential human win found then...block this
+        #   answer = @anskey[k].to_sym
+        #   puts "@thing symbol?"
+        #   puts answer.is_a?(Symbol)
+        #   puts "value"
+        #   puts answer
+        #   @move = answer #FIXME - how to iterate answer..so each new addition is sent
+        # end
+        # return @move # had this guy in the wrong place
+        #debug
       end
     end # END @human_winmoves.each do |k,v|
+    return @move # had this guy in the wrong place
   end
 end
