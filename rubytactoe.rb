@@ -56,15 +56,6 @@ class Game
 
     9.times do
       if turn.even?
-        #TODO check for a win by X...if win then exit game
-        @player = @player_h.move_human("X")
-        @move = @player.to_sym
-        @marker = @player_h.boardpiece
-        
-        does_move_exist(@move,@marker)
-        is_a_human_win
-        # puts drawgrid
-      else
         #TODO check for a win by O...if win then exit game
         @player = @player_c.move_computer("O")
         @move = @player
@@ -78,6 +69,15 @@ class Game
         
         does_move_exist(@move,@marker)
         is_a_computer_win
+        # puts drawgrid
+      else
+        #TODO check for a win by X...if win then exit game
+        @player = @player_h.move_human("X")
+        @move = @player.to_sym
+        @marker = @player_h.boardpiece
+        
+        does_move_exist(@move,@marker)
+        is_a_human_win
         # puts drawgrid
       end
 
