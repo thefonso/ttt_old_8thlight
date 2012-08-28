@@ -66,8 +66,8 @@ class Game
         # puts drawgrid
       else
         #TODO check for a win by O...if win then exit game
-        @move = @player_c.move_computer("O")
-        
+        @player = @player_c.move_computer("O")
+        @move = @player.to_sym
         puts "9x loop symbol value"
         puts @move
         puts "symbol inside 9x loop:"
@@ -112,6 +112,7 @@ class Game
       $thegrid[@move.to_sym] = @marker
     else
       #return this move on the board
+      puts "does_move_exist..says spot available..."
       $thegrid[@move.to_sym] = @marker
     end
   end

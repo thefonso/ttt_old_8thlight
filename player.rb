@@ -106,7 +106,7 @@ class Player
         ai_spot = "b2"
         puts "take center "+ai_spot
         @move = ai_spot.to_sym  #must return this answer as a symbol
-        # return @move
+        return @move
       elsif @intersection.length >= 2
         puts "where does a intersect b"
         puts @intersection.to_s 
@@ -130,8 +130,8 @@ class Player
           puts "value"
           puts answer
           @move = answer  #FIXME - get this over to "9.times" in rubytactoe play method
-          # return @move
         end
+        return @move
       end
     end # END @human_winmoves.each do |k,v|
   end
