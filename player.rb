@@ -117,25 +117,14 @@ class Player
         @thing << k # adds per iteration
         puts "@thing array"
         puts @thing.to_s # for test - find each intersection
-        puts "@thing array last value"
-        puts @thing.last.to_s
+        puts "@thing array first key"
+        puts @thing.first.to_s
         puts "value"
-        puts @anskey[@thing.last]
+        puts @anskey[@thing.first]
         puts "symbol?"
-        answer = @anskey[@thing.last].to_sym
+        answer = @anskey[@thing.first].to_sym
         puts answer.is_a?(Symbol)
         @move = answer # for test - at last intersection value found...return it as move value 
-        # debug
-        # @thing.each do |k| #potential human win found then...block this
-        #   answer = @anskey[k].to_sym
-        #   puts "@thing symbol?"
-        #   puts answer.is_a?(Symbol)
-        #   puts "value"
-        #   puts answer
-        #   @move = answer #FIXME - how to iterate answer..so each new addition is sent
-        # end
-        # return @move # had this guy in the wrong place
-        #debug
       end
     end # END @human_winmoves.each do |k,v|
     return @move # had this guy in the wrong place
