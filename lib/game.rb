@@ -13,7 +13,7 @@ class Game
         :b1=>" ", :b2=>" ", :b3=>" ",
         :c1=>" ", :c2=>" ", :c3=>" "
     }
-    #make a global var for drawgrid used by player
+    #make a global var for drawgrid which is used by external player class
     $gamegrid = drawgrid
   
   end
@@ -34,9 +34,15 @@ class Game
   #start the game
   def play
     #draw the board
-    puts drawgrid
-    #make a move
-    #alternate player turns
+    # puts drawgrid
+    #external call to player class
+    @player = @player_c.move_computer("O")
   end
-
 end
+
+player_h = Player.new("X")
+player_c = Player.new("O")
+
+
+game = Game.new(player_h, player_c)
+game.play

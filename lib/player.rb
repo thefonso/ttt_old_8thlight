@@ -1,10 +1,9 @@
 # I exist to hold each player and the player's value
 
 class Player
-  
-  # def initialize(letter) #when I'm created I must receive a letter
-  #   @boardpiece = letter
-  # end
+  def initialize(letter) #Player receives a letter value, We'll use this to identify the play as human or ai
+    @baordpiece = letter
+  end
   
   def move_human(letter)
     puts "human move"
@@ -12,9 +11,9 @@ class Player
     return @move
   end
   
-  def move_computer(leter)
+  def move_computer(letter)
     puts "computer move"
-    @move = gets.chomp
-    return @move
+    # @move = gets.chomp
+    # return @move
   end
 end
