@@ -8,7 +8,6 @@ class Game
   attr_reader :win_moves
   attr_reader :thegrid
   attr_reader :gamegrid
-
   
   #create players
   def initialize(player_h, player_c)
@@ -55,7 +54,6 @@ class Game
       if turn.even?
         @player = @player_c.move_computer("O")
         @move = @player
-
         @marker = @player_c.boardpiece
         
         does_move_exist(@move,@marker)
