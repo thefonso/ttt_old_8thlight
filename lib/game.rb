@@ -28,7 +28,6 @@ class Game
 
   ##
   #display grid on console
-  # TODO make this RETURN and not PUTS
   def drawgrid
     
     board = "\n"
@@ -47,8 +46,6 @@ class Game
   #start the game here
   def play
     #draw the board
-    # drawgrid
-    #FIXME make me drawgrid's return value
     puts drawgrid
     
     #make a move
@@ -56,34 +53,23 @@ class Game
 
     9.times do
       if turn.even?
-        #TODO check for a win by O...if win then exit game
         @player = @player_c.move_computer("O")
         @move = @player
-        # @move = @player.to_sym
-        #DEBUG puts "symbol inside 9x loop:"
-        #DEBUG puts @move.is_a?(Symbol)
-        #DEBUG puts "9x loop symbol value"
-        #DEBUG puts @move
 
         @marker = @player_c.boardpiece
         
         does_move_exist(@move,@marker)
         is_a_computer_win
-        # puts drawgrid
       else
-        #TODO check for a win by X...if win then exit game
         @player = @player_h.move_human("X")
         @move = @player.to_sym
         @marker = @player_h.boardpiece
         
         does_move_exist(@move,@marker)
         is_a_human_win
-        # puts drawgrid
       end
 
      puts drawgrid
-     # reset gamegrid value
-     # $gamegrid = drawgrid
      
      turn += 1
      puts "turn: "+turn.to_s
@@ -91,13 +77,11 @@ class Game
     end
   end
 
-  def does_move_exist(move,letter) # FIXME - what am I returning?
+  def does_move_exist(move,letter)
     @symbol = move
     @marker_two = letter
-    #DEBUG puts "@symbol value in does_move_exist"
-    #DEBUG puts @symbol
+
     if $thegrid[@symbol] != " " and  @marker_two == "O"
-      #DEBUG puts "Spot taken...ai...trying again"
       # scan board for available moves...
       available_moves = $thegrid.select{ |k, v| v == " " }.keys
       puts "random move"
@@ -106,18 +90,15 @@ class Game
       #return this move on the board
       $thegrid[@move] = @marker
     elsif $thegrid[@symbol] != " " and  @marker_two == "X"
-      #DEBUG puts "Spot taken...human...try again"
       #clear old move, make new move
       @move = gets.chomp
-      # does_move_exist(@move,@marker_two)
+      
       #return this move on the board
       $thegrid[@move.to_sym] = @marker
     else
       #return this move on the board
-      #DEBUG puts "does_move_exist..says spot available..."
       $thegrid[@move.to_sym] = @marker
       
-      # FIXME add to where_ai_been here?
     end
   end
 
