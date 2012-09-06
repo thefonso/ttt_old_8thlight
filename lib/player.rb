@@ -83,10 +83,6 @@
         # scan board for available move locations
         # select all values where value is O for thegrid and copy those into keys_with_o
         # compare result to ai_winmoves
-        # keys_with_o = $thegrid.select{ |k, v| v == "O" }.keys
-        # matching_moves = @ai_winmoves.select{ |k, v| v.select{ |k, v| v == "O" }.keys == keys_with_o }
-        # puts "matching_moves: "
-        # puts matching_moves
     
         # select all values where value is X for thegrid and copy those into keys_with_x
         keys_with_x = $thegrid.select{ |k, v| v == "X" }.keys
@@ -103,7 +99,7 @@
           @intersection = human_keys & keys_with_x
           if $thegrid[:b2] == " "   #AND center spot is empty
             ai_spot = "b2"
-            puts "take center "+ai_spot
+            puts "ai takes center "+ai_spot
             @move = ai_spot.to_sym  #must return this answer as a symbol
             return @move
           elsif @intersection.length >= 2

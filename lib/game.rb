@@ -72,7 +72,7 @@ class Game
      puts drawgrid
      
      turn += 1
-     puts "turn: "+turn.to_s
+     
 
     end
   end
@@ -84,9 +84,9 @@ class Game
     if $thegrid[@symbol] != " " and  @marker_two == "O"
       # scan board for available moves...
       available_moves = $thegrid.select{ |k, v| v == " " }.keys
-      puts "random move"
+      
       @move = available_moves[rand(available_moves.length)]
-      puts @move
+      
       #return this move on the board
       $thegrid[@move] = @marker
     elsif $thegrid[@symbol] != " " and  @marker_two == "X"
@@ -122,7 +122,7 @@ class Game
     # if matching_moves.keys contains anything with wm print results
     str = matching_moves.keys.to_s
     if str =~ /wm/ #match found then...
-      puts "WIN DETECTED - Human" #TODO - which player won?
+      puts "WIN DETECTED - Human"
       puts drawgrid
       exit
     end
