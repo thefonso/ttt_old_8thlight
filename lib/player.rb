@@ -8,9 +8,30 @@
       end
 
       def move_human(game)
+        @game_two = game
+
         puts "human move..."
-        @move = gets.chomp
+        # TODO - send error output if move not on board NEW
+        #        
+        human_move = gets.chomp
+
+        human_symbol = human_move.to_sym
+        # puts "has a1 key? "
+        # puts $thegrid.has_key?(human_symbol)
+
+        # look for move as key in $thegrid
+        if $thegrid.has_key?(human_symbol)
+          puts "bingo"               
+          @move = human_symbol              
+        else
+          puts "try again"
+          move_human(@game_two)
+        end 
+           
       end
+      
+
+
 
       def move_computer(game)
         puts "computer move..."

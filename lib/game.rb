@@ -1,6 +1,12 @@
 require_relative 'player'
 #
 #Just a Tic Tac Toe game class
+
+# TODO - Ai attempts win
+#
+# TODO - Human moves first 
+#
+#
 class Game 
   #initial values
   #globals listed here
@@ -14,7 +20,7 @@ class Game
     #bring into existence the board and the players
     @player_h = player_h
     @player_c = player_c
-  
+
     $thegrid = {
         :a1=>" ", :a2=>" ", :a3=>" ",
         :b1=>" ", :b2=>" ", :b3=>" ",
@@ -78,7 +84,7 @@ class Game
   def does_move_exist(move,letter)
     @symbol = move
     @marker_two = letter
-
+    
     if $thegrid[@symbol] != " " and  @marker_two == "O"
       # scan board for available moves...
       available_moves = $thegrid.select{ |k, v| v == " " }.keys
