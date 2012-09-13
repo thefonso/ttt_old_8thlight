@@ -2,8 +2,7 @@ require_relative 'player'
 #
 #Just a Tic Tac Toe game class
 
-# TODO - Ai attempts win
-#
+
 # TODO - Human moves first 
 #
 #
@@ -88,11 +87,12 @@ class Game
     if $thegrid[@symbol] != " " and  @marker_two == "O"
       # scan board for available moves...
       available_moves = $thegrid.select{ |k, v| v == " " }.keys
-      
+       
       @move = available_moves[rand(available_moves.length)]
-      
+      puts "random"
       #return this move on the board
       $thegrid[@move] = @marker
+      
     elsif $thegrid[@symbol] != " " and  @marker_two == "X"
       #clear old move, make new move
       @move = gets.chomp

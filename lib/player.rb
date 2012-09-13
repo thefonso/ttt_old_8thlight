@@ -11,7 +11,7 @@
         @game_two = game
 
         puts "human move..."
-        # TODO - send error output if move not on board NEW
+        # TODO - send error output if move not on board DONE
         #        
         human_move = gets.chomp
 
@@ -21,10 +21,10 @@
 
         # look for move as key in $thegrid
         if $thegrid.has_key?(human_symbol)
-          puts "bingo"               
+          # puts "bingo"               
           @move = human_symbol              
         else
-          puts "try again"
+          puts "invalid move...try again"
           move_human(@game_two)
         end 
            
@@ -34,6 +34,11 @@
 
 
       def move_computer(game)
+        # ai should do three things
+        # block human
+        # attempt win
+        # random move
+        
         puts "computer move..."
         # all possible third moves as 'O' (computer)
         @human_winmoves = {
@@ -62,7 +67,12 @@
             :wm21 => {:a1=>" ", :a2=>" ", :a3=>" ", :b1=>"X", :b2=>" ", :b3=>"X", :c1=>" ", :c2=>" ", :c3=>" "},
             :wm22 => {:a1=>"X", :a2=>" ", :a3=>" ", :b1=>" ", :b2=>" ", :b3=>" ", :c1=>" ", :c2=>" ", :c3=>"X"},
             :wm23 => {:a1=>" ", :a2=>" ", :a3=>" ", :b1=>" ", :b2=>" ", :b3=>" ", :c1=>"X", :c2=>" ", :c3=>"X"},
-            :wm24 => {:a1=>" ", :a2=>" ", :a3=>"X", :b1=>" ", :b2=>" ", :b3=>" ", :c1=>"X", :c2=>" ", :c3=>" "}
+            :wm24 => {:a1=>" ", :a2=>" ", :a3=>"X", :b1=>" ", :b2=>" ", :b3=>" ", :c1=>"X", :c2=>" ", :c3=>" "},
+            #check crazy
+            :wm25 => {:a1=>" ", :a2=>" ", :a3=>" ", :b1=>"X", :b2=>" ", :b3=>" ", :c1=>" ", :c2=>" ", :c3=>"X"},
+            :wm26 => {:a1=>"X", :a2=>" ", :a3=>" ", :b1=>" ", :b2=>" ", :b3=>"X", :c1=>" ", :c2=>" ", :c3=>" "},
+            :wm27 => {:a1=>" ", :a2=>" ", :a3=>"X", :b1=>"X", :b2=>" ", :b3=>" ", :c1=>" ", :c2=>" ", :c3=>" "},
+            :wm28 => {:a1=>" ", :a2=>" ", :a3=>" ", :b1=>" ", :b2=>" ", :b3=>"X", :c1=>"X", :c2=>" ", :c3=>" "}
         }
     
         @ai_winmoves = {
@@ -97,22 +107,52 @@
         @anskey={
             :wm01=>"c3",:wm02=>"c2",:wm03=>"c1",:wm04=>"b3",:wm05=>"b1",:wm06=>"a3",:wm07=>"a2",:wm08=>"a1",
             :wm09=>"a3",:wm10=>"c1",:wm11=>"a1",:wm12=>"c3",:wm13=>"c3",:wm14=>"c1",:wm15=>"c3",:wm16=>"a1",
-            :wm17=>"b1",:wm18=>"b2",:wm19=>"b3",:wm20=>"a2",:wm21=>"b2",:wm22=>"b2",:wm23=>"c2",:wm24=>"b2"
+            :wm17=>"b1",:wm18=>"b2",:wm19=>"b3",:wm20=>"a2",:wm21=>"b2",:wm22=>"b2",:wm23=>"c2",:wm24=>"b2",
+            :wm25=>"c1",:wm26=>"a3",:wm27=>"a1",:wm28=>"c3"
         }
         #
         # scan board for available move locations
         # select all values where value is O for thegrid and copy those into keys_with_o
-        # compare result to ai_winmoves
+        keys_with_o = $thegrid.select{ |k, v| v == "O" }.keys       # find O on board
+        ai_win_moves = @ai_winmoves.select{ |k, v| v == "O" }.keys  # find O win moves
+        # which moves can I take to win
+        @intersection = ai_win_moves & keys_with_o
     
         # select all values where value is X for thegrid and copy those into keys_with_x
-        keys_with_x = $thegrid.select{ |k, v| v == "X" }.keys
-        block_moves = @ai_winmoves.select{ |k, v| v == "X" }.keys
+        keys_with_x = $thegrid.select{ |k, v| v == "X" }.keys     # find X on board
+        block_moves = @ai_winmoves.select{ |k, v| v == "X" }.keys # find X on board
     
         # human_keys = v.select{ |k, v| v == "X"}.keys
-        @intersection = block_moves & keys_with_x
+        # which moves can I take to block human
+        # @intersection = block_moves & keys_with_x
     
         @thing = [] # initialize thing array
-    
+        
+        
+        # TODO - Ai attempts win
+        #        
+        @ai_winmoves.each do |k,v| # for test - go threw each win moves.
+          #get common elements between two arrays..recall from above that v contains a hash
+          ai_keys = v.select{ |k, v| v == "O"}.keys
+          @intersection = ai_keys & keys_with_o
+          if $thegrid[:b2] == " "   #AND center spot is empty
+            ai_spot = "b2"
+            puts "ai takes center "+ai_spot
+            @move = ai_spot.to_sym  #must return this answer as a symbol
+            return @move
+          elsif @intersection.length >= 2 #if two moves exist
+
+            @thing << k # adds per iteration
+
+            answer = @anskey[@thing.last].to_sym
+            puts "attempt win"
+            @move = answer # for test - at last intersection value found...return it as move value 
+          end
+        end # END @ai_winmoves.each do |k,v|
+        
+          
+        # TODO - Ai blocks human
+        #        
         @human_winmoves.each do |k,v| # for test - go threw each win moves.
           #get common elements between two arrays..recall from above that v contains a hash
           human_keys = v.select{ |k, v| v == "X"}.keys
@@ -123,14 +163,19 @@
             @move = ai_spot.to_sym  #must return this answer as a symbol
             return @move
           elsif @intersection.length >= 2
-
+        
             @thing << k # adds per iteration
-
+        
             answer = @anskey[@thing.last].to_sym
-
+            puts "attempt block"
             @move = answer # for test - at last intersection value found...return it as move value 
           end
         end # END @human_winmoves.each do |k,v|
+
+        
+        
+        
+        
         return @move # had this guy in the wrong place
       end
     end
