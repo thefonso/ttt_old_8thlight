@@ -113,69 +113,82 @@
         #
         # scan board for available move locations
         # select all values where value is O for thegrid and copy those into keys_with_o
-        keys_with_o = $thegrid.select{ |k, v| v == "O" }.keys       # find O on board
-        ai_win_moves = @ai_winmoves.select{ |k, v| v == "O" }.keys  # find O win moves
-        # which moves can I take to win
-        @intersection = ai_win_moves & keys_with_o
+        @keys_with_o = $thegrid.select{ |k, v| v == "O" }.keys       # find Os on board
+        # ai_win_moves = @ai_winmoves.select{ |k, v| v == "O" }.keys  # find O win moves
     
         # select all values where value is X for thegrid and copy those into keys_with_x
-        keys_with_x = $thegrid.select{ |k, v| v == "X" }.keys     # find X on board
-        block_moves = @ai_winmoves.select{ |k, v| v == "X" }.keys # find X on board
-    
-        # human_keys = v.select{ |k, v| v == "X"}.keys
-        # which moves can I take to block human
-        # @intersection = block_moves & keys_with_x
-    
-        @thing = [] # initialize thing array
+        @keys_with_x = $thegrid.select{ |k, v| v == "X" }.keys     # find Xs on board
+        # block_moves = @ai_winmoves.select{ |k, v| v == "X" }.keys # find X win moves
         
         
-        # TODO - Ai attempts win
-        #        
+        
+        if $thegrid[:b2] == " "   #AND center spot is empty
+          ai_spot = "b2"
+          puts "ai takes center "+ai_spot
+          @move = ai_spot.to_sym  #must return this answer as a symbol
+          return @move
+        else
+          # TODO - Ai attempts win
+          #
+          attempt_win
+
+          # TODO - Ai blocks human
+          # 
+          
+        end
+        
+
+        return @move # had this guy in the wrong place
+      end
+      
+      
+      def attempt_win
+        thing = [] # initialize thing array
         @ai_winmoves.each do |k,v| # for test - go threw each win moves.
           #get common elements between two arrays..recall from above that v contains a hash
+                   
           ai_keys = v.select{ |k, v| v == "O"}.keys
-          @intersection = ai_keys & keys_with_o
-          if $thegrid[:b2] == " "   #AND center spot is empty
-            ai_spot = "b2"
-            puts "ai takes center "+ai_spot
-            @move = ai_spot.to_sym  #must return this answer as a symbol
-            return @move
-          elsif @intersection.length >= 2 #if two moves exist
+          # which moves can I take to win
+          intersection = ai_keys & @keys_with_o
 
-            @thing << k # adds per iteration
+          if intersection.length >= 2 #if two moves exist
 
-            answer = @anskey[@thing.last].to_sym
+            thing << k # adds per iteration
+
+            answer = @anskey[thing.last].to_sym
+            puts "thing"
+            puts thing
+            puts "answer"
+            puts answer
             puts "attempt win"
-            @move = answer # for test - at last intersection value found...return it as move value 
+            
+            if answer != ""
+              @move = answer # for test - at last intersection value found...return it as move value
+              return @move
+            else
+              attempt_block
+            end
           end
         end # END @ai_winmoves.each do |k,v|
-        
-          
-        # TODO - Ai blocks human
-        #        
+      end
+      
+      def attempt_block
+        thing = [] # initialize thing array
         @human_winmoves.each do |k,v| # for test - go threw each win moves.
           #get common elements between two arrays..recall from above that v contains a hash
           human_keys = v.select{ |k, v| v == "X"}.keys
-          @intersection = human_keys & keys_with_x
-          if $thegrid[:b2] == " "   #AND center spot is empty
-            ai_spot = "b2"
-            puts "ai takes center "+ai_spot
-            @move = ai_spot.to_sym  #must return this answer as a symbol
-            return @move
-          elsif @intersection.length >= 2
+          # which moves can I take to block human
+          intersection = human_keys & @keys_with_x
+
+          if intersection.length >= 2
         
-            @thing << k # adds per iteration
+            thing << k # adds per iteration
         
-            answer = @anskey[@thing.last].to_sym
+            answer = @anskey[thing.last].to_sym
             puts "attempt block"
-            @move = answer # for test - at last intersection value found...return it as move value 
+            @move = answer # for test - at last intersection value found...return it as move value
           end
         end # END @human_winmoves.each do |k,v|
-
-        
-        
-        
-        
-        return @move # had this guy in the wrong place
       end
+      
     end

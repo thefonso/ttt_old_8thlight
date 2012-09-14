@@ -89,6 +89,9 @@ class Game
       available_moves = $thegrid.select{ |k, v| v == " " }.keys
        
       @move = available_moves[rand(available_moves.length)]
+      
+      # @move = @player_c.attempt_block
+      
       puts "random"
       #return this move on the board
       $thegrid[@move] = @marker
@@ -105,6 +108,7 @@ class Game
       
     end
   end
+
 
   def is_a_human_win
     #all moves as human (X)
