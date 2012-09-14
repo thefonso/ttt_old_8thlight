@@ -25,6 +25,10 @@ class Game
         :b1=>" ", :b2=>" ", :b3=>" ",
         :c1=>" ", :c2=>" ", :c3=>" "
     }
+    $corners = {
+        :a1=>" ", :a3=>" ",
+        :c1=>" ", :c3=>" "
+    }
     #make a global var for drawgrid used by player
     $gamegrid = drawgrid
   
@@ -57,7 +61,7 @@ class Game
 
     9.times do
       if turn.even?
-        
+
         @player = @player_c.move_computer("O")
         @move = @player
         @marker = @player_c.boardpiece
@@ -66,6 +70,8 @@ class Game
         is_a_computer_win
 
       else
+
+        
         @player = @player_h.move_human("X")
         @move = @player.to_sym
         @marker = @player_h.boardpiece
@@ -88,8 +94,13 @@ class Game
     
     if $thegrid[@symbol] != " " and  @marker_two == "O"
       # scan board for available moves...
-      available_moves = $thegrid.select{ |k, v| v == " " }.keys
-       
+      # if human is center ai defends corners.
+      if $thegrid[:b2] == "O"
+        available_moves = $corners.select{ |k, v| v == " " }.keys
+      else
+        available_moves = $thegrid.select{ |k, v| v == " " }.keys
+      end
+      
       @move = available_moves[rand(available_moves.length)]
       
       # @move = @player_c.attempt_block

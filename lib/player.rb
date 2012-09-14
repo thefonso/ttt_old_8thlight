@@ -138,6 +138,7 @@
       
       
       def attempt_win
+        puts "attempt win - hi"
         # thing = [] # initialize thing array
         @ai_winmoves.each do |k,v| # for test - go threw each win moves.
           #get common elements between two arrays..recall from above that v contains a hash
