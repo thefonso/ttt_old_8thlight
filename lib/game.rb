@@ -57,12 +57,14 @@ class Game
 
     9.times do
       if turn.even?
+        
         @player = @player_c.move_computer("O")
         @move = @player
         @marker = @player_c.boardpiece
         
         does_move_exist(@move,@marker)
         is_a_computer_win
+
       else
         @player = @player_h.move_human("X")
         @move = @player.to_sym

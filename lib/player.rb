@@ -120,7 +120,7 @@
         @keys_with_x = $thegrid.select{ |k, v| v == "X" }.keys     # find Xs on board
         # block_moves = @ai_winmoves.select{ |k, v| v == "X" }.keys # find X win moves
         
-        
+        @thing = [] # initialize thing array
         
         if $thegrid[:b2] == " "   #AND center spot is empty
           ai_spot = "b2"
@@ -131,60 +131,56 @@
           # TODO - Ai attempts win
           #
           attempt_win
-
-          # TODO - Ai blocks human
-          # 
-          
         end
         
-
         return @move # had this guy in the wrong place
       end
       
       
       def attempt_win
-        thing = [] # initialize thing array
+        # thing = [] # initialize thing array
         @ai_winmoves.each do |k,v| # for test - go threw each win moves.
           #get common elements between two arrays..recall from above that v contains a hash
                    
           ai_keys = v.select{ |k, v| v == "O"}.keys
           # which moves can I take to win
           intersection = ai_keys & @keys_with_o
-
+          # puts intersection
+          # puts "intersection "
           if intersection.length >= 2 #if two moves exist
 
-            thing << k # adds per iteration
+            @thing << k # adds per iteration
 
-            answer = @anskey[thing.last].to_sym
-            puts "thing"
-            puts thing
+            answer = @anskey[@thing.last].to_sym
+
             puts "answer"
             puts answer
             puts "attempt win"
-            
-            if answer != ""
-              @move = answer # for test - at last intersection value found...return it as move value
-              return @move
-            else
+            puts answer.is_a?(Symbol)
+
+            # what do I do here how to create a case for this?
+            if $thegrid[answer] != " " #if win move space is not empty check for a block move
               attempt_block
+            else
+              @move = answer # for test - at last intersection value found...return it as move value
             end
           end
         end # END @ai_winmoves.each do |k,v|
       end
       
       def attempt_block
-        thing = [] # initialize thing array
+        # thing = [] # initialize thing array
         @human_winmoves.each do |k,v| # for test - go threw each win moves.
           #get common elements between two arrays..recall from above that v contains a hash
           human_keys = v.select{ |k, v| v == "X"}.keys
           # which moves can I take to block human
           intersection = human_keys & @keys_with_x
-
+          
           if intersection.length >= 2
-        
-            thing << k # adds per iteration
-        
-            answer = @anskey[thing.last].to_sym
+          
+            @thing << k # adds per iteration
+          
+            answer = @anskey[@thing.last].to_sym
             puts "attempt block"
             @move = answer # for test - at last intersection value found...return it as move value
           end
