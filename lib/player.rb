@@ -206,18 +206,20 @@
           
           if intersection.length >= 2
           
-            @thing << k # adds per iteration
+            @thing << k # adds a key per iteration
             
             @thing.each do |answer|
-            # answer = @anskey[@thing.last].to_sym
+              # answer = @anskey[@thing.last].to_sym
               puts "which moves can ai block with?"
               puts answer
               puts "attempt block"
-            end
-            if $thegrid[answer] != " " # spot taken
-              puts "space taken can not block"
-            else
-              @move = answer # for test - at last intersection value found...return it as move value
+              ans = answer.to_sym
+              #TODO - start here
+              if $thegrid[ans] != " " # spot taken
+                puts "space taken can not block"
+              else
+                @move = answer # for test - at last intersection value found...return it as move value
+              end
             end
           end
         end # END @human_winmoves.each do |k,v|
