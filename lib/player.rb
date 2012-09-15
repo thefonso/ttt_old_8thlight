@@ -209,7 +209,7 @@
             @thing << k # adds a key per iteration
             
             @thing.each do |answer|
-              # answer = @anskey[@thing.last].to_sym
+              # answer = @anskey[@thing.last].to_sym testing
               puts "which moves can ai block with?"
               puts answer
               puts "attempt block"
