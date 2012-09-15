@@ -95,17 +95,15 @@ class Game
     if $thegrid[@symbol] != " " and  @marker_two == "O"
       # scan board for available moves...
       # if human is center ai defends corners.
-      if $thegrid[:b2] == "O"
-        available_moves = $corners.select{ |k, v| v == " " }.keys
-      else
-        available_moves = $thegrid.select{ |k, v| v == " " }.keys
-      end
+
+      available_moves = $thegrid.select{ |k, v| v == " " }.keys
+    
       
       @move = available_moves[rand(available_moves.length)]
       
       # @move = @player_c.attempt_block
       
-      puts "random"
+      puts "random move - game.rb"
       #return this move on the board
       $thegrid[@move] = @marker
       
