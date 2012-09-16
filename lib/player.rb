@@ -160,7 +160,7 @@
         else
           # TODO - Ai attempts win
           #
-          attempt_block
+          attempt_win
 
         end
         
@@ -177,21 +177,26 @@
           # which moves can I take to win
           intersection = ai_keys & @keys_with_o
          
-          if intersection.length >= 2 #if two moves exist
-
+          if intersection.length
+            puts intersection
             @thing << k # add to answers array per iteration
-
-            answer = @anskey[@thing.last].to_sym
-
-            puts "which moves can ai take to win"
-            puts answer
-            # what do I do here how to create a case for this?
-            if $thegrid[answer] != " " #if win move space is not empty check for a block move
-              puts "space taken running attempt_block..."
-              attempt_block
-            else
-              @move = answer # for test - at last intersection value found...return it as move value
-            end
+            # puts "thing << k"
+            # puts k
+            # @thing.last do |key|
+              answer = @anskey[@thing.last].to_sym
+              puts "which moves can human win with?"
+              # puts @anskey[key]
+              # answer = @anskey[key].to_sym
+              puts "attempt win"
+              puts answer
+            
+              if $thegrid[answer] == " " #if win move space is not empty check for a block move
+                @move = answer               
+              else
+                puts "space taken running attempt_block..."
+                attempt_block
+              end
+            # end
           end
         end # END @ai_winmoves.each do |k,v|
       end
