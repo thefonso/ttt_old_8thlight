@@ -1,4 +1,7 @@
-
+# TODO - send error output if move not on board DONE
+# TODO - send error output if move taken
+# TODO - ai favors win over block
+# TODO - ai does not take center.
     class Player
 
       attr_reader :boardpiece # i exist so game can read me
@@ -11,8 +14,7 @@
         @game_two = game
 
         puts "human move..."
-        # TODO - send error output if move not on board DONE
-        #        
+
         human_move = gets.chomp
 
         human_symbol = human_move.to_sym
@@ -223,7 +225,7 @@
               answer = @anskey[key].to_sym
               puts "attempt block"
               puts answer
-              #TODO - start here
+
               if $thegrid[answer] != " " # spot taken
                 puts "space taken can not block"
               else
