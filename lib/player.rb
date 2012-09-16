@@ -1,7 +1,9 @@
 # TODO - send error output if move not on board DONE
 # TODO - ai does not take center. DONE
-# TODO - send error output if move taken
-# TODO - ai favors win over block -THIS is the KEY
+# TODO - send error output if move already taken
+# TODO - ai favors win over block -THIS is the KEY DONE
+# TODO - if human takes center ai first move is corner DONE
+
 
     class Player
 

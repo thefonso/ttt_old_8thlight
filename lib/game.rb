@@ -12,6 +12,7 @@ class Game
   ##
   attr_reader :win_moves
   attr_reader :thegrid
+  attr_reader :corners
   attr_reader :gamegrid
   
   #create players
@@ -94,12 +95,16 @@ class Game
     
     if $thegrid[@symbol] != " " and  @marker_two == "O"
       # scan board for available moves...
-      # if human is center ai defends corners.
+      if $thegrid[:b2] == "X"
+        # TODO defend corners
+        available_moves = $corners.select{ |k, v| v == " " }.keys
+
+        @move = available_moves[rand(available_moves.length)]
+      else
+        available_moves = $thegrid.select{ |k, v| v == " " }.keys
       
-      available_moves = $thegrid.select{ |k, v| v == " " }.keys
-      
-      @move = available_moves[rand(available_moves.length)]
-      
+        @move = available_moves[rand(available_moves.length)]
+      end
       # @move = @player_c.attempt_block
       
       puts "random move - game.rb"
