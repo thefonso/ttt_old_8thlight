@@ -1,7 +1,8 @@
 # TODO - send error output if move not on board DONE
+# TODO - ai does not take center. DONE
 # TODO - send error output if move taken
-# TODO - ai favors win over block
-# TODO - ai does not take center.
+# TODO - ai favors win over block -THIS is the KEY
+
     class Player
 
       attr_reader :boardpiece # i exist so game can read me
@@ -37,8 +38,8 @@
 
       def move_computer(game)
         # ai should do three things
-        # block human
         # attempt win
+        # block human
         # random move
         
         puts "computer move..."
@@ -167,8 +168,7 @@
         end
         
         return @move # had this guy in the wrong place
-      end
-      
+      end      
       
       def attempt_win
         puts "attempt win method - hi"
@@ -179,12 +179,12 @@
           # which moves can I take to win
           intersection = ai_keys & @keys_with_o
          
-          if intersection.length
+          if intersection.length >= 1
             puts intersection
             @thing << k # add to answers array per iteration
             # puts "thing << k"
             # puts k
-            # @thing.last do |key|
+            # @thing.each do |key|
               answer = @anskey[@thing.last].to_sym
               puts "which moves can human win with?"
               # puts @anskey[key]
@@ -217,14 +217,14 @@
             puts intersection
             @thing << k # adds a key per iteration
             puts "thing << k"
-            puts k
+            puts @anskey[k]
             @thing.each do |key|
               # answer = @anskey[@thing.last].to_sym
-              puts "which moves can ai block with?"
-              puts @anskey[key]
+              # puts "which moves can ai block with?"
+              # puts @anskey[key]
               answer = @anskey[key].to_sym
-              puts "attempt block"
-              puts answer
+              # puts "attempt block"
+              # puts answer
 
               if $thegrid[answer] != " " # spot taken
                 puts "space taken can not block"
