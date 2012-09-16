@@ -160,7 +160,8 @@
         else
           # TODO - Ai attempts win
           #
-          attempt_win
+          attempt_block
+
         end
         
         return @move # had this guy in the wrong place
@@ -205,17 +206,20 @@
           intersection = human_keys & @keys_with_x
           
           if intersection.length >= 2
-          
+            puts "intersection"
+            puts intersection
             @thing << k # adds a key per iteration
-            
-            @thing.each do |answer|
+            puts "thing << k"
+            puts k
+            @thing.each do |key|
               # answer = @anskey[@thing.last].to_sym
               puts "which moves can ai block with?"
-              puts answer
+              puts @anskey[key]
+              answer = @anskey[key].to_sym
               puts "attempt block"
-              ans = answer.to_sym
+              puts answer
               #TODO - start here
-              if $thegrid[ans] != " " # spot taken
+              if $thegrid[answer] != " " # spot taken
                 puts "space taken can not block"
               else
                 @move = answer # for test - at last intersection value found...return it as move value
