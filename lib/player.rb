@@ -169,7 +169,7 @@
       
       
       def attempt_win
-        puts "attempt win method - hi"
+ 
         # thing = [] # initialize thing array
         @ai_winmoves.each do |k,v| # go threw each win moves.
           #get common elements between two arrays..recall from above that v contains a hash
@@ -178,22 +178,15 @@
           intersection = ai_keys & @keys_with_o
          
           if intersection.length
-            puts intersection
+ 
             @thing << k # add to answers array per iteration
-            # puts "thing << k"
-            # puts k
-            # @thing.last do |key|
+
               answer = @anskey[@thing.last].to_sym
-              puts "which moves can human win with?"
-              # puts @anskey[key]
-              # answer = @anskey[key].to_sym
-              puts "attempt win"
-              puts answer
             
               if $thegrid[answer] == " " #if win move space is not empty check for a block move
                 @move = answer               
               else
-                puts "space taken running attempt_block..."
+                # puts "space taken attempt_block..."
                 attempt_block
               end
             # end
@@ -202,7 +195,7 @@
       end
       
       def attempt_block
-        puts "attempt block method - hi"
+ 
         # thing = [] # initialize thing array
         @human_winmoves.each do |k,v| # for test - go threw each win moves.
           #get common elements between two arrays..recall from above that v contains a hash
@@ -211,21 +204,16 @@
           intersection = human_keys & @keys_with_x
           
           if intersection.length >= 2
-            puts "intersection"
-            puts intersection
+
             @thing << k # adds a key per iteration
-            puts "thing << k"
-            puts k
+
             @thing.each do |key|
-              # answer = @anskey[@thing.last].to_sym
-              puts "which moves can ai block with?"
-              puts @anskey[key]
+ 
               answer = @anskey[key].to_sym
-              puts "attempt block"
-              puts answer
+ 
               #TODO - start here
               if $thegrid[answer] != " " # spot taken
-                puts "space taken can not block"
+                # puts "space taken can not block"
               else
                 @move = answer # for test - at last intersection value found...return it as move value
               end
