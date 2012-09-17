@@ -1,9 +1,9 @@
 # TODO - send error output if move not on board DONE
 # TODO - ai does not take center. DONE
-# TODO - send error output if move already taken
 # TODO - ai favors win over block -THIS is the KEY DONE
 # TODO - if human takes center ai first move is corner DONE
-
+# TODO - send error output if move already taken
+# TODO - better WIN detection
 
     class Player
 
@@ -21,13 +21,19 @@
         human_move = gets.chomp
 
         human_symbol = human_move.to_sym
-        # puts "has a1 key? "
+        # puts human_symbol
+        puts $thegrid[human_symbol]
         # puts $thegrid.has_key?(human_symbol)
 
         # look for move as key in $thegrid
         if $thegrid.has_key?(human_symbol)
-          # puts "bingo"               
-          @move = human_symbol              
+          if $thegrid[human_symbol] == " "
+            puts "bingo"  
+            @move = human_symbol            
+          else
+            puts "spot taken...try again"
+            move_human(@game_two)
+          end
         else
           puts "invalid move...try again"
           move_human(@game_two)
@@ -173,10 +179,8 @@
       end      
       
       def attempt_win 
-        # TODO - attempt all win moves before going to attempt_block
-        # Step one - display all win moves
-        # Step two - place these into an array
-        # Step three - iterate array, attempt each move on board
+        # attempts all win moves before going to attempt_block
+
         puts "attempt win method - hi"
         
         @ai_winmoves.each do |k,v| # go threw each win move in the ai_winmoves array above.         
