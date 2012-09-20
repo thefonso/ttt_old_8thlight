@@ -13,7 +13,7 @@
         @boardpiece = letter
       end
 
-      def move_human(game)
+      def move_human(game, board)
         @game_two = game
 
         puts "human move..."
@@ -21,22 +21,19 @@
         human_move = gets.chomp
 
         human_symbol = human_move.to_sym
-        # puts human_symbol
-        puts $thegrid[human_symbol]
-        # puts $thegrid.has_key?(human_symbol)
 
-        # look for move as key in $thegrid
-        if $thegrid.has_key?(human_symbol)
-          if $thegrid[human_symbol] == " "
-            puts "bingo"  
+        # look for move as key in board.board
+        if board.board.has_key?(human_symbol)
+          if board.board[human_symbol] == " "
+            #puts "bingo"  
             @move = human_symbol            
           else
             puts "spot taken...try again"
-            move_human(@game_two)
+            move_human(@game_two, board)
           end
         else
           puts "invalid move...try again"
-          move_human(@game_two)
+          move_human(@game_two, board)
         end 
            
       end
@@ -44,7 +41,7 @@
 
 
 
-      def move_computer(game)
+      def move_computer(game, board)
         # ai should do three things
         # attempt win
         # block human
@@ -153,13 +150,13 @@
         }
         #
         # scan board for available move locations
-        @keys_with_o = $thegrid.select{ |k, v| v == "O" }.keys       # find Os on the board
+        @keys_with_o = board.board.select{ |k, v| v == "O" }.keys       # find Os on the board
         
-        @keys_with_x = $thegrid.select{ |k, v| v == "X" }.keys       # find Xs on the board
+        @keys_with_x = board.board.select{ |k, v| v == "X" }.keys       # find Xs on the board
         
         @answers_array = [] # initialize answers array
         
-        if $thegrid[:b2] == " "   #AND center spot is empty
+        if board.board[:b2] == " "   #AND center spot is empty
           ai_spot = "b2"
           puts "ai takes center "+ai_spot
           @move = ai_spot.to_sym  #must return this answer as a symbol         
@@ -167,10 +164,11 @@
           # TODO - Ai attempts win
           i = 0
           until i == 4
-            attempt_win #run 3x then run attempt_block
+            attempt_win(board) #run 3x then run attempt_block
             i = i+1 # add 1 to i
-            if i == 3 
-              attempt_block
+            if i == 4
+              puts "running attempt_block..." 
+              attempt_block(board)
             end
           end
         end
@@ -178,7 +176,7 @@
         return @move # had this guy in the wrong place
       end      
       
-      def attempt_win 
+      def attempt_win(board)
         # attempts all win moves before going to attempt_block
 
         puts "attempt win method - hi"
@@ -200,10 +198,10 @@
               puts "attempt win"
               puts answer
             
-              if $thegrid[answer] == " " #if win move space is not empty check for a block move
+              if board.board[answer] == " " #if win move space is empty take it
                 @move = answer               
-              else
-                puts "space taken running attempt_block..."
+              else #check for a block move
+                
                 # attempt_block               
               end
             end
@@ -211,32 +209,34 @@
         end # END @ai_winmoves.each do |k,v|
       end
       
-      def attempt_block
+      def attempt_block(board)
         puts "attempt block method - hi"
         # thing = [] # initialize thing array
         @human_winmoves.each do |k,v| # for test - go threw each win moves.
-          #get common elements between two arrays..recall from above that v contains a hash
+          # get common elements between two arrays..recall from above that v contains a hash
           human_keys = v.select{ |k, v| v == "X"}.keys
           # which moves can I take to block human
           intersection = human_keys & @keys_with_x
           
           if intersection.length >= 2
-            # puts "intersection"
-            # puts intersection
+            puts "intersection"
+            puts intersection
             @answers_array << k # adds a key per iteration
-            # puts "@answers_array << k"
-            # puts @anskey[k]
+            puts "@answers_array << k"
+            puts @anskey[k]
             @answers_array.each do |key|
-              # puts "which moves can ai block with?"
-              # puts @anskey[key]
+              puts "which moves can ai block with?"
+              puts @anskey[key]
               answer = @anskey[key].to_sym
               puts "attempt block"
               puts answer
 
-              if $thegrid[answer] != " " # spot taken
-                puts "space taken can not block 2"
+              if board.board[answer] != " " # spot taken
+                puts "space taken can not block 2: " + answer.to_s 
               else
+                puts answer.to_s+" blocked"
                 @move = answer # for test - at last intersection value found...return it as move value
+                return @move
               end
             end
           end

@@ -1,4 +1,6 @@
 require_relative 'player'
+require_relative 'board'
+
 #
 #Just a Tic Tac Toe game class
 
@@ -16,16 +18,12 @@ class Game
   attr_reader :gamegrid
   
   #create players
-  def initialize(player_h, player_c)
+  def initialize(player_h, player_c, board)
     #bring into existence the board and the players
     @player_h = player_h
     @player_c = player_c
-
-    $thegrid = {
-        :a1=>" ", :a2=>" ", :a3=>" ",
-        :b1=>" ", :b2=>" ", :b3=>" ",
-        :c1=>" ", :c2=>" ", :c3=>" "
-    }
+    @board = board
+    
     $corners = {
         :a1=>" ", :a3=>" ",
         :c1=>" ", :c3=>" "
@@ -38,17 +36,7 @@ class Game
   ##
   #display grid on console
   def drawgrid
-    
-    board = "\n"
-    board << "a #{$thegrid[:a1]}|#{$thegrid[:a2]}|#{$thegrid[:a3]} \n"
-    board << "----------\n"
-    board << "b #{$thegrid[:b1]}|#{$thegrid[:b2]}|#{$thegrid[:b3]} \n"
-    board << "----------\n"
-    board << "c #{$thegrid[:c1]}|#{$thegrid[:c2]}|#{$thegrid[:c3]} \n"
-    board << "----------\n"
-    board << "  1 2 3 \n"
-    return board
-    
+    @board.drawgrid
   end
 
   ##
@@ -63,7 +51,7 @@ class Game
     9.times do
       if turn.even?
 
-        @player = @player_h.move_human("X")
+        @player = @player_h.move_human("X", @board)
         @move = @player.to_sym
         @marker = @player_h.boardpiece
         
@@ -72,7 +60,7 @@ class Game
 
       else
 
-        @player = @player_c.move_computer("O")
+        @player = @player_c.move_computer("O", @board)
         @move = @player
         @marker = @player_c.boardpiece
         
@@ -93,33 +81,33 @@ class Game
     @symbol = move
     @marker_two = letter
     
-    if $thegrid[@symbol] != " " and  @marker_two == "O"
+    if @board.board[@symbol] != " " and  @marker_two == "O"
       # scan board for available moves...
-      if $thegrid[:b2] == "X"
+      if @board.board[:b2] == "X"
         # TODO defend corners
         available_moves = $corners.select{ |k, v| v == " " }.keys
-
+        puts "random move - corners"
         @move = available_moves[rand(available_moves.length)]
       else
-        available_moves = $thegrid.select{ |k, v| v == " " }.keys
-      
+        available_moves = @board.board.select{ |k, v| v == " " }.keys
+        puts "random move - any space"
         @move = available_moves[rand(available_moves.length)]
       end
       # @move = @player_c.attempt_block
       
       puts "random move - game.rb"
       #return this move on the board
-      $thegrid[@move] = @marker
+      @board.board[@move] = @marker
       
-    elsif $thegrid[@symbol] != " " and  @marker_two == "X"
+    elsif @board.board[@symbol] != " " and  @marker_two == "X"
       #clear old move, make new move
       @move = gets.chomp
       
       #return this move on the board
-      $thegrid[@move.to_sym] = @marker
+      @board.board[@move.to_sym] = @marker
     else
       #return this move on the board
-      $thegrid[@move.to_sym] = @marker
+      @board.board[@move.to_sym] = @marker
       
     end
   end
@@ -138,7 +126,7 @@ class Game
       :wm08 => {:a1=>" ", :a2=>" ", :a3=>"X", :b1=>" ", :b2=>" ", :b3=>"X", :c1=>" ", :c2=>" ", :c3=>"X"}
     }
     #select all values where value is X for thegrid and copy those into keys_with_x
-    keys_with_x = $thegrid.select{ |k, v| v == "X" }.keys
+    keys_with_x = @board.board.select{ |k, v| v == "X" }.keys
 
     matching_moves = @win_moves.select{ |k, v| v.select{ |k, v| v == "X" }.keys == keys_with_x }
 
@@ -164,7 +152,7 @@ class Game
       :wm08 => {:a1=>" ", :a2=>" ", :a3=>"O", :b1=>" ", :b2=>" ", :b3=>"O", :c1=>" ", :c2=>" ", :c3=>"O"}
     }
     # select all values where value is X for thegrid and copy those into keys_with_x
-    keys_with_o = $thegrid.select{ |k, v| v == "O" }.keys
+    keys_with_o = @board.board.select{ |k, v| v == "O" }.keys
     
     matching_moves = @ai_winmoves.select{ |k, v| v.select{ |k, v| v == "O" }.keys == keys_with_o }
     
@@ -178,13 +166,3 @@ class Game
   end
   
 end
-
-
-
-player_h = Player.new("X")
-player_c = Player.new("O")
-
-
-
-game = Game.new(player_h, player_c)
-game.play
