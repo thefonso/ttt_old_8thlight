@@ -81,15 +81,15 @@ class Game
     @symbol = move
     @marker_two = letter
     
-    if @board.board[@symbol] != " " and  @marker_two == "O"
+    if @board.grid[@symbol] != " " and  @marker_two == "O"
       # scan board for available moves...
-      if @board.board[:b2] == "X"
+      if @board.grid[:b2] == "X"
         # TODO defend corners
         available_moves = $corners.select{ |k, v| v == " " }.keys
         puts "random move - corners"
         @move = available_moves[rand(available_moves.length)]
       else
-        available_moves = @board.board.select{ |k, v| v == " " }.keys
+        available_moves = @board.grid.select{ |k, v| v == " " }.keys
         puts "random move - any space"
         @move = available_moves[rand(available_moves.length)]
       end
@@ -97,17 +97,17 @@ class Game
       
       puts "random move - game.rb"
       #return this move on the board
-      @board.board[@move] = @marker
+      @board.grid[@move] = @marker
       
-    elsif @board.board[@symbol] != " " and  @marker_two == "X"
+    elsif @board.grid[@symbol] != " " and  @marker_two == "X"
       #clear old move, make new move
       @move = gets.chomp
       
       #return this move on the board
-      @board.board[@move.to_sym] = @marker
+      @board.grid[@move.to_sym] = @marker
     else
       #return this move on the board
-      @board.board[@move.to_sym] = @marker
+      @board.grid[@move.to_sym] = @marker
       
     end
   end
@@ -126,7 +126,7 @@ class Game
       :wm08 => {:a1=>" ", :a2=>" ", :a3=>"X", :b1=>" ", :b2=>" ", :b3=>"X", :c1=>" ", :c2=>" ", :c3=>"X"}
     }
     #select all values where value is X for thegrid and copy those into keys_with_x
-    keys_with_x = @board.board.select{ |k, v| v == "X" }.keys
+    keys_with_x = @board.grid.select{ |k, v| v == "X" }.keys
 
     matching_moves = @win_moves.select{ |k, v| v.select{ |k, v| v == "X" }.keys == keys_with_x }
 
@@ -152,7 +152,7 @@ class Game
       :wm08 => {:a1=>" ", :a2=>" ", :a3=>"O", :b1=>" ", :b2=>" ", :b3=>"O", :c1=>" ", :c2=>" ", :c3=>"O"}
     }
     # select all values where value is X for thegrid and copy those into keys_with_x
-    keys_with_o = @board.board.select{ |k, v| v == "O" }.keys
+    keys_with_o = @board.grid.select{ |k, v| v == "O" }.keys
     
     matching_moves = @ai_winmoves.select{ |k, v| v.select{ |k, v| v == "O" }.keys == keys_with_o }
     

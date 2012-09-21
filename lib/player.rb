@@ -22,9 +22,9 @@
 
         human_symbol = human_move.to_sym
 
-        # look for move as key in board.board
-        if board.board.has_key?(human_symbol)
-          if board.board[human_symbol] == " "
+        # look for move as key in board.grid
+        if board.grid.has_key?(human_symbol)
+          if board.grid[human_symbol] == " "
             #puts "bingo"  
             @move = human_symbol            
           else
@@ -150,13 +150,13 @@
         }
         #
         # scan board for available move locations
-        @keys_with_o = board.board.select{ |k, v| v == "O" }.keys       # find Os on the board
+        @keys_with_o = board.grid.select{ |k, v| v == "O" }.keys       # find Os on the board
         
-        @keys_with_x = board.board.select{ |k, v| v == "X" }.keys       # find Xs on the board
+        @keys_with_x = board.grid.select{ |k, v| v == "X" }.keys       # find Xs on the board
         
         @answers_array = [] # initialize answers array
         
-        if board.board[:b2] == " "   #AND center spot is empty
+        if board.grid[:b2] == " "   #AND center spot is empty
           ai_spot = "b2"
           puts "ai takes center "+ai_spot
           @move = ai_spot.to_sym  #must return this answer as a symbol         
@@ -177,13 +177,10 @@
       end      
       
       def attempt_win(board)
-        # attempts all win moves before going to attempt_block
-
-        puts "attempt win method - hi"
-        
-        @ai_winmoves.each do |k,v| # go threw each win move in the ai_winmoves array above.         
+        @ai_winmoves.each do |k, v| # go through each win move in the ai_winmoves array above.         
           ai_keys = v.select{ |k, v| v == "O"}.keys # grab all Os from the value hash
           # get common elements between two arrays..note: keys_with_o = all current O's on game board
+          
           intersection = ai_keys & @keys_with_o         
           
           if intersection.length >=2 # when two intersections exist it means two O's are on the board
@@ -198,7 +195,7 @@
               puts "attempt win"
               puts answer
             
-              if board.board[answer] == " " #if win move space is empty take it
+              if board.grid[answer] == " " #if win move space is empty take it
                 @move = answer               
               else #check for a block move
                 
@@ -230,8 +227,10 @@
               answer = @anskey[key].to_sym
               puts "attempt block"
               puts answer
-
-              if board.board[answer] != " " # spot taken
+              
+              # if board.spot_taken?(answer)
+                
+              if board.grid[answer] != " " # spot taken
                 puts "space taken can not block 2: " + answer.to_s 
               else
                 puts answer.to_s+" blocked"
