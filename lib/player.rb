@@ -39,8 +39,6 @@
       end
       
 
-
-
       def move_computer(game, board)
         # ai should do three things
         # attempt win

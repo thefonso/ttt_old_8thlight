@@ -1,6 +1,5 @@
 require_relative 'player'
 require_relative 'board'
-
 #
 #Just a Tic Tac Toe game class
 
