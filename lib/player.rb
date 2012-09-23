@@ -153,7 +153,7 @@
         
         if board.grid[:b2] == " "   #AND center spot is empty
           ai_spot = "b2"
-          puts "ai takes center "+ai_spot
+          # puts "ai takes center "+ai_spot
           @move = ai_spot.to_sym  #must return this answer as a symbol         
         else
           # TODO - Ai attempts win
