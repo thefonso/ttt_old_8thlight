@@ -19,9 +19,7 @@
         puts "human move..."
 
         human_move = gets.chomp
-
         human_symbol = human_move.to_sym
-
         # look for move as key in board.grid
         if board.grid.has_key?(human_symbol)
           if board.grid[human_symbol] == " "
@@ -34,8 +32,7 @@
         else
           puts "invalid move...try again"
           move_human(@game_two, board)
-        end 
-           
+        end           
       end
       
 
