@@ -35,5 +35,14 @@ describe Player do
       @player_c.move_computer("O", @board)
     end
     xit 'returns a computer move value'
+  
+  end
+  
+  describe 'attempt_win' do
+    xit 'checks for a possible win move'
+  end
+  
+  describe 'attempt_block'do
+    xit 'looks to block human'
   end
 end
