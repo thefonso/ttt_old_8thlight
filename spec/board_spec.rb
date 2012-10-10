@@ -1,5 +1,6 @@
 require 'board'
 
+
 describe Board do
   describe 'drawgrid' do
     it 'draws a blank grid given no input' do
