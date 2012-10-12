@@ -1,7 +1,7 @@
 require 'game'
 require 'board'
 
-describe Player do  
+describe 'Player class' do  
   before (:each) do
     #Dry it up
     @player_h = Player.new('X')
@@ -30,19 +30,22 @@ describe Player do
     it 'should print - ...computer move... - to screen' do
       # first set up my expectations
       @player_c.should_receive(:puts).with("computer move...")
-      @player_c.stub(:gets).and_return("b2")
       # now trigger them
       @player_c.move_computer("O", @board)
     end
-    xit 'returns a computer move value'
-  
+    it 'returns a value' do
+      # first set up my expectations
+      @player_c.stub(:get).and_return()
+      # now trigger them
+      # @player_c.move_computer("O", @board)
+    end
   end
   
   describe 'attempt_win' do
-    xit 'checks for a possible win move'
+    xit 'checks for a win move'
   end
   
   describe 'attempt_block'do
-    xit 'looks to block human'
+    xit 'looks for a block move'
   end
 end
