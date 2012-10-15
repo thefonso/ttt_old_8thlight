@@ -8,14 +8,6 @@ class Board
       c1: cell_value, c2: cell_value, c3: cell_value
     }
   end
-  # 
-  # def cell(cellnumber)
-  #   @grid[cellnumber]
-  # end
-  # 
-  # def cell=(cellnumber, value)
-  #   @grid[cellnumber] = value
-  # end
   
   def drawgrid
     board = "\n"

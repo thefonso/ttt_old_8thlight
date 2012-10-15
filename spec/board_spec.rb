@@ -19,7 +19,7 @@ describe 'Board class' do
   it "creates a blank board with nine spaces" do
     board = Board.new
     board.grid.keys.each do |key|
-      board.space_taken?(key).should be_false
+    board.space_taken?(key).should be_false
     end
   end
   it "can set the value of a specified cell" do
