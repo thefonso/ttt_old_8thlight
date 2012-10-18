@@ -51,20 +51,22 @@ class Game
       if turn.even?
 
         @player = @player_h.move_human("X", @board)
+        
         @move = @player.to_sym
         @marker = @player_h.boardpiece
         
         does_move_exist(@move,@marker)
-        is_a_human_win
+        is_a_human_win(@board)
 
       else
 
         @player = @player_c.move_computer("O", @board)
+        
         @move = @player
         @marker = @player_c.boardpiece
         
         does_move_exist(@move,@marker)
-        is_a_computer_win
+        is_a_computer_win(@board)
 
       end
 
@@ -112,7 +114,7 @@ class Game
   end
 
 
-  def is_a_human_win
+  def is_a_human_win(board)
     #all moves as human (X)
     @win_moves = {
       :wm01 => {:a1=>"X", :a2=>" ", :a3=>" ", :b1=>" ", :b2=>"X", :b3=>" ", :c1=>" ", :c2=>" ", :c3=>"X"},
@@ -138,7 +140,7 @@ class Game
     end
   end
   
-  def is_a_computer_win
+  def is_a_computer_win(board)
     # all possible third moves as 'O' (computer)
     @ai_winmoves = {
       :wm01 => {:a1=>"O", :a2=>" ", :a3=>" ", :b1=>" ", :b2=>"O", :b3=>" ", :c1=>" ", :c2=>" ", :c3=>"O"},
