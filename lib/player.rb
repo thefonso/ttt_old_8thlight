@@ -143,23 +143,23 @@ class Player
       # puts "ai takes center "+ai_spot
       @move = ai_spot.to_sym  #must return this answer as a symbol         
     else
-      # TODO - Ai attempts win
+      # FIXME - Ai attempts win...smelly code here
       i = 0
       until i == 4
-        attempt_win(board) #run 3x then run attempt_block
+         
+        #run 3x then run attempt_block
         i = i+1 # add 1 to i
-        if i == 4
-          puts "running attempt_block..." 
           attempt_block(board)
-        end
+          attempt_win(board)
       end
+      # FIXME - Ai attempts win...smelly code here
     end
     
-    return @move # had this guy in the wrong place
+    return @move if attempt_win(board) # is true
   end      
   
   def attempt_win(board)
-    
+    # puts "running attempt_win..."
     @keys_with_o = board.grid.select{ |k, v| v == "O" }.keys  # find Os on the board
     
     @answers_array = [] # initialize answers array
@@ -182,6 +182,7 @@ class Player
           # puts answer
         
           if board.grid[answer] == " " #if win move space is empty take it
+            puts answer.to_s+" win move"
             @move = answer              
           else #check for a block move  
             # attempt_block    # handled at line 162               
@@ -193,7 +194,7 @@ class Player
   end
   
   def attempt_block(board)
-    
+    puts "running attempt_block..."
     @keys_with_x = board.grid.select{ |k, v| v == "X" }.keys       # find Xs on the board
     
     @blocks_array = [] # initialize blocks array
