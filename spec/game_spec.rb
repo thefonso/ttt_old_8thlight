@@ -28,17 +28,26 @@ describe 'Game class' do
       @board = Board.new
       @game = Game.new(@player_human, @player_computer, @board)
       
-
-      
-      @game.should_receive(:puts).with("\na  | |  \n----------\nb  |O|  \n----------\nc  | |  \n----------\n  1 2 3\n")
-      # turn = 0
-      # 
-      # 9.times do
-      #   @player_human.should_receive(:puts).with("human move...")
-      #   @player_human.stub(:gets).and_return("a1")
-      # end
+      @game.should_receive(:puts).with("\na  | |  \n----------\nb  | |  \n----------\nc  | |  \n----------\n  1 2 3\n")
       
       @game.play
+    end
+    describe '9.times' do
+      xit 'runs game sequence 9 times...once per board spot' do
+        turn = 0
+      
+        9.times do
+          if turn.even?
+            @player_human.should_receive(:puts).with("human move...")
+            @player_human.stub(:gets).and_return("b2")
+          else
+            @player_human.should_receive(:puts).with("computer move...")
+            @player_human.stub(:gets).and_return("a1")
+          end
+
+          turn += 1
+        end
+      end
     end
     xit 'alternates turns 9x between human and computer'
   end

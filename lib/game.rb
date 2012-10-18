@@ -69,10 +69,10 @@ class Game
     #     is_a_computer_win(@board)
     # 
     #   end
-    # 
+    # # 
     #  puts drawgrid
-    #  
-    #  turn += 1
+    # #  
+    #   turn += 1
     # end # end 9.times
   end
 
@@ -110,7 +110,6 @@ class Game
       
     end
   end
-
 
   def is_a_human_win(board)
     #all moves as human (X)
