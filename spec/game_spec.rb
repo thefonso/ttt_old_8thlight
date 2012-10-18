@@ -28,9 +28,15 @@ describe 'Game class' do
       @board = Board.new
       @game = Game.new(@player_human, @player_computer, @board)
       
-      @game.should_receive(:puts).with("\na  | |  \n----------\nb  | |  \n----------\nc  | |  \n----------\n  1 2 3\n")
-      @player_human.should_receive(:puts).with("human move...")
-      @player_human.stub(:gets).and_return("a1")
+
+      
+      @game.should_receive(:puts).with("\na  | |  \n----------\nb  |O|  \n----------\nc  | |  \n----------\n  1 2 3\n")
+      # turn = 0
+      # 
+      # 9.times do
+      #   @player_human.should_receive(:puts).with("human move...")
+      #   @player_human.stub(:gets).and_return("a1")
+      # end
       
       @game.play
     end
