@@ -23,16 +23,20 @@ describe 'Game class' do
     end
   end
   describe 'take_turn method' do
-    xit 'receives turn value' do
-    end
-    xit 'returns grid with moves on board' do
+    it 'receives turn value and outputs grid' do
+      #stub turn here ?
+      test_value = 1
+      #check for value of turn
+      @game.should_receive(:puts).with("\na  | |  \n----------\nb  | |  \n----------\nc  | |  \n----------\n  1 2 3\n")
+      
+      @game.take_turn(test_value)
     end
   end
   describe 'play method' do
     it 'calls the take_turn method 9 times' do
-      @game.should_receive(:take_turn).at_least(9).times
+      @game.should_receive(:take_turn).at_least(9).times #expectation
       
-      @game.play
+      @game.play #set off
     end
   end
   describe 'does move exist' do

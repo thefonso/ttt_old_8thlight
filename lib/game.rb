@@ -61,8 +61,7 @@ class Game
       does_move_exist(@move,@marker)
       is_a_computer_win(@board)
       
-    end
-    
+    end   
   end
   ##
   #start the game here
