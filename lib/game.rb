@@ -37,43 +37,44 @@ class Game
   def drawgrid
     @board.drawgrid
   end
-
-  ##
-  #start the game here
-  def play
-    #draw the board
+  def take_turn(turn_value)
+    turn = turn_value
     puts drawgrid
     
-    #make a move
-    # turn = 0
-    # 
-    # 9.times do
-    #   if turn.even?
-    # 
-    #     @player = @player_h.move_human("X", @board)
-    #     
-    #     @move = @player.to_sym
-    #     @marker = @player_h.boardpiece
-    #     
-    #     does_move_exist(@move,@marker)
-    #     is_a_human_win(@board)
-    # 
-    #   else
-    # 
-    #     @player = @player_c.move_computer("O", @board)
-    #     
-    #     @move = @player
-    #     @marker = @player_c.boardpiece
-    #     
-    #     does_move_exist(@move,@marker)
-    #     is_a_computer_win(@board)
-    # 
-    #   end
-    # # 
-    #  puts drawgrid
-    # #  
-    #   turn += 1
-    # end # end 9.times
+    if turn.even?
+          
+      @player = @player_h.move_human("X", @board)
+        
+      @move = @player.to_sym
+      @marker = @player_h.boardpiece
+        
+      does_move_exist(@move,@marker)
+      is_a_human_win(@board)
+          
+    else
+          
+      @player = @player_c.move_computer("O", @board)
+        
+      @move = @player
+      @marker = @player_c.boardpiece
+        
+      does_move_exist(@move,@marker)
+      is_a_computer_win(@board)
+      
+    end
+    
+  end
+  ##
+  #start the game here
+  def play    
+    #make a move 
+    turn = 0   
+    9.times do
+    
+      take_turn(turn)
+      
+    turn += 1
+    end # 9.times ends
   end
 
   def does_move_exist(move,letter)

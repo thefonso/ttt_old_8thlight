@@ -1,13 +1,14 @@
 require 'game'
 
 describe 'Game class' do
-  describe 'drawgrid method' do
-  it 'draws the game grid to the screen' do
+  before (:each) do
     @player_human = Player.new('X')
     @player_computer = Player.new('O')
     @board = Board.new
     @game = Game.new(@player_human, @player_computer, @board)
-
+  end
+  describe 'drawgrid method' do
+  it 'draws the game grid to the screen' do
     @game.drawgrid.should == <<-EOF.gsub(/^ {6}/, '')
       
       a  | |  
@@ -21,35 +22,18 @@ describe 'Game class' do
     
     end
   end
+  describe 'take_turn method' do
+    xit 'receives turn value' do
+    end
+    xit 'returns grid with moves on board' do
+    end
+  end
   describe 'play method' do
-    it 'draws the game grid' do
-      @player_human = Player.new('X')
-      @player_computer = Player.new('O')
-      @board = Board.new
-      @game = Game.new(@player_human, @player_computer, @board)
-      
-      @game.should_receive(:puts).with("\na  | |  \n----------\nb  | |  \n----------\nc  | |  \n----------\n  1 2 3\n")
+    it 'calls the take_turn method 9 times' do
+      @game.should_receive(:take_turn).at_least(9).times
       
       @game.play
     end
-    describe '9.times' do
-      xit 'runs game sequence 9 times...once per board spot' do
-        turn = 0
-      
-        9.times do
-          if turn.even?
-            @player_human.should_receive(:puts).with("human move...")
-            @player_human.stub(:gets).and_return("b2")
-          else
-            @player_human.should_receive(:puts).with("computer move...")
-            @player_human.stub(:gets).and_return("a1")
-          end
-
-          turn += 1
-        end
-      end
-    end
-    xit 'alternates turns 9x between human and computer'
   end
   describe 'does move exist' do
     xit 'receives a move and a player value'
