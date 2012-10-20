@@ -1,7 +1,7 @@
 require_relative 'player'
 require_relative 'board'
 #
-#Just a Tic Tac Toe game class
+# Just a Tic Tac Toe game class
 
 
 # TODO - Human moves first 
@@ -23,13 +23,8 @@ class Game
     @player_c = player_c
     @board = board
     
-    $corners = {
-        :a1=>" ", :a3=>" ",
-        :c1=>" ", :c3=>" "
-    }
     #make a global var for drawgrid used by player
-    $gamegrid = drawgrid
-  
+    $gamegrid = drawgrid  
   end
 
   ##
@@ -48,7 +43,7 @@ class Game
       @move = @player.to_sym
       @marker = @player_h.boardpiece
         
-      does_move_exist(@move,@marker)
+      # does_move_exist(@move,@marker)
       is_a_human_win(@board)
           
     else
@@ -76,40 +71,6 @@ class Game
     end # 9.times ends
   end
 
-  def does_move_exist(move,letter)
-    @symbol = move
-    @marker_two = letter
-    
-    if @board.grid[@symbol] != " " and  @marker_two == "O"
-      # scan board for available moves...
-      if @board.grid[:b2] == "X"
-        # TODO defend corners
-        available_moves = $corners.select{ |k, v| v == " " }.keys
-        puts "random move - corners"
-        @move = available_moves[rand(available_moves.length)]
-      else
-        available_moves = @board.grid.select{ |k, v| v == " " }.keys
-        puts "random move - any space"
-        @move = available_moves[rand(available_moves.length)]
-      end
-      # @move = @player_c.attempt_block
-      
-      puts "random move - game.rb"
-      #return this move on the board
-      @board.grid[@move] = @marker
-      
-    elsif @board.grid[@symbol] != " " and  @marker_two == "X"
-      #clear old move, make new move
-      @move = gets.chomp
-      
-      #return this move on the board
-      @board.grid[@move.to_sym] = @marker
-    else
-      #return this move on the board
-      @board.grid[@move.to_sym] = @marker
-      
-    end
-  end
 
   def is_a_human_win(board)
     #all moves as human (X)

@@ -8,39 +8,37 @@ describe 'Game class' do
     @game = Game.new(@player_human, @player_computer, @board)
   end
   describe 'drawgrid method' do
-  it 'draws the game grid to the screen' do
-    @game.drawgrid.should == <<-EOF.gsub(/^ {6}/, '')
-      
-      a  | |  
-      ----------
-      b  | |  
-      ----------
-      c  | |  
-      ----------
-        1 2 3
-      EOF
-    
+    it 'should call @board.drawgrid' do
+      @board.should_receive(:drawgrid)
+      @game.drawgrid
     end
   end
   describe 'take_turn method' do
-    it 'receives turn value and outputs grid' do
-      #stub turn here ?
+    it 'draws the game grid' do
       test_value = 1
-      #check for value of turn
-      @game.should_receive(:puts).with("\na  | |  \n----------\nb  | |  \n----------\nc  | |  \n----------\n  1 2 3\n")
-      
+      @game.should_receive(:drawgrid).at_least(:once)
+      @game.take_turn(test_value)
+    end
+    it 'runs game sequence' do
+      test_value = 1
+      @game.should_receive(:take_turn).exactly(1).times
       @game.take_turn(test_value)
     end
   end
   describe 'play method' do
     it 'calls the take_turn method 9 times' do
-      @game.should_receive(:take_turn).at_least(9).times #expectation
-      
-      @game.play #set off
+      @game.should_receive(:take_turn).at_least(9).times       
+      @game.play
     end
   end
-  describe 'does move exist' do
-    xit 'receives a move and a player value'
+  describe 'does_move_exist' do
+    it 'receives a move and a player_letter' do
+      player_letter = "X"
+      move = ":a1"
+      @game
+      
+      @game.does_move_exist(move,player_letter)
+    end  
     xit 'places move on game grid and returns marker'
   end
   describe 'is_a_human_win' do

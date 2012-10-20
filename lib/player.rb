@@ -1,5 +1,5 @@
-# TODO - send error output if move already taken
 # TODO - better WIN detection
+# TODO - polymorph this
 
 class Player
 
@@ -52,7 +52,7 @@ class Player
         :wm39 => {:a1=>" ", :a2=>" ", :a3=>" ", :b1=>" ", :b2=>" ", :b3=>"O", :c1=>"O", :c2=>" ", :c3=>" "},
         :wm40 => {:a1=>" ", :a2=>" ", :a3=>" ", :b1=>" ", :b2=>" ", :b3=>"O", :c1=>" ", :c2=>"O", :c3=>" "}
     }
-    # all possible third moves as 'O' (computer)
+    
     @human_winmoves = {
         :wm01 => {:a1=>"X", :a2=>" ", :a3=>" ", :b1=>" ", :b2=>"X", :b3=>" ", :c1=>" ", :c2=>" ", :c3=>" "},
         :wm02 => {:a1=>" ", :a2=>"X", :a3=>" ", :b1=>" ", :b2=>"X", :b3=>" ", :c1=>" ", :c2=>" ", :c3=>" "},
@@ -98,7 +98,7 @@ class Player
         :wm39 => {:a1=>" ", :a2=>" ", :a3=>" ", :b1=>" ", :b2=>" ", :b3=>"X", :c1=>"X", :c2=>" ", :c3=>" "},
         :wm40 => {:a1=>" ", :a2=>" ", :a3=>" ", :b1=>" ", :b2=>" ", :b3=>"X", :c1=>" ", :c2=>"X", :c3=>" "}
     }
-    # match current answers located in @thegrid with possible @anskey array, iterate for each item
+    
     @anskey={
         :wm01=>"c3",:wm02=>"c2",:wm03=>"c1",:wm04=>"b3",:wm05=>"b1",:wm06=>"a3",:wm07=>"a2",:wm08=>"a1",
         :wm09=>"a3",:wm10=>"c1",:wm11=>"a1",:wm12=>"c3",:wm13=>"c3",:wm14=>"c1",:wm15=>"c3",:wm16=>"a1",
@@ -108,59 +108,60 @@ class Player
     }
   end
 
-  def move_human(game, board)
-    @game_two = game
+  def move_human(gamepeice, board)
+    @human_gamepeice = gamepeice
 
     puts "human move..."
 
     human_move = gets.chomp
-    human_symbol = human_move.to_sym
-    # look for move as key in board.grid
-    if board.grid.has_key?(human_symbol)
-      if board.grid[human_symbol] == " "
-        #puts "bingo"  
-        @move = human_symbol            
+    human_spot_to_take = human_move.to_sym
+    
+    if board.grid.has_key?(human_spot_to_take)
+      if board.grid[human_spot_to_take] == " " 
+        @move = human_spot_to_take            
       else
         puts "spot taken...try again"
-        move_human(@game_two, board)
+        move_human(@human_gamepeice, board)
       end
     else
       puts "invalid move...try again"
-      move_human(@game_two, board)
+      move_human(@human_gamepeice, board)
     end           
   end
   
-  def move_computer(game, board)
-    # ai should do three things
-    # attempt win
-    # block human
-    # random move
+  def move_computer(gamepeice, board)
+    # 0.can you win
+    # 1.can you block
+    # 2.can you defend corners
+    @computer_gamepeice = gamepeice
     
     puts "computer move..."
-        
-    if board.grid[:b2] == " "   #AND center spot is empty
+    
+    # something ran here returns a move_value
+    # computer_spot_to_take = move_value
+    
+    if board.grid[:b2] == " "
       ai_spot = "b2"
-      # puts "ai takes center "+ai_spot
-      @move = ai_spot.to_sym  #must return this answer as a symbol         
+      @move = ai_spot.to_sym
+    #elsif board.grid[computer_spot_to_take] != " "
+    # do what ???
     else
       # FIXME - Ai attempts win...smelly code here
       i = 0
       until i == 4
          
-        #run 3x then run attempt_block
-        i = i+1 # add 1 to i
+        i = i+1 
           attempt_block(board)
           attempt_win(board)
       end
       # FIXME - Ai attempts win...smelly code here
-    end
-    
+    end    
     return @move if attempt_win(board) # is true
   end      
   
   def attempt_win(board)
-    # puts "running attempt_win..."
-    @keys_with_o = board.grid.select{ |k, v| v == "O" }.keys  # find Os on the board
+    
+    @keys_with_o = board.grid.select{ |k, v| v == "O" }.keys
     
     @answers_array = [] # initialize answers array
     
@@ -174,12 +175,8 @@ class Player
         @answers_array << k # add to answers array per iteration
 
         @answers_array.each do |key|
-          
-          # puts "which moves can ai win with?"
-          # puts @anskey[key]
+
           answer = @anskey[key].to_sym
-          # puts "attempt win"
-          # puts answer
         
           if board.grid[answer] == " " #if win move space is empty take it
             puts answer.to_s+" win move"
@@ -193,37 +190,64 @@ class Player
     return @move 
   end
   
+  def defend_corners(move, board)
+    @corners = {
+        :a1=>" ", :a3=>" ",
+        :c1=>" ", :c3=>" "
+    }
+    @space_to_take = move
+    @board = board
+    
+    if @board.grid[@space_to_take] != " "
+      if @board.grid[:b2] == "X"
+        # defend corners
+        available_moves = @corners.select{ |k, v| v == " " }.keys
+        puts "random move - corners"
+        @move = available_moves[rand(available_moves.length)]
+      else
+        available_moves = @board.grid.select{ |k, v| v == " " }.keys
+        puts "random move - any space"
+        @move = available_moves[rand(available_moves.length)]
+      end
+      
+      puts "random move - game.rb"
+      @board.grid[@move] = @marker
+
+    # elsif @board.grid[@space_to_take] != " " and  @player_letter == "X" # space taken and player human...this should not be here
+    #   #spot taken try again
+    #   @clear_old_move = gets.chomp
+    #   @board.grid[@clear_old_move.to_sym] = @marker
+    else
+      @board.grid[@move.to_sym] = @marker
+    end
+    return @marker
+  end
+  
   def attempt_block(board)
     puts "running attempt_block..."
-    @keys_with_x = board.grid.select{ |k, v| v == "X" }.keys       # find Xs on the board
+    @keys_with_x = board.grid.select{ |k, v| v == "X" }.keys 
     
     @blocks_array = [] # initialize blocks array
     
-    # puts "attempting block"
-    # thing = [] # initialize thing array
     @human_winmoves.each do |k,v| # for test - go threw each win moves.
-      # get common elements between two arrays..recall from above that v contains a hash
+      
       human_keys = v.select{ |k, v| v == "X"}.keys
-      # which moves can I take to block human
-      intersection = human_keys & @keys_with_x     
+      
+      intersection = human_keys & @keys_with_x   # get common elements between two arrays  
       if intersection.length >= 2
-        # puts "intersection"
-        # puts intersection
+
         @blocks_array << k # adds a key per iteration
-        # puts "@answers_array << k"
-        # puts @anskey[k]
+
         @blocks_array.each do |key|
-          # puts "which moves can ai block with?"
-          # puts @anskey[key]
+
           answer = @anskey[key].to_sym
-          # puts "attempt block"
-          # puts answer
+
                      
           if board.grid[answer] != " " # spot taken
             puts "space taken can not block: " + answer.to_s 
           else
             puts answer.to_s+" blocked"
-            @move = answer # for test - at last intersection value found...return it as move value           
+            @move = answer          
           end
         end
       end

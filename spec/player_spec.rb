@@ -4,7 +4,6 @@ require 'board'
 
 describe 'Player class' do  
   before (:each) do
-    #Dry it up
     @player_human = Player.new('X')
     @player_computer = Player.new('O')
     @board = Board.new
@@ -57,26 +56,21 @@ describe 'Player class' do
   end
 
   describe 'move_human' do
-    before (:each) do
-      # first set up my expectations         
+    before (:each) do      
       @player_human.should_receive(:puts).with("human move...")
       @player_human.stub(:gets).and_return("a1")
     end
     it 'receives cli input and prints text to screen' do
-      # now trigger them
       @player_human.move_human("X", @board)
     end
     it 'returns a move value' do
-      # now trigger them
-      @player_human.move_human("X", @board).should eq(:a1)     #return the value is what I mocked?
+      @player_human.move_human("X", @board).should eq(:a1)
     end     
   end
 
   describe 'move_computer' do
     it 'should print - ...computer move... - to screen' do
-      # first set up my expectations
       @player_computer.should_receive(:puts).with("computer move...")
-      # now trigger them
       @player_computer.move_computer("O", @board)
     end
     it 'returns expected first move b2' do
@@ -90,13 +84,12 @@ describe 'Player class' do
       myboard = Board.new
       myboard.grid[:a1] = "O"
       myboard.grid[:b2] = "O"
-      #how to say return c3 ??
       @player_computer.attempt_win(myboard).should  eq(:c3)
     end
   end
   
   describe 'attempt_block'do
-    it 'looks for a blocking move' do
+    it 'returns a blocking move' do
       # need to fake grid input here
       myboard = Board.new
       myboard.grid[:b1] = "X"
