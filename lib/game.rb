@@ -53,7 +53,7 @@ class Game
       @move = @player
       @marker = @player_c.boardpiece
         
-      does_move_exist(@move,@marker)
+      # does_move_exist(@move,@marker)
       is_a_computer_win(@board)
       
     end   

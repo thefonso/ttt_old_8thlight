@@ -32,7 +32,7 @@ describe 'Game class' do
     end
   end
   describe 'does_move_exist' do
-    it 'receives a move and a player_letter' do
+    xit 'receives a move and a player_letter' do
       player_letter = "X"
       move = ":a1"
       @game
