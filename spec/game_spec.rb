@@ -31,16 +31,6 @@ describe 'Game class' do
       @game.play
     end
   end
-  describe 'does_move_exist' do
-    xit 'receives a move and a player_letter' do
-      player_letter = "X"
-      move = ":a1"
-      @game
-      
-      @game.does_move_exist(move,player_letter)
-    end  
-    xit 'places move on game grid and returns marker'
-  end
   describe 'is_a_human_win' do
     xit 'receives current board'
     xit 'looks for human win'

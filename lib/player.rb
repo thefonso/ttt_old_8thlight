@@ -130,33 +130,30 @@ class Player
   end
   
   def move_computer(gamepeice, board)
-    # 0.can you win
-    # 1.can you block
-    # 2.can you defend corners
+
     @computer_gamepeice = gamepeice
     
     puts "computer move..."
     
     # something ran here returns a move_value
-    # computer_spot_to_take = move_value
+    # 0.can you win   => attempt_win(board)
+    # 1.can you block => attempt_block(board)
+    # 2.can you defend corners
+    move_value = @move if attempt_win(board) # is true
+    move_value = @move if attempt_block(board) # is true
+    move_value = @move if defend_corners(board) # TODO - move this logic inside attempt_block
+    
+    computer_spot_to_take = move_value
     
     if board.grid[:b2] == " "
       ai_spot = "b2"
       @move = ai_spot.to_sym
-    #elsif board.grid[computer_spot_to_take] != " "
-    # do what ???
+    elsif board.grid[computer_spot_to_take] == " "
+      @move = computer_spot_to_take
     else
-      # FIXME - Ai attempts win...smelly code here
-      i = 0
-      until i == 4
-         
-        i = i+1 
-          attempt_block(board)
-          attempt_win(board)
-      end
-      # FIXME - Ai attempts win...smelly code here
+      puts "spot taken...try again"  
+      move_computer(@computer_gamepeice, board)
     end    
-    return @move if attempt_win(board) # is true
   end      
   
   def attempt_win(board)

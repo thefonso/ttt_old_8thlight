@@ -32,7 +32,7 @@ class Game
   def drawgrid
     @board.drawgrid
   end
-  def take_turn(turn_value)
+  def take_turn(turn_value) #TODO - refactor me
     turn = turn_value
     puts drawgrid
     
@@ -43,7 +43,6 @@ class Game
       @move = @player.to_sym
       @marker = @player_h.boardpiece
         
-      # does_move_exist(@move,@marker)
       is_a_human_win(@board)
           
     else
@@ -53,7 +52,6 @@ class Game
       @move = @player
       @marker = @player_c.boardpiece
         
-      # does_move_exist(@move,@marker)
       is_a_computer_win(@board)
       
     end   
