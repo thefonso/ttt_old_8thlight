@@ -88,24 +88,20 @@ describe 'Player class' do
     end
   end
   
-  describe 'attempt_block' do
+  describe 'attempt_win_block' do
     it 'returns a blocking move' do
       # need to fake grid input here
       myboard = Board.new
       myboard.grid[:b1] = "X"
       myboard.grid[:b2] = "X"
-      @player_computer.attempt_block(myboard).should  eq(:b3)
+      @player_computer.attempt_win_block(myboard).should  eq(:b3)
     end
   end
-  describe 'defend_corners' do #TODO - finish this unit test
-    xit 'receives a move and the current game board' do
-      # stub(fake) the game board
-      player_letter = "X"
-      move = ":a1"
-      @game
+  describe 'defend_corners' do
+    it 'returns corner move' do
+      myboard = Board.new
       
-      @game.does_move_exist(move,player_letter)
+      @player_computer.defend_corners(myboard).should be_a(Symbol)
     end  
-    xit 'places move on game grid and returns marker'
   end
 end

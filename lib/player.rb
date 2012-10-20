@@ -130,31 +130,43 @@ class Player
   end
   
   def move_computer(gamepeice, board)
-
+    @board = board
     @computer_gamepeice = gamepeice
     
     puts "computer move..."
     
-    # something ran here returns a move_value
-    # 0.can you win   => attempt_win(board)
-    # 1.can you block => attempt_block(board)
-    # 2.can you defend corners
-    move_value = @move if attempt_win(board) # is true
-    move_value = @move if attempt_block(board) # is true
-    move_value = @move if defend_corners(board) # TODO - move this logic inside attempt_block
-    
+    # TODO - how to use me
+    if attempt_win(board) # is true
+      move_value = @move
+    elsif attempt_win_block(board) # is true
+      move_value = @move
+    else normal_block(board)
+      move_value = @move
+    end    
     computer_spot_to_take = move_value
-    
+    # TODO - how to use me
+        
     if board.grid[:b2] == " "
       ai_spot = "b2"
       @move = ai_spot.to_sym
-    elsif board.grid[computer_spot_to_take] == " "
+    elsif board.grid[:b2] != " "
+      
+      board.grid[computer_spot_to_take] == " "
       @move = computer_spot_to_take
     else
-      puts "spot taken...try again"  
-      move_computer(@computer_gamepeice, board)
+      # puts "spot taken...try again"  
+      move_computer(@computer_gamepeice, @board)
     end    
-  end      
+  end
+        
+  def normal_block(board)
+    @board = board
+    if @board.grid[:b2] == "X"
+      defend_corners(@board)
+    else
+      attach_to_human(@board)
+    end
+  end
   
   def attempt_win(board)
     
@@ -179,7 +191,7 @@ class Player
             puts answer.to_s+" win move"
             @move = answer              
           else #check for a block move  
-            # attempt_block    # handled at line 162               
+            # attempt_win_block    # handled at line 162               
           end
         end
       end
@@ -187,68 +199,64 @@ class Player
     return @move 
   end
   
-  def defend_corners(move, board)
+  def defend_corners(board)
+    
+    @board = board
     @corners = {
         :a1=>" ", :a3=>" ",
         :c1=>" ", :c3=>" "
     }
-    @space_to_take = move
-    @board = board
-    
-    if @board.grid[@space_to_take] != " "
-      if @board.grid[:b2] == "X"
-        # defend corners
-        available_moves = @corners.select{ |k, v| v == " " }.keys
-        puts "random move - corners"
-        @move = available_moves[rand(available_moves.length)]
-      else
-        available_moves = @board.grid.select{ |k, v| v == " " }.keys
-        puts "random move - any space"
-        @move = available_moves[rand(available_moves.length)]
-      end
-      
-      puts "random move - game.rb"
-      @board.grid[@move] = @marker
-
-    # elsif @board.grid[@space_to_take] != " " and  @player_letter == "X" # space taken and player human...this should not be here
-    #   #spot taken try again
-    #   @clear_old_move = gets.chomp
-    #   @board.grid[@clear_old_move.to_sym] = @marker
+    available_moves = @corners.select{ |k, v| v == " " }.keys
+    # puts "random move - corners"
+    @move = available_moves[rand(available_moves.length)]
+    if board.grid[@move] != " " # spot taken
+      # puts "space taken can not block: " + answer.to_s
+      defend_corners(@board)
     else
-      @board.grid[@move.to_sym] = @marker
+      # puts @move.to_s+" blocked"         
     end
-    return @marker
+    return @move
   end
   
-  def attempt_block(board)
-    puts "running attempt_block..."
-    @keys_with_x = board.grid.select{ |k, v| v == "X" }.keys 
+  def attach_to_human(board)
+    @board = board
+    #TODO - take empty space next to X
+    #TODO - remove this temp random move code
+    available_moves = @board.grid.select{ |k, v| v == " " }.keys
+    # puts "random move - any space"
+    @move = available_moves[rand(available_moves.length)]
+    return @move
+  end
+  
+  def attempt_win_block(board)
+    @board = board
+    # puts "running attempt_win_block..."
     
-    @blocks_array = [] # initialize blocks array
+      @keys_with_x = board.grid.select{ |k, v| v == "X" }.keys 
+      @blocks_array = [] # initialize blocks array 
     
-    @human_winmoves.each do |k,v| # for test - go threw each win moves.
+      @human_winmoves.each do |k,v| # for test - go threw each win moves.
+        human_winmoves_keys = v.select{ |k, v| v == "X"}.keys
       
-      human_keys = v.select{ |k, v| v == "X"}.keys
-      
-      intersection = human_keys & @keys_with_x   # get common elements between two arrays  
-      if intersection.length >= 2
-
-        @blocks_array << k # adds a key per iteration
-
-        @blocks_array.each do |key|
-
-          answer = @anskey[key].to_sym
-
-                     
-          if board.grid[answer] != " " # spot taken
-            puts "space taken can not block: " + answer.to_s 
-          else
-            puts answer.to_s+" blocked"
-            @move = answer          
+        intersection = human_winmoves_keys & @keys_with_x   # get common elements between two arrays 
+    
+        if intersection.length >= 2 #match found
+        
+          @blocks_array << k # adds a key per iteration
+        
+          @blocks_array.each do |key|
+        
+            answer = @anskey[key].to_sym
+                   
+            if board.grid[answer] != " " # spot taken
+              puts "space taken can not block: " + answer.to_s 
+            else
+              puts answer.to_s+" blocked"
+              @move = answer          
+            end
           end
         end
-      end
-    end # END @human_winmoves.each do |k,v|
+      end # END @human_winmoves.each do |k,v|
     return @move
   end
 end

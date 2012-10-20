@@ -42,6 +42,8 @@ class Game
         
       @move = @player.to_sym
       @marker = @player_h.boardpiece
+      
+      does_move_exist(@move,@marker)
         
       is_a_human_win(@board)
           
@@ -51,7 +53,9 @@ class Game
         
       @move = @player
       @marker = @player_c.boardpiece
-        
+      
+      does_move_exist(@move,@marker)
+      
       is_a_computer_win(@board)
       
     end   
@@ -69,6 +73,35 @@ class Game
     end # 9.times ends
   end
 
+  def does_move_exist(move,letter)
+     @symbol = move
+     @marker_two = letter
+    
+     # if @board.grid[@symbol] != " " and  @marker_two == "O"
+     #   # scan board for available moves...
+     #   # if human is center ai defends corners.
+     #  
+     #   available_moves = @board.grid.select{ |k, v| v == " " }.keys
+     #  
+     #   @move = available_moves[rand(available_moves.length)]
+     #  
+     #  
+     #   # puts "random move - game.rb"
+     #   #return this move on the board
+     #   @board.grid[@move] = @marker
+     #  
+     # elsif @board.grid[@symbol] != " " and  @marker_two == "X"
+     #   #clear old move, make new move
+     #   @move = gets.chomp
+     #  
+     #   #return this move on the board
+     #   @board.grid[@move.to_sym] = @marker
+     # else
+     #   #return this move on the board
+       @board.grid[@move.to_sym] = @marker
+      
+     # end
+  end
 
   def is_a_human_win(board)
     #all moves as human (X)
