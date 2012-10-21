@@ -3,10 +3,12 @@
 
 class Player
 
+  attr_reader :thegrid
   attr_reader :boardpiece # i exist so game.rb can read me
 
   def initialize(letter)
     @boardpiece = letter
+    
     @ai_winmoves = {
         :wm01 => {:a1=>"O", :a2=>" ", :a3=>" ", :b1=>" ", :b2=>"O", :b3=>" ", :c1=>" ", :c2=>" ", :c3=>" "},
         :wm02 => {:a1=>" ", :a2=>"O", :a3=>" ", :b1=>" ", :b2=>"O", :b3=>" ", :c1=>" ", :c2=>" ", :c3=>" "},
@@ -107,9 +109,10 @@ class Player
         :wm33=>"a1",:wm34=>"a1",:wm35=>"c1",:wm36=>"c1",:wm37=>"a3",:wm38=>"a3",:wm39=>"c3",:wm40=>"c3"
     }
   end
+  
+  def move_human(board)
 
-  def move_human(gamepeice, board)
-    @human_gamepeice = gamepeice
+    player_symbol = "X"
 
     puts "human move..."
 
@@ -118,35 +121,40 @@ class Player
     
     if board.grid.has_key?(human_spot_to_take)
       if board.grid[human_spot_to_take] == " " 
-        @move = human_spot_to_take            
+        move = human_spot_to_take.to_sym
+        # return move 
+        board.grid[move] = player_symbol         
       else
         puts "spot taken...try again"
-        move_human(@human_gamepeice, board)
+        move_human(board)
       end
     else
       puts "invalid move...try again"
-      move_human(@human_gamepeice, board)
+      move_human(board)
     end           
   end
-  
-  def move_computer(gamepeice, board)
-    @board = board
-    @computer_gamepeice = gamepeice
+
+  def move_computer(board)
+    player_symbol = "O"
     
     puts "computer move..."  
         
     if board.grid[:b2] == " "
       ai_spot = "b2"
-      @move = ai_spot.to_sym
+      move = ai_spot.to_sym
+      # return @move
+      board.grid[move] = player_symbol         
     elsif board.grid[:b2] == "X"
-      @move = defend_random_corners(board)
-      return @move
+      move = defend_random_corners(board)
+      # return move
+      board.grid[move] = player_symbol         
     elsif board.grid[:b2] == "O"
-      @move = attempt_win_block(board)
-      return @move
+      move = attempt_win_block(board)
+      # return move
+      board.grid[move] = player_symbol         
     else
       # puts "spot taken...try again"  
-      move_computer(@computer_gamepeice, @board)
+      move_computer(board)
     end    
   end
       

@@ -4,7 +4,7 @@ describe 'Board class' do
   describe 'drawgrid' do
     it 'draws a blank grid given no input' do
       board = Board.new
-      board.drawgrid.should == <<-EOF.gsub(/^ {6}/, '')
+      board.printgrid.should == <<-EOF.gsub(/^ {6}/, '')
       
       a  | |  
       ----------

@@ -9,7 +9,7 @@ describe 'Game class' do
   end
   describe 'drawgrid method' do
     it 'should call @board.drawgrid' do
-      @board.should_receive(:drawgrid)
+      @board.should_receive(:printgrid)
       @game.drawgrid
     end
   end
@@ -31,6 +31,14 @@ describe 'Game class' do
       @game.play
     end
   end
+  
+  describe 'PutMoveOnBoard' do
+    xit 'should put a move on the game board' do
+      @game.should_receive(:grid)
+      @game.PutMoveOnBoard(:a1)
+    end
+  end
+  
   describe 'is_a_human_win' do
     xit 'receives current board'
     xit 'looks for human win'

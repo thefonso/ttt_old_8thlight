@@ -22,47 +22,34 @@ class Game
     @player_h = player_h
     @player_c = player_c
     @board = board
-    
-    #make a global var for drawgrid used by player
-    $gamegrid = drawgrid  
   end
 
   ##
   #display grid on console
   def drawgrid
-    @board.drawgrid
+    @board.printgrid
   end
   def take_turn(turn_value) #TODO - refactor me
     turn = turn_value
-    puts drawgrid
     
     if turn.even?
           
-      @player = @player_h.move_human("X", @board)
+      @move = @player_h.move_human(@board)
         
-      @move = @player.to_sym
-      @marker = @player_h.boardpiece
-      
-      does_move_exist(@move,@marker)
-        
-      is_a_human_win(@board)
+      is_a_human_win()
           
     else
           
-      @player = @player_c.move_computer("O", @board)
-        
-      @move = @player
-      @marker = @player_c.boardpiece
+      @move = @player_c.move_computer(@board)
       
-      does_move_exist(@move,@marker)
-      
-      is_a_computer_win(@board)
+      is_a_computer_win()
       
     end   
   end
   ##
   #start the game here
   def play    
+    puts drawgrid
     #make a move 
     turn = 0   
     9.times do
@@ -73,37 +60,8 @@ class Game
     end # 9.times ends
   end
 
-  def does_move_exist(move,letter)
-     @symbol = move
-     @marker_two = letter
-    
-     # if @board.grid[@symbol] != " " and  @marker_two == "O"
-     #   # scan board for available moves...
-     #   # if human is center ai defends corners.
-     #  
-     #   available_moves = @board.grid.select{ |k, v| v == " " }.keys
-     #  
-     #   @move = available_moves[rand(available_moves.length)]
-     #  
-     #  
-     #   # puts "random move - game.rb"
-     #   #return this move on the board
-     #   @board.grid[@move] = @marker
-     #  
-     # elsif @board.grid[@symbol] != " " and  @marker_two == "X"
-     #   #clear old move, make new move
-     #   @move = gets.chomp
-     #  
-     #   #return this move on the board
-     #   @board.grid[@move.to_sym] = @marker
-     # else
-     #   #return this move on the board
-       @board.grid[@move.to_sym] = @marker
-      
-     # end
-  end
 
-  def is_a_human_win(board)
+  def is_a_human_win()
     #all moves as human (X)
     @win_moves = {
       :wm01 => {:a1=>"X", :a2=>" ", :a3=>" ", :b1=>" ", :b2=>"X", :b3=>" ", :c1=>" ", :c2=>" ", :c3=>"X"},
@@ -126,10 +84,12 @@ class Game
       puts "WIN DETECTED - Human"
       puts drawgrid
       exit
+    else
+      puts drawgrid
     end
   end
   
-  def is_a_computer_win(board)
+  def is_a_computer_win()
     # all possible third moves as 'O' (computer)
     @ai_winmoves = {
       :wm01 => {:a1=>"O", :a2=>" ", :a3=>" ", :b1=>" ", :b2=>"O", :b3=>" ", :c1=>" ", :c2=>" ", :c3=>"O"},
@@ -152,6 +112,8 @@ class Game
       puts "WIN DETECTED - computer "+test_str
       puts drawgrid
       exit
+    else
+      puts drawgrid
     end
   end
   

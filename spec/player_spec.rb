@@ -61,20 +61,20 @@ describe 'Player class' do
       @player_human.stub(:gets).and_return("a1")
     end
     it 'receives cli input and prints text to screen' do
-      @player_human.move_human("X", @board)
+      @player_human.move_human(@board)
     end
     it 'returns a move value' do
-      @player_human.move_human("X", @board).should eq(:a1)
+      @player_human.move_human(@board).should eq("X")
     end     
   end
 
   describe 'move_computer' do
     it 'should print - ...computer move... - to screen' do
       @player_computer.should_receive(:puts).with("computer move...")
-      @player_computer.move_computer("O", @board)
+      @player_computer.move_computer(@board)
     end
     it 'returns expected first move b2' do
-      @player_computer.move_computer("O", @board).should eq(:b2)
+      @player_computer.move_computer(@board).should eq("O")
     end
   end
   

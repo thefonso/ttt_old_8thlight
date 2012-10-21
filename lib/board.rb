@@ -9,7 +9,7 @@ class Board
     }
   end
   
-  def drawgrid
+  def printgrid
     board = "\n"
     board << "a #{@grid[:a1]}|#{@grid[:a2]}|#{@grid[:a3]} \n"
     board << "----------\n"
@@ -21,6 +21,7 @@ class Board
   end
   
   def space_taken?(cell_location)
-    @grid[cell_location] != " "
+    cell_value = cell_location
+    @grid[cell_value] != " "
   end
 end
