@@ -88,20 +88,20 @@ describe 'Player class' do
     end
   end
   
-  describe 'attempt_win_block' do
+  describe 'block_human_win' do
     it 'returns a blocking move' do
       # need to fake grid input here
       myboard = Board.new
       myboard.grid[:a1] = "X"
       myboard.grid[:a2] = "X"
-      @player_computer.attempt_win_block(myboard).should  eq(:a3)
+      @player_computer.block_human_win(myboard).should  eq(:a3)
     end
   end
-  describe 'defend_random_corners' do
+  describe 'defend_corners' do
     it 'returns corner move' do
       myboard = Board.new
       
-      @player_computer.defend_random_corners(myboard).should be_a(Symbol)
+      @player_computer.defend_corners(myboard).should be_a(Symbol)
     end  
   end
 end

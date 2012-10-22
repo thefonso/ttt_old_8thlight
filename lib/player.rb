@@ -109,7 +109,7 @@ class Player
         :wm33=>"a1",:wm34=>"a1",:wm35=>"c1",:wm36=>"c1",:wm37=>"a3",:wm38=>"a3",:wm39=>"c3",:wm40=>"c3"
     }
   end
-  
+
   def move_human(board)
 
     player_symbol = "X"
@@ -135,54 +135,110 @@ class Player
   end
 
   def move_computer(board)
-    player_symbol = "O"
+    @player_symbol = "O"
     
-    puts "computer move..."  
-        
-    if board.grid[:b2] == " "
-      ai_spot = "b2"
-      move = ai_spot.to_sym
-      # return @move
-      board.grid[move] = player_symbol         
-    elsif board.grid[:b2] == "X"
-      move = defend_random_corners(board)
-      # return move
-      board.grid[move] = player_symbol         
-    elsif board.grid[:b2] == "O"
-      move = attempt_win_block(board)
-      # return move
-      board.grid[move] = player_symbol         
+    puts "computer move..." 
+    
+    # TODO - keep count of spaces taken on grid
+    taken_moves = board.grid.select{ |k, v| v != " " }.keys.length
+    p taken_moves
+    
+    if taken_moves == 1 
+      @move = ai_first_move(board)
+    elsif board.grid[:b2] != " " and taken_moves == 3#determine only two moves exist on board 
+      @move = ai_second_move(board)
     else
-      # puts "spot taken...try again"  
-      move_computer(board)
-    end    
+      @move = ai_third_move(board)
+    end
+    
+    board.grid[@move] = @player_symbol
+            
   end
-      
+   
+
   
-  def defend_random_corners(board)
+  def ai_first_move(board)   
+    p "1st move called"
+    if board.grid[:b2] == "X"
+      ai_defends_corners(board)
+    elsif board.grid[:b2] == " "
+      ai_takes_center(board)
+    end
+  end
+  
+  def ai_second_move(board)
+    p "2nd move called"
+      block_human_win(board)
+
+      attach_to_human(board) 
+
+  end
+  
+  def ai_third_move(board)
+    p "3rd move called"
     
-    @board = board
-    @corners = {
-        :a1=>" ", :a3=>" ",
-        :c1=>" ", :c3=>" "
+      attempt_win(board)
+    
+      block_human_win(board)
+    
+  end
+  
+  
+  def ai_defends_corners(board)
+    p "ai_defends_corners called"
+    @move = defend_corners(board)
+  end
+  
+  def ai_takes_center(board)
+    p "ai_takes_center called"
+      ai_spot = "b2"
+      @move = ai_spot.to_sym
+  end
+  
+  def defend_corners(board)
+    p "defend_corners called"
+    answers_array = []
+  
+    corners = {
+        :a1 => " ", :a3 => " ",
+        :c3 => " ", :c1 => " "
     }
-    available_moves = @corners.select{ |k, v| v == " " }.keys
     
-    @move = available_moves[rand(available_moves.length)]
-    return @move
+    available_moves = board.grid.select{ |k, v| v == " " }.keys
+    corner_keys = corners.select{ |k,v| v == " "}.keys
+    
+    intersection = available_moves & corner_keys
+    
+    intersection.each do |k,v|
+    
+      if intersection.length >= 1
+      
+        answers_array << k
+          
+        @random_corner = intersection.sample 
+        @move = @random_corner
+        puts @move.to_s+" corner move"
+        puts intersection.to_s+" intersects"
+        return @move
+      else
+         puts "no intersects"
+      end
+    end
   end
   
   def attach_to_human(board)
+    p "attach_to_human called"
     @board = board
     #TODO - take empty space next to X
     #TODO - remove this temp random move code
     available_moves = board.grid.select{ |k, v| v == " " }.keys
     # puts "random move - any space"
-    @move = available_moves[rand(available_moves.length)]
+    @move = available_moves[rand(available_moves.length-1)]
     return @move
   end
   
   def attempt_win(board)
+    p "attempt_win called"
     @board = board
     @keys_with_o = board.grid.select{ |k, v| v == "O" }.keys
     
@@ -205,7 +261,7 @@ class Player
             puts answer.to_s+" win move"
             @move = answer                          
           else
-            
+            return false
           end
         end
       end
@@ -213,7 +269,8 @@ class Player
     return @move 
   end
   
-  def attempt_win_block(board)
+  def block_human_win(board)
+    p "block_human called"
     @board = board
     # puts "running attempt_win_block..."
     
@@ -225,9 +282,9 @@ class Player
       
         intersection = human_winmoves_keys & @keys_with_x   
     
-        if intersection.length >= 2 #match found
+        if intersection.length >= 2 
         
-          @blocks_array << k # adds a key per iteration
+          @blocks_array << k 
         
           @blocks_array.each do |key|
         
@@ -240,6 +297,8 @@ class Player
               @move = answer          
             end           
           end
+        else
+          # return false
         end
       end # END @human_winmoves.each do |k,v|
     return @move
