@@ -168,19 +168,16 @@ class Player
   
   def ai_second_move(board)
     p "2nd move called"
-      block_human_win(board)
-
-      attach_to_human(board) 
-
+    # TODO - how to say if method_one gives me a value, break, else method_two
+    attach_to_human(board) unless !block_human_win(board).nil?
+    return @move
   end
   
   def ai_third_move(board)
     p "3rd move called"
-    
-      attempt_win(board)
-    
-      block_human_win(board)
-    
+    # TODO - how to say if method_one gives me a value, break, else method_two
+    block_human_win(board) unless !attempt_win(board).nil?
+    return @move
   end
   
   
@@ -291,17 +288,20 @@ class Player
             answer = @anskey[key].to_sym
                    
             if board.grid[answer] != " " # spot taken
-              puts "space taken can not block: " + answer.to_s 
+              # p "space taken can not block: " + answer.to_s 
+              # break
+              return nil
             else
               puts answer.to_s+" blocked"
-              @move = answer          
+              @move = answer  
+              return @move        
             end           
           end
         else
-          # return false
+          # return @move
         end
       end # END @human_winmoves.each do |k,v|
-    return @move
+    
   end
   
   def normal_block(board)
