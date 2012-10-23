@@ -1,6 +1,6 @@
 class Board
   attr_reader :grid
-  
+  # TODO - look to refactor as a 2d array
   def initialize(cell_value = " ")
     @grid = {
       a1: cell_value, a2: cell_value, a3: cell_value,

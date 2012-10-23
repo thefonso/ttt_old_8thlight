@@ -155,7 +155,6 @@ class Player
             
   end
    
-
   
   def ai_first_move(board)   
     p "1st move called"
@@ -226,13 +225,37 @@ class Player
   def attach_to_human(board)
     p "attach_to_human called"
     @board = board
-    #TODO - take empty space next to X
-    #TODO - remove this temp random move code
+    
     available_moves = board.grid.select{ |k, v| v == " " }.keys
-    # puts "random move - any space"
-    @move = available_moves[rand(available_moves.length-1)]
+    # select an array value if it is adjacent to a filled array value and is empty
+    # a1,a2,a3,
+    # b1,b2,b3,
+    # c1,c2,c3
+    # 
+    next_to_human = available_moves.find_all { |cell_location|
+      case cell_location
+      when :a1
+        board.grid[:a2] == 'X' or board.grid[:b1] == 'X'
+      when :a2
+        board.grid[:a1] == 'X' or board.grid[:a3] == 'X' 
+      when :a3
+        board.grid[:a2] == 'X' or board.grid[:b3] == 'X'
+      when :b1
+        board.grid[:a1] == 'X' or board.grid[:c1] == 'X'
+      when :b3
+        board.grid[:a3] == 'X' or board.grid[:c3] == 'X'
+      when :c1
+        board.grid[:b1] == 'X' or board.grid[:c2] == 'X' 
+      when :c2
+        board.grid[:c1] == 'X' or board.grid[:c3] == 'X'
+      when :c3
+        board.grid[:c2] == 'X' or board.grid[:b3] == 'X'
+      end
+    }
+    @move = next_to_human.sample
     return @move
   end
+
   
   def attempt_win(board)
     p "attempt_win called"
