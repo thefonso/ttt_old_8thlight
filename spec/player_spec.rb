@@ -77,14 +77,7 @@ describe 'Player class' do
       @player_computer.move_computer(@board).should eq("O")
     end
   end
-  describe 'next_to_x_on_boarder?(cell_location)' do
-    xit 'should receive a symbol value and return a move value' do
-      cell_location = :a1
-      @player_computer.should_receive(:puts).with("computer move...")
-    
-      @player_computer.next_to_x_on_grid_boarder?(cell_location)
-    end
-  end
+  
   describe 'attempt_win' do
     it 'should return a win move' do
       # need to fake grid input here
@@ -100,8 +93,8 @@ describe 'Player class' do
       # need to fake grid input here
       myboard = Board.new
       myboard.grid[:a1] = "X"
-      myboard.grid[:a2] = "X"
-      @player_computer.block_human_win(myboard).should  eq(:a3)
+      myboard.grid[:b1] = "X"
+      @player_computer.block_human_win(myboard).should  eq(:c1)
     end
   end
   describe 'defend_corners' do

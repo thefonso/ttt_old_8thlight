@@ -281,7 +281,7 @@ class Player
             puts answer.to_s+" win move"
             @move = answer                          
           else
-            return false
+            return nil
           end
         end
       end
@@ -290,9 +290,8 @@ class Player
   end
   
   def block_human_win(board)
-    p "block_human called"
+    p "block_human_win called"
     @board = board
-    # puts "running attempt_win_block..."
     
       @keys_with_x = board.grid.select{ |k, v| v == "X" }.keys 
       @blocks_array = []  
@@ -311,7 +310,7 @@ class Player
             answer = @anskey[key].to_sym
                    
             if board.grid[answer] != " " # spot taken
-              # p "space taken can not block: " + answer.to_s 
+              p "space taken can not block: " + answer.to_s 
               # break
               return nil
             else
