@@ -94,10 +94,6 @@ describe 'Player class' do
       blockboard = Board.new
       blockboard.grid[:a1] = "X"
       blockboard.grid[:b1] = "X"
-      # blockboard.grid[:c1] = "O"
-      # blockboard.grid[:b2] = "O"
-      # blockboard.grid[:b3] = "X"
-      # blockboard.grid[:c3] = "X"
       @player_computer.block_human_win(blockboard).should  eq(:c1)
     end
   end
