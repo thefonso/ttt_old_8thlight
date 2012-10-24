@@ -168,7 +168,7 @@ class Player
   def ai_second_move(board)
     p "2nd move called"
     # TODO - how to say if method_one gives me a value, break, else method_two
-    attach_to_human(board) unless !block_human_win(board).nil?
+    attach_to_human(board) unless !block_human_win(board)
     return @move
   end
   
@@ -290,40 +290,37 @@ class Player
   end
   
   def block_human_win(board)
-    p "block_human_win called"
-    @board = board
+  p "block_human_win called"
+  @board = board
     
-      @keys_with_x = board.grid.select{ |k, v| v == "X" }.keys 
-      @blocks_array = []  
+    @keys_with_x = board.grid.select{ |k, v| v == "X" }.keys 
+    @open_spaces = board.grid.select{ |k, v| v == " " }.keys
+    @blocks_array = []  
     
-      @human_winmoves.each do |k,v| 
-        human_winmoves_keys = v.select{ |k, v| v == "X"}.keys
+    @human_winmoves.each do |k,v| 
+      human_winmoves_keys = v.select{ |k, v| v == "X"}.keys
       
-        intersection = human_winmoves_keys & @keys_with_x   
-    
-        if intersection.length >= 2 
+      human_moves_to_block = human_winmoves_keys & @keys_with_x   
+      p 'human_moves_to_block: '+human_moves_to_block.to_s
         
-          @blocks_array << k 
-        
-          @blocks_array.each do |key|
-        
-            answer = @anskey[key].to_sym
-                   
-            if board.grid[answer] != " " # spot taken
-              p "space taken can not block: " + answer.to_s 
-              # break
-              return nil
-            else
-              puts answer.to_s+" blocked"
-              @move = answer  
-              return @move        
-            end           
-          end
-        else
-          # return @move
+      if human_moves_to_block.length >= 2 #one block available
+        # TODO - if all block_array values not empty return nil
+        @blocks_array << k 
+        p '@blocks_array: '+@blocks_array.to_s 
+          
+        @blocks_array.each do |key|
+          answer = @anskey[key].to_sym
+            
+          if board.grid[answer] != " " # spot taken
+            p 'spot taken cannot block: '+answer.to_s
+          else
+            p answer.to_s+" blocked"
+            @move = answer  
+            return @move        
+          end           
         end
-      end # END @human_winmoves.each do |k,v|
-    
+      end
+    end # END @human_winmoves.each do |k,v|
   end
   
   def normal_block(board)

@@ -91,10 +91,14 @@ describe 'Player class' do
   describe 'block_human_win' do
     it 'returns a blocking move' do
       # need to fake grid input here
-      myboard = Board.new
-      myboard.grid[:a1] = "X"
-      myboard.grid[:b1] = "X"
-      @player_computer.block_human_win(myboard).should  eq(:c1)
+      blockboard = Board.new
+      blockboard.grid[:a1] = "X"
+      blockboard.grid[:b1] = "X"
+      # blockboard.grid[:c1] = "O"
+      # blockboard.grid[:b2] = "O"
+      # blockboard.grid[:b3] = "X"
+      # blockboard.grid[:c3] = "X"
+      @player_computer.block_human_win(blockboard).should  eq(:c1)
     end
   end
   describe 'defend_corners' do
