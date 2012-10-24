@@ -147,8 +147,10 @@ class Player
       @move = ai_first_move(board)
     elsif board.grid[:b2] != " " and taken_moves == 3#determine only two moves exist on board 
       @move = ai_second_move(board)
-    else
+    elsif board.grid[:b2] != " " and taken_moves == 5
       @move = ai_third_move(board)
+    else
+      @move = ai_fourth_move(board)
     end
     
     board.grid[@move] = @player_symbol
@@ -168,17 +170,38 @@ class Player
   def ai_second_move(board)
     p "2nd move called"
     # TODO - how to say if method_one gives me a value, break, else method_two
-    attach_to_human(board) unless !block_human_win(board)
+    if board.grid[:b2] == "X"
+      defend_corners(board) unless !block_human_win(board)
+    elsif board.grid[:b2] == "O"
+      defend_cross(board) unless !block_human_win(board)
+    end
     return @move
   end
   
   def ai_third_move(board)
     p "3rd move called"
-    # TODO - how to say if method_one gives me a value, break, else method_two
-    block_human_win(board) unless !attempt_win(board).nil?
+    # TODO - how to say if method_one gives me a value, break, else method_two    
+      block_human_win(board) unless !attempt_win(board).nil?
     return @move
   end
   
+  def ai_fourth_move(board)
+    p "4th move called"
+    # TODO - how to say if method_one gives me a value, break, else method_two
+    if board.grid[:b2] == "O"
+      random_move(board) unless !attempt_win(board).nil?
+    elsif board.grid[:b2] == "X"
+      random_move(board) unless !block_human_win(board)
+    end
+    return @move
+  end
+  
+  def random_move(board)
+    p 'random_move called'
+    open_spaces = board.grid.select{ |k, v| v == " " }.keys
+    @move = open_spaces.sample
+    return @move
+  end
   
   def ai_defends_corners(board)
     p "ai_defends_corners called"
@@ -190,7 +213,36 @@ class Player
       ai_spot = "b2"
       @move = ai_spot.to_sym
   end
-  
+  def defend_cross(board)
+    p "defend_cross called"
+    answers_array = []
+    cross = {
+        :a2 => " ", :b1 => " ",
+        :b3 => " ", :c2 => " "
+    }
+    
+    available_moves = board.grid.select{ |k, v| v == " " }.keys
+    cross_keys = cross.select{ |k,v| v == " "}.keys
+    
+    intersection = available_moves & cross_keys
+    
+    intersection.each do |k,v|
+    
+      if intersection.length >= 1
+      
+        answers_array << k
+          
+        @random_cross = intersection.sample 
+        @move = @random_cross
+        puts @move.to_s+" cross move"
+        puts intersection.to_s+" cross intersects"
+        return @move
+      else
+        p "no cross intersects"
+        return nil
+      end
+    end
+  end
   def defend_corners(board)
     p "defend_corners called"
     answers_array = []
@@ -217,7 +269,8 @@ class Player
         puts intersection.to_s+" intersects"
         return @move
       else
-         puts "no intersects"
+        p "no intersects"
+        return nil
       end
     end
   end
