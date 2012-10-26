@@ -1,25 +1,52 @@
-require_relative '../spec_helper'
-#
-# the universe is vast and infinite....and...it is empty
-describe "tic tac toe game" do
-  context "the game class" do
-      
-    before (:each) do
-      player_h = Player.new("X")
-      player_c = Player.new("O")
-      @game = Game.new(player_h, player_c)
-    end
-      
-    it "method drawgrid must return a 3x3 game grid" do
-      @game.drawgrid.should eq("\na #{$thegrid[:a1]}|#{$thegrid[:a2]}|#{$thegrid[:a3]} \n----------\nb #{$thegrid[:b1]}|#{$thegrid[:b2]}|#{$thegrid[:b3]} \n----------\nc #{$thegrid[:c1]}|#{$thegrid[:c2]}|#{$thegrid[:c3]} \n----------\n  1 2 3 \n")
+require 'game'
+
+describe 'Game class' do
+  before (:each) do
+    @player_human = Player.new('X')
+    @player_computer = Player.new('O')
+    @board = Board.new
+    @game = Game.new(@player_human, @player_computer, @board)
+  end
+  describe 'drawgrid method' do
+    it 'should call @board.drawgrid' do
+      @board.should_receive(:printgrid)
       @game.drawgrid
     end
-    it "play method must display 3x3 game grid" do
-      STDOUT.should_receive(:puts).with("\na #{$thegrid[:a1]}|#{$thegrid[:a2]}|#{$thegrid[:a3]} \n----------\nb #{$thegrid[:b1]}|#{$thegrid[:b2]}|#{$thegrid[:b3]} \n----------\nc #{$thegrid[:c1]}|#{$thegrid[:c2]}|#{$thegrid[:c3]} \n----------\n  1 2 3 \n")
+  end
+  describe 'take_turn method' do
+    it 'draws the game grid' do
+      test_value = 1
+      @game.should_receive(:drawgrid).at_least(:once)
+      @game.take_turn(test_value)
+    end
+    it 'runs game sequence' do
+      test_value = 1
+      @game.should_receive(:take_turn).exactly(1).times
+      @game.take_turn(test_value)
+    end
+  end
+  describe 'play method' do
+    it 'calls the take_turn method 9 times' do
+      @game.should_receive(:take_turn).at_least(9).times       
       @game.play
     end
-    xit "black box test for does_move_exist"
-    xit "check for a computer win"
-    xit "check for a human win"
+  end
+  
+  describe 'PutMoveOnBoard' do
+    xit 'should put a move on the game board' do
+      @game.should_receive(:grid)
+      @game.PutMoveOnBoard(:a1)
+    end
+  end
+  
+  describe 'is_a_human_win' do
+    xit 'receives current board'
+    xit 'looks for human win'
+    xit 'if win found returns WIN DETECTED'
+  end
+  describe 'is_a_computer_win' do
+    xit 'receives current board'
+    xit 'looks for computer win'
+    xit 'if win found returns WIN DETECTED'
   end
 end
