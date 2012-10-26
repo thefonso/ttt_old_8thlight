@@ -215,6 +215,7 @@ class Player
       ai_spot = "b2"
       @move = ai_spot.to_sym
   end
+  
   def defend_cross(board)
     p "defend_cross called"
     answers_array = []
@@ -245,6 +246,7 @@ class Player
       end
     end
   end
+  
   def defend_corners(board)
     p "defend_corners called"
     answers_array = []
@@ -310,8 +312,7 @@ class Player
     @move = next_to_human.sample
     return @move
   end
-
-  
+ 
   def attempt_win(board)
     p "attempt_win called"
     @board = board
@@ -377,7 +378,7 @@ class Player
       end
     end # END @human_winmoves.each do |k,v|
   end
-  
+  #FIXME - violates do-one-thing
   def block_human_win_and_defend_corners(board)
   # @move = nil
   @block_keys_array = []
@@ -411,7 +412,7 @@ class Player
       end
     end # END @human_winmoves.each do |k,v|
   end
-  
+  #FIXME - violates do-one-thing
   def block_human_win_and_defend_cross(board)
   # @move = nil
   @block_keys_array = []
@@ -445,7 +446,7 @@ class Player
       end
     end # END @human_winmoves.each do |k,v|
   end
-  
+  #FIXME - violates do-one-thing
   def block_human_win_and_random_move(board)
   # @move = nil
   @block_keys_array = []
