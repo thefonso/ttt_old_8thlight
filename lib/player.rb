@@ -1,10 +1,10 @@
-# TODO - better WIN detection
-# TODO - polymorph this
+# TODO - better WIN detection...include draw
+# TODO - polymorph this ...clean code chap 6 listing 6-6 examples this
 
 class Player
 
   attr_reader :thegrid
-  attr_reader :boardpiece # i exist so game.rb can read me
+  attr_reader :boardpiece 
 
   def initialize(letter)
     @boardpiece = letter
@@ -442,9 +442,7 @@ class Player
   def block_human_win_and_random_move(board)
   # @move = nil
   @block_keys_array = []
-
-
-    
+  
     @keys_with_x = board.grid.select{ |k, v| v == "X" }.keys  
     
     @human_winmoves.each do |k,v| 
