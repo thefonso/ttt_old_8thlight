@@ -4,7 +4,7 @@
 class Player
 
   attr_reader :thegrid
-  attr_reader :boardpiece # i exist so game.rb can read me
+  attr_reader :boardpiece 
 
   def initialize(letter)
     @boardpiece = letter
@@ -135,29 +135,28 @@ class Player
   end
 
   def move_computer(board)
-    @player_symbol = "O"
     
     puts "computer move..." 
     
-    # TODO - keep count of spaces taken on grid
     taken_moves = board.grid.select{ |k, v| v != " " }.keys.length
     p taken_moves
     
     if taken_moves == 1 
       @move = ai_first_move(board)
-    elsif board.grid[:b2] != " " and taken_moves == 3#determine only two moves exist on board 
+    elsif board.grid[:b2] != " " and taken_moves == 3
       @move = ai_second_move(board)
     elsif board.grid[:b2] != " " and taken_moves == 5
       @move = ai_third_move(board)
     else
       @move = ai_fourth_move(board)
     end
-    
+    @player_symbol = "O"
     board.grid[@move] = @player_symbol
-            
   end
    
-  
+
+
+
   def ai_first_move(board)   
     p "1st move called"
     if board.grid[:b2] == "X"
@@ -168,11 +167,9 @@ class Player
   end
   
   def ai_second_move(board)
-    p "2nd move called"
-    # TODO - how to say if method_one gives me a value, break, else method_two
+    p "2nd move called"    
     if board.grid[:b2] == "X"
       block_human_win_and_defend_corners(board) 
-      #FIXME - epifany break block_human_win(board) method into two versions one with nil...on wthout nil
     elsif board.grid[:b2] == "O"
       block_human_win_and_defend_cross(board)
     end
@@ -180,30 +177,22 @@ class Player
   end
   
   def ai_third_move(board)
-    p "3rd move called"
-    # TODO - how to say if method_one gives me a value, break, else method_two    
+    p "3rd move called"    
       block_human_win(board) unless !attempt_win(board).nil?
     return @move
   end
   
   def ai_fourth_move(board)
     p "4th move called"
-    # TODO - how to say if method_one gives me a value, break, else method_two
     if board.grid[:b2] == "O"
       block_human_win_and_random_move(board) unless !attempt_win(board).nil?
-      # random_move(board) unless !attempt_win(board).nil?
     elsif board.grid[:b2] == "X"
       block_human_win_and_random_move(board)
     end
     return @move
   end
   
-  def random_move(board)
-    p 'random_move called'
-    open_spaces = board.grid.select{ |k, v| v == " " }.keys
-    @move = open_spaces.sample
-    return @move
-  end
+
   
   def ai_defends_corners(board)
     p "ai_defends_corners called"
@@ -216,36 +205,71 @@ class Player
       @move = ai_spot.to_sym
   end
   
-  def defend_cross(board)
-    p "defend_cross called"
-    answers_array = []
-    cross = {
-        :a2 => " ", :b1 => " ",
-        :b3 => " ", :c2 => " "
-    }
+  
+  #FIXME - violates do-one-thing
+  def block_human_win_and_defend_corners(board)
+
+  @block_keys_array = []
+  p "block_human_win called"
     
-    available_moves = board.grid.select{ |k, v| v == " " }.keys
-    cross_keys = cross.select{ |k,v| v == " "}.keys
+    @keys_with_x = board.grid.select{ |k, v| v == "X" }.keys  
     
-    intersection = available_moves & cross_keys
-    
-    intersection.each do |k,v|
-    
-      if intersection.length >= 1
+    @human_winmoves.each do |k,v| 
+      human_winmoves_keys = v.select{ |k, v| v == "X"}.keys
       
-        answers_array << k
-          
-        @random_cross = intersection.sample 
-        @move = @random_cross
-        puts @move.to_s+" cross move"
-        puts intersection.to_s+" cross intersects"
-        return @move
-      else
-        p "no cross intersects"
-        return nil
+      human_moves_to_block = human_winmoves_keys & @keys_with_x   
+        
+      if human_moves_to_block.length >= 2 #one block available       
+        @block_keys_array << k 
+        
+        @block_keys_array.each do |key|          
+          answer = @anskey[key].to_sym
+            
+          if board.grid[answer] != " " # spot taken
+            p 'spot taken cannot block: '+answer.to_s
+            defend_corners(board)
+          else
+            p answer.to_s+" blocked"
+            @move = answer  
+            return @move        
+          end           
+        end
       end
-    end
+    end # END @human_winmoves.each do |k,v|
   end
+  #FIXME - violates do-one-thing
+  def block_human_win_and_defend_cross(board)
+ 
+  @block_keys_array = []
+  p "block_human_win called"
+    
+    @keys_with_x = board.grid.select{ |k, v| v == "X" }.keys  
+    
+    @human_winmoves.each do |k,v| 
+      human_winmoves_keys = v.select{ |k, v| v == "X"}.keys
+      
+      human_moves_to_block = human_winmoves_keys & @keys_with_x   
+        
+      if human_moves_to_block.length >= 2 #one block available       
+        @block_keys_array << k 
+        
+        @block_keys_array.each do |key|          
+          answer = @anskey[key].to_sym
+            
+          if board.grid[answer] != " " # spot taken
+            p 'spot taken cannot block: '+answer.to_s
+            defend_cross(board)
+          else
+            p answer.to_s+" blocked"
+            @move = answer  
+            return @move        
+          end           
+        end
+      end
+    end # END @human_winmoves.each do |k,v|
+  end
+  
+  
   
   def defend_corners(board)
     p "defend_corners called"
@@ -279,16 +303,76 @@ class Player
     end
   end
   
+  def defend_cross(board)
+    p "defend_cross called"
+    answers_array = []
+    cross = {
+        :a2 => " ", :b1 => " ",
+        :b3 => " ", :c2 => " "
+    }
+    
+    available_moves = board.grid.select{ |k, v| v == " " }.keys
+    cross_keys = cross.select{ |k,v| v == " "}.keys
+    
+    intersection = available_moves & cross_keys
+    
+    intersection.each do |k,v|
+    
+      if intersection.length >= 1
+      
+        answers_array << k
+          
+        @random_cross = intersection.sample 
+        @move = @random_cross
+        puts @move.to_s+" cross move"
+        puts intersection.to_s+" cross intersects"
+        return @move
+      else
+        p "no cross intersects"
+        return nil
+      end
+    end
+  end
+  
+  
+  def block_human_win(board)
+
+  @block_keys_array = []
+  p "block_human_win called"
+    
+    @keys_with_x = board.grid.select{ |k, v| v == "X" }.keys  
+    
+    @human_winmoves.each do |k,v| 
+      human_winmoves_keys = v.select{ |k, v| v == "X"}.keys
+      
+      human_moves_to_block = human_winmoves_keys & @keys_with_x   
+        
+      if human_moves_to_block.length >= 2 #one block available       
+        @block_keys_array << k 
+        p '@blocks_array: '+@blocks_array.to_s 
+        
+        @block_keys_array.each do |key|          
+          answer = @anskey[key].to_sym
+            
+          if board.grid[answer] != " " # spot taken
+            p 'spot taken cannot block: '+answer.to_s
+            
+          else
+            p answer.to_s+" blocked"
+            @move = answer  
+            return @move        
+          end           
+        end
+      end
+    end # END @human_winmoves.each do |k,v|
+  end
+  
   def attach_to_human(board)
     p "attach_to_human called"
     @board = board
     
     available_moves = board.grid.select{ |k, v| v == " " }.keys
-    # select an array value if it is adjacent to a filled array value and is empty
-    # a1,a2,a3,
-    # b1,b2,b3,
-    # c1,c2,c3
-    # 
+    
     next_to_human = available_moves.find_all { |cell_location|
       case cell_location
       when :a1
@@ -318,23 +402,23 @@ class Player
     @board = board
     @keys_with_o = board.grid.select{ |k, v| v == "O" }.keys
     
-    @answers_array = [] # initialize answers array
+    @answers_array = []
     
-    @ai_winmoves.each do |k, v| # go through each win move in the ai_winmoves array above.         
+    @ai_winmoves.each do |k, v| 
       ai_keys = v.select{ |k, v| v == "O"}.keys # grab all computer player's Os from the value hash
       
       intersection = ai_keys & @keys_with_o 
      
-      if intersection.length >=2 # when two intersections exist it means two O's are on the board
+      if intersection.length >=2 # two intersections mean two O's are on the board
         
-        @answers_array << k # add to answers array per iteration
+        @answers_array << k 
 
         @answers_array.each do |key|
 
           answer = @anskey[key].to_sym
         
           if board.grid[answer] == " " #if win move space is empty take it
-            puts answer.to_s+" win move"
+            p answer.to_s+" win move"
             @move = answer                          
           else
             return nil
@@ -345,110 +429,11 @@ class Player
     return @move 
   end
   
-  def block_human_win(board)
-  # @move = nil
-  @block_keys_array = []
-  p "block_human_win called"
-  # TODO - if all block_array values not empty return nil
-    
-    @keys_with_x = board.grid.select{ |k, v| v == "X" }.keys  
-    
-    @human_winmoves.each do |k,v| 
-      human_winmoves_keys = v.select{ |k, v| v == "X"}.keys
-      
-      human_moves_to_block = human_winmoves_keys & @keys_with_x   
-      # p 'human_moves_to_block: '+human_moves_to_block.to_s
-        
-      if human_moves_to_block.length >= 2 #one block available       
-        @block_keys_array << k 
-        p '@blocks_array: '+@blocks_array.to_s 
-        
-        @block_keys_array.each do |key|          
-          answer = @anskey[key].to_sym
-            
-          if board.grid[answer] != " " # spot taken
-            p 'spot taken cannot block: '+answer.to_s
-            
-          else
-            p answer.to_s+" blocked"
-            @move = answer  
-            return @move        
-          end           
-        end
-      end
-    end # END @human_winmoves.each do |k,v|
-  end
-  #FIXME - violates do-one-thing
-  def block_human_win_and_defend_corners(board)
-  # @move = nil
-  @block_keys_array = []
-  p "block_human_win called"
-  # TODO - if all block_array values not empty return nil
-    
-    @keys_with_x = board.grid.select{ |k, v| v == "X" }.keys  
-    
-    @human_winmoves.each do |k,v| 
-      human_winmoves_keys = v.select{ |k, v| v == "X"}.keys
-      
-      human_moves_to_block = human_winmoves_keys & @keys_with_x   
-      # p 'human_moves_to_block: '+human_moves_to_block.to_s
-        
-      if human_moves_to_block.length >= 2 #one block available       
-        @block_keys_array << k 
-        p '@blocks_array: '+@blocks_array.to_s 
-        
-        @block_keys_array.each do |key|          
-          answer = @anskey[key].to_sym
-            
-          if board.grid[answer] != " " # spot taken
-            p 'spot taken cannot block: '+answer.to_s
-            defend_corners(board)
-          else
-            p answer.to_s+" blocked"
-            @move = answer  
-            return @move        
-          end           
-        end
-      end
-    end # END @human_winmoves.each do |k,v|
-  end
-  #FIXME - violates do-one-thing
-  def block_human_win_and_defend_cross(board)
-  # @move = nil
-  @block_keys_array = []
-  p "block_human_win called"
-  # TODO - if all block_array values not empty return nil
-    
-    @keys_with_x = board.grid.select{ |k, v| v == "X" }.keys  
-    
-    @human_winmoves.each do |k,v| 
-      human_winmoves_keys = v.select{ |k, v| v == "X"}.keys
-      
-      human_moves_to_block = human_winmoves_keys & @keys_with_x   
-      # p 'human_moves_to_block: '+human_moves_to_block.to_s
-        
-      if human_moves_to_block.length >= 2 #one block available       
-        @block_keys_array << k 
-        p '@blocks_array: '+@blocks_array.to_s 
-        
-        @block_keys_array.each do |key|          
-          answer = @anskey[key].to_sym
-            
-          if board.grid[answer] != " " # spot taken
-            p 'spot taken cannot block: '+answer.to_s
-            defend_cross(board)
-          else
-            p answer.to_s+" blocked"
-            @move = answer  
-            return @move        
-          end           
-        end
-      end
-    end # END @human_winmoves.each do |k,v|
-  end
+ 
+
   #FIXME - violates do-one-thing
   def block_human_win_and_random_move(board)
-  # @move = nil
+
   @block_keys_array = []
   p "block_human_win called"
   # TODO - if all block_array values not empty return nil
@@ -463,12 +448,11 @@ class Player
         
       if human_moves_to_block.length >= 2 #one block available       
         @block_keys_array << k 
-        p '@blocks_array: '+@blocks_array.to_s 
         
         @block_keys_array.each do |key|          
           answer = @anskey[key].to_sym
             
-          if board.grid[answer] != " " # spot taken
+          if board.grid[answer] != " " 
             p 'spot taken cannot block: '+answer.to_s
             random_move(board)
           else
@@ -480,14 +464,12 @@ class Player
       end
     end # END @human_winmoves.each do |k,v|
   end
-  
-  def normal_block(board)
-    @board = board
-    if @board.grid[:b2] == "X"
-      defend_corners(@board)
-    elsif @board.grid[:b2] == "O"
-      attach_to_human(@board)
-    end
+
+  def random_move(board)
+    p 'random_move called'
+    open_spaces_on_board = board.grid.select{ |k, v| v == " " }.keys
+    @move = open_spaces_on_board.sample
+    return @move
   end
   
 end
