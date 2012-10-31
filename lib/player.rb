@@ -1,5 +1,6 @@
-# TODO - better WIN detection
+# TODO - better WIN detection...add draw
 # TODO - polymorph this
+
 
 class Player
 
@@ -7,6 +8,8 @@ class Player
   attr_reader :boardpiece 
 
   def initialize(letter)
+    @code_plugin = ""
+    
     @boardpiece = letter
     
     @ai_winmoves = {
@@ -35,24 +38,24 @@ class Player
         :wm21 => {:a1=>" ", :a2=>" ", :a3=>" ", :b1=>"O", :b2=>" ", :b3=>"O", :c1=>" ", :c2=>" ", :c3=>" "},
         :wm22 => {:a1=>"O", :a2=>" ", :a3=>" ", :b1=>" ", :b2=>" ", :b3=>" ", :c1=>" ", :c2=>" ", :c3=>"O"},
         :wm23 => {:a1=>" ", :a2=>" ", :a3=>" ", :b1=>" ", :b2=>" ", :b3=>" ", :c1=>"O", :c2=>" ", :c3=>"O"},
-        :wm24 => {:a1=>" ", :a2=>" ", :a3=>"O", :b1=>" ", :b2=>" ", :b3=>" ", :c1=>"O", :c2=>" ", :c3=>" "},
+        :wm24 => {:a1=>" ", :a2=>" ", :a3=>"O", :b1=>" ", :b2=>" ", :b3=>" ", :c1=>"O", :c2=>" ", :c3=>" "}
         #check crazy
-        :wm25 => {:a1=>" ", :a2=>"O", :a3=>" ", :b1=>" ", :b2=>" ", :b3=>" ", :c1=>"O", :c2=>" ", :c3=>" "},
-        :wm26 => {:a1=>" ", :a2=>"O", :a3=>" ", :b1=>"O", :b2=>" ", :b3=>" ", :c1=>" ", :c2=>" ", :c3=>" "},
-        :wm27 => {:a1=>" ", :a2=>"O", :a3=>" ", :b1=>" ", :b2=>" ", :b3=>" ", :c1=>" ", :c2=>" ", :c3=>"O"},
-        :wm28 => {:a1=>" ", :a2=>"O", :a3=>" ", :b1=>" ", :b2=>" ", :b3=>"O", :c1=>" ", :c2=>" ", :c3=>" "},            
-        :wm29 => {:a1=>"O", :a2=>" ", :a3=>" ", :b1=>" ", :b2=>" ", :b3=>" ", :c1=>" ", :c2=>"O", :c3=>" "},
-        :wm30 => {:a1=>" ", :a2=>" ", :a3=>" ", :b1=>"O", :b2=>" ", :b3=>" ", :c1=>" ", :c2=>"O", :c3=>" "},
-        :wm31 => {:a1=>" ", :a2=>" ", :a3=>"O", :b1=>" ", :b2=>" ", :b3=>" ", :c1=>" ", :c2=>"O", :c3=>" "},
-        :wm32 => {:a1=>" ", :a2=>" ", :a3=>" ", :b1=>" ", :b2=>" ", :b3=>"O", :c1=>" ", :c2=>"O", :c3=>" "},
-        :wm33 => {:a1=>" ", :a2=>"O", :a3=>" ", :b1=>"O", :b2=>" ", :b3=>" ", :c1=>" ", :c2=>" ", :c3=>" "},
-        :wm34 => {:a1=>" ", :a2=>" ", :a3=>"O", :b1=>"O", :b2=>" ", :b3=>" ", :c1=>" ", :c2=>" ", :c3=>" "},
-        :wm35 => {:a1=>" ", :a2=>" ", :a3=>" ", :b1=>"O", :b2=>" ", :b3=>" ", :c1=>" ", :c2=>"O", :c3=>" "},
-        :wm36 => {:a1=>" ", :a2=>" ", :a3=>" ", :b1=>"O", :b2=>" ", :b3=>" ", :c1=>" ", :c2=>" ", :c3=>"O"},
-        :wm37 => {:a1=>"O", :a2=>" ", :a3=>" ", :b1=>" ", :b2=>" ", :b3=>"O", :c1=>" ", :c2=>" ", :c3=>" "},
-        :wm38 => {:a1=>" ", :a2=>"O", :a3=>" ", :b1=>" ", :b2=>" ", :b3=>"O", :c1=>" ", :c2=>" ", :c3=>" "},
-        :wm39 => {:a1=>" ", :a2=>" ", :a3=>" ", :b1=>" ", :b2=>" ", :b3=>"O", :c1=>"O", :c2=>" ", :c3=>" "},
-        :wm40 => {:a1=>" ", :a2=>" ", :a3=>" ", :b1=>" ", :b2=>" ", :b3=>"O", :c1=>" ", :c2=>"O", :c3=>" "}
+        # :wm25 => {:a1=>" ", :a2=>"O", :a3=>" ", :b1=>" ", :b2=>" ", :b3=>" ", :c1=>"O", :c2=>" ", :c3=>" "},
+        # :wm26 => {:a1=>" ", :a2=>"O", :a3=>" ", :b1=>"O", :b2=>" ", :b3=>" ", :c1=>" ", :c2=>" ", :c3=>" "},
+        # :wm27 => {:a1=>" ", :a2=>"O", :a3=>" ", :b1=>" ", :b2=>" ", :b3=>" ", :c1=>" ", :c2=>" ", :c3=>"O"},
+        # :wm28 => {:a1=>" ", :a2=>"O", :a3=>" ", :b1=>" ", :b2=>" ", :b3=>"O", :c1=>" ", :c2=>" ", :c3=>" "},            
+        # :wm29 => {:a1=>"O", :a2=>" ", :a3=>" ", :b1=>" ", :b2=>" ", :b3=>" ", :c1=>" ", :c2=>"O", :c3=>" "},
+        # :wm30 => {:a1=>" ", :a2=>" ", :a3=>" ", :b1=>"O", :b2=>" ", :b3=>" ", :c1=>" ", :c2=>"O", :c3=>" "},
+        # :wm31 => {:a1=>" ", :a2=>" ", :a3=>"O", :b1=>" ", :b2=>" ", :b3=>" ", :c1=>" ", :c2=>"O", :c3=>" "},
+        # :wm32 => {:a1=>" ", :a2=>" ", :a3=>" ", :b1=>" ", :b2=>" ", :b3=>"O", :c1=>" ", :c2=>"O", :c3=>" "},
+        # :wm33 => {:a1=>" ", :a2=>"O", :a3=>" ", :b1=>"O", :b2=>" ", :b3=>" ", :c1=>" ", :c2=>" ", :c3=>" "},
+        # :wm34 => {:a1=>" ", :a2=>" ", :a3=>"O", :b1=>"O", :b2=>" ", :b3=>" ", :c1=>" ", :c2=>" ", :c3=>" "},
+        # :wm35 => {:a1=>" ", :a2=>" ", :a3=>" ", :b1=>"O", :b2=>" ", :b3=>" ", :c1=>" ", :c2=>"O", :c3=>" "},
+        # :wm36 => {:a1=>" ", :a2=>" ", :a3=>" ", :b1=>"O", :b2=>" ", :b3=>" ", :c1=>" ", :c2=>" ", :c3=>"O"},
+        # :wm37 => {:a1=>"O", :a2=>" ", :a3=>" ", :b1=>" ", :b2=>" ", :b3=>"O", :c1=>" ", :c2=>" ", :c3=>" "},
+        # :wm38 => {:a1=>" ", :a2=>"O", :a3=>" ", :b1=>" ", :b2=>" ", :b3=>"O", :c1=>" ", :c2=>" ", :c3=>" "},
+        # :wm39 => {:a1=>" ", :a2=>" ", :a3=>" ", :b1=>" ", :b2=>" ", :b3=>"O", :c1=>"O", :c2=>" ", :c3=>" "},
+        # :wm40 => {:a1=>" ", :a2=>" ", :a3=>" ", :b1=>" ", :b2=>" ", :b3=>"O", :c1=>" ", :c2=>"O", :c3=>" "}
     }
     
     @human_winmoves = {
@@ -147,17 +150,19 @@ class Player
       @move = ai_second_move(board)
     elsif board.grid[:b2] != " " and taken_moves == 5
       @move = ai_third_move(board)
-    else
+    elsif board.grid[:b2] != " " and taken_moves == 6
       @move = ai_fourth_move(board)
+    else
+      @move = ai_fifth_move(board)
     end
     @player_symbol = "O"
     board.grid[@move] = @player_symbol
   end
-   
 
 
 
-  def ai_first_move(board)   
+
+  def ai_first_move(board)
     p "1st move called"
     if board.grid[:b2] == "X"
       ai_defends_corners(board)
@@ -169,30 +174,55 @@ class Player
   def ai_second_move(board)
     p "2nd move called"    
     if board.grid[:b2] == "X"
-      block_human_win_and_defend_corners(board) 
+      block_human_win_defend_corners(board)
     elsif board.grid[:b2] == "O"
-      block_human_win_and_defend_cross(board)
+      block_human_win_defend_cross(board)
     end
     return @move
   end
   
   def ai_third_move(board)
-    p "3rd move called"    
-      block_human_win(board) unless !attempt_win(board).nil?
+    p "3rd move called" 
+      block_human_win_only(board) unless !attempt_win(board).nil?
     return @move
   end
   
   def ai_fourth_move(board)
     p "4th move called"
     if board.grid[:b2] == "O"
-      block_human_win_and_random_move(board) unless !attempt_win(board).nil?
+      block_human_win_and_random_move(board) unless !attempt_win(board).nil? 
     elsif board.grid[:b2] == "X"
-      block_human_win_and_random_move(board)
+      block_human_win_and_random_move(board)     
     end
     return @move
   end
   
-
+  def ai_fifth_move(board)
+    ai_fourth_move(board)
+  end
+  
+  
+  
+  
+  def block_human_win_defend_corners(board)
+    @code_plugin = defend_corners(board)
+    block_human_win(board, @code_plugin)
+  end
+  
+  def block_human_win_defend_cross(board)
+    @code_plugin = defend_cross(board)
+    block_human_win(board, @code_plugin)
+  end
+  
+  def block_human_win_only(board)
+    @code_plugin = ""
+    block_human_win(board, @code_plugin)
+  end
+  
+  def block_human_win_and_random_move(board)
+    @code_plugin = random_move(board)
+    block_human_win(board, @code_plugin)
+  end
   
   def ai_defends_corners(board)
     p "ai_defends_corners called"
@@ -204,72 +234,8 @@ class Player
       ai_spot = "b2"
       @move = ai_spot.to_sym
   end
-  
-  
-  #FIXME - violates do-one-thing
-  def block_human_win_and_defend_corners(board)
 
-  @block_keys_array = []
-  p "block_human_win called"
     
-    @keys_with_x = board.grid.select{ |k, v| v == "X" }.keys  
-    
-    @human_winmoves.each do |k,v| 
-      human_winmoves_keys = v.select{ |k, v| v == "X"}.keys
-      
-      human_moves_to_block = human_winmoves_keys & @keys_with_x   
-        
-      if human_moves_to_block.length >= 2 #one block available       
-        @block_keys_array << k 
-        
-        @block_keys_array.each do |key|          
-          answer = @anskey[key].to_sym
-            
-          if board.grid[answer] != " " # spot taken
-            p 'spot taken cannot block: '+answer.to_s
-            defend_corners(board)
-          else
-            p answer.to_s+" blocked"
-            @move = answer  
-            return @move        
-          end           
-        end
-      end
-    end # END @human_winmoves.each do |k,v|
-  end
-  #FIXME - violates do-one-thing
-  def block_human_win_and_defend_cross(board)
- 
-  @block_keys_array = []
-  p "block_human_win called"
-    
-    @keys_with_x = board.grid.select{ |k, v| v == "X" }.keys  
-    
-    @human_winmoves.each do |k,v| 
-      human_winmoves_keys = v.select{ |k, v| v == "X"}.keys
-      
-      human_moves_to_block = human_winmoves_keys & @keys_with_x   
-        
-      if human_moves_to_block.length >= 2 #one block available       
-        @block_keys_array << k 
-        
-        @block_keys_array.each do |key|          
-          answer = @anskey[key].to_sym
-            
-          if board.grid[answer] != " " # spot taken
-            p 'spot taken cannot block: '+answer.to_s
-            defend_cross(board)
-          else
-            p answer.to_s+" blocked"
-            @move = answer  
-            return @move        
-          end           
-        end
-      end
-    end # END @human_winmoves.each do |k,v|
-  end
-  
-  
   
   def defend_corners(board)
     p "defend_corners called"
@@ -334,8 +300,16 @@ class Player
     end
   end
   
+  def random_move(board)
+    p 'random_move called'
+    open_spaces_on_board = board.grid.select{ |k, v| v == " " }.keys
+    @move = open_spaces_on_board.sample
+    return @move
+  end
+
   
-  def block_human_win(board)
+  
+  def block_human_win(board, code_plugin)
 
   @block_keys_array = []
   p "block_human_win called"
@@ -353,10 +327,10 @@ class Player
         
         @block_keys_array.each do |key|          
           answer = @anskey[key].to_sym
-            
-          if board.grid[answer] != " " # spot taken
+                     
+          if board.grid[answer] != " " 
             p 'spot taken cannot block: '+answer.to_s
-            
+            code_plugin
           else
             p answer.to_s+" blocked"
             @move = answer  
@@ -366,52 +340,23 @@ class Player
       end
     end # END @human_winmoves.each do |k,v|
   end
-  
-  def attach_to_human(board)
-    p "attach_to_human called"
-    @board = board
-    
-    available_moves = board.grid.select{ |k, v| v == " " }.keys
-    
-    next_to_human = available_moves.find_all { |cell_location|
-      case cell_location
-      when :a1
-        board.grid[:a2] == 'X' or board.grid[:b1] == 'X'
-      when :a2
-        board.grid[:a1] == 'X' or board.grid[:a3] == 'X' 
-      when :a3
-        board.grid[:a2] == 'X' or board.grid[:b3] == 'X'
-      when :b1
-        board.grid[:a1] == 'X' or board.grid[:c1] == 'X'
-      when :b3
-        board.grid[:a3] == 'X' or board.grid[:c3] == 'X'
-      when :c1
-        board.grid[:b1] == 'X' or board.grid[:c2] == 'X' 
-      when :c2
-        board.grid[:c1] == 'X' or board.grid[:c3] == 'X'
-      when :c3
-        board.grid[:c2] == 'X' or board.grid[:b3] == 'X'
-      end
-    }
-    @move = next_to_human.sample
-    return @move
-  end
  
   def attempt_win(board)
+    # move = ""
     p "attempt_win called"
-    @board = board
-    @keys_with_o = board.grid.select{ |k, v| v == "O" }.keys
-    
     @answers_array = []
-    
-    @ai_winmoves.each do |k, v| 
-      ai_keys = v.select{ |k, v| v == "O"}.keys # grab all computer player's Os from the value hash
-      
-      intersection = ai_keys & @keys_with_o 
-     
-      if intersection.length >=2 # two intersections mean two O's are on the board
+    @board = board
+    @places_on_board_with_o = board.grid.select{ |k, v| v == "O" }.keys
         
-        @answers_array << k 
+    @ai_winmoves.each do |key, value|
+      
+      ai_winmoves_keys_with_o_detected = value.select{ |key, value| value == "O"}.keys
+      
+      intersection = ai_winmoves_keys_with_o_detected & @places_on_board_with_o
+      
+      if intersection.length >=2 # two O's are on the board
+        
+        @answers_array << key 
 
         @answers_array.each do |key|
 
@@ -419,57 +364,19 @@ class Player
         
           if board.grid[answer] == " " #if win move space is empty take it
             p answer.to_s+" win move"
-            @move = answer                          
+            @move = answer
+            return @move
           else
-            return nil
+            @move = nil
           end
         end
+      else
+        @move = nil
       end
     end # END @ai_winmoves.each do |k,v|
-    return @move 
+    p "move = "+@move.to_s
+    return @move  
   end
   
- 
-
-  #FIXME - violates do-one-thing
-  def block_human_win_and_random_move(board)
-
-  @block_keys_array = []
-  p "block_human_win called"
-  # TODO - if all block_array values not empty return nil
-    
-    @keys_with_x = board.grid.select{ |k, v| v == "X" }.keys  
-    
-    @human_winmoves.each do |k,v| 
-      human_winmoves_keys = v.select{ |k, v| v == "X"}.keys
-      
-      human_moves_to_block = human_winmoves_keys & @keys_with_x   
-      # p 'human_moves_to_block: '+human_moves_to_block.to_s
-        
-      if human_moves_to_block.length >= 2 #one block available       
-        @block_keys_array << k 
-        
-        @block_keys_array.each do |key|          
-          answer = @anskey[key].to_sym
-            
-          if board.grid[answer] != " " 
-            p 'spot taken cannot block: '+answer.to_s
-            random_move(board)
-          else
-            p answer.to_s+" blocked"
-            @move = answer  
-            return @move        
-          end           
-        end
-      end
-    end # END @human_winmoves.each do |k,v|
-  end
-
-  def random_move(board)
-    p 'random_move called'
-    open_spaces_on_board = board.grid.select{ |k, v| v == " " }.keys
-    @move = open_spaces_on_board.sample
-    return @move
-  end
   
 end

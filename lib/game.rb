@@ -4,19 +4,13 @@ require_relative 'board'
 # Just a Tic Tac Toe game class
 
 
-# TODO - Human moves first 
-#
-#
 class Game 
-  #initial values
-  #globals listed here
-  ##
+
   attr_reader :win_moves
   attr_reader :thegrid
   attr_reader :corners
   attr_reader :gamegrid
   
-  #create players
   def initialize(player_h, player_c, board)
     #bring into existence the board and the players
     @player_h = player_h
@@ -24,12 +18,11 @@ class Game
     @board = board
   end
 
-  ##
-  #display grid on console
+
   def drawgrid
     @board.printgrid
   end
-  def take_turn(turn_value) #TODO - refactor me
+  def take_turn(turn_value)
     turn = turn_value
     
     if turn.even?          
@@ -42,18 +35,18 @@ class Game
       is_a_computer_win(@board)
     end   
   end
-  ##
-  #start the game here
+
+
   def play    
     puts drawgrid
-    #make a move 
+ 
     turn = 0   
-    9.times do
+    10.times do
     
       take_turn(turn)
       
     turn += 1
-    end # 9.times ends
+    end
   end
   
   def is_a_human_win(board)

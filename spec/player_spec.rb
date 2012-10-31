@@ -1,6 +1,6 @@
 require 'game'
 require 'board'
-# require 'debug'
+
 
 describe 'Player class' do  
   before (:each) do
@@ -80,22 +80,30 @@ describe 'Player class' do
   
   describe 'attempt_win' do
     it 'should return a win move' do
-      # need to fake grid input here
       myboard = Board.new
       myboard.grid[:a1] = "O"
       myboard.grid[:b2] = "O"
       @player_computer.attempt_win(myboard).should  eq(:c3)
     end
   end
+  describe 'attempt_win_check_for_nil' do
+    it 'should return a win move' do
+      myboard = Board.new
+      myboard.grid[:a1] = "O"
+      myboard.grid[:b2] = "O"
+      myboard.grid[:c3] = "X"
+      @player_computer.attempt_win(myboard).should  eq(nil)
+    end
+  end
   
   describe 'block_human_win' do
     it 'returns a blocking move' do
-      # need to fake grid input here
+      code_plugin = ""
       blockboard = Board.new
       blockboard.grid[:a1] = "X"
       blockboard.grid[:b1] = "X"
       # blockboard.grid[:c1] = "X"
-      @player_computer.block_human_win(blockboard).should  eq(:c1)
+      @player_computer.block_human_win(blockboard,code_plugin).should  eq(:c1)
     end
   end
   describe 'defend_corners' do
@@ -104,13 +112,5 @@ describe 'Player class' do
       
       @player_computer.defend_corners(myboard).should be_a(Symbol)
     end  
-  end
-  describe 'attatch_to_human' do
-    it 'returns move next to a human move' do
-      mockboard = Board.new
-      mockboard.grid[:a1] = "X"
-
-      @player_computer.attach_to_human(mockboard).should be_a(Symbol)
-    end
   end
 end
