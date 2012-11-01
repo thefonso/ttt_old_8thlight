@@ -2,8 +2,8 @@ require 'game'
 
 describe 'Game class' do
   before (:each) do
-    @player_human = Player.new('X')
-    @player_computer = Player.new('O')
+    @player_human = Human.new('X')
+    @player_computer = Computer.new('O')
     @board = Board.new
     @game = Game.new(@player_human, @player_computer, @board)
   end

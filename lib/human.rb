@@ -3,7 +3,6 @@ require_relative 'player'
 class Human < Player
 
   def move(board)
-    # puts "human symbol...#{@player_symbol}"
 
     puts "human move..."
 
@@ -12,16 +11,15 @@ class Human < Player
     
     if board.grid.has_key?(human_spot_to_take)
       if board.grid[human_spot_to_take] == " " 
-        move = human_spot_to_take.to_sym
-        # return move 
+        move = human_spot_to_take.to_sym 
         board.grid[move] = @player_symbol         
       else
         puts "spot taken...try again"
-        move_human(board)
+        move(board)
       end
     else
       puts "invalid move...try again"
-      move_human(board)
+      move(board)
     end 
   end          
 end

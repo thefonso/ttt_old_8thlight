@@ -1,3 +1,5 @@
+require_relative 'board'
+
 class Player
 
   attr_reader :thegrid

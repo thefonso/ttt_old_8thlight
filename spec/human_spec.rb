@@ -57,5 +57,17 @@ describe 'Human class' do
     }
   end
 
+  describe 'move_human' do
+    before (:each) do      
+      @player_human.should_receive(:puts).with("human move...")
+      @player_human.stub(:gets).and_return("a1")
+    end
+    it 'receives cli input and prints text to screen' do
+      @player_human.move(@board)
+    end
+    it 'returns a move value' do
+      @player_human.move(@board).should eq("X")
+    end     
+  end
 
 end

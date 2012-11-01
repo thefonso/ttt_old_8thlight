@@ -1,7 +1,8 @@
 require_relative 'player'
+require_relative 'computer'
+require_relative 'human'
+require_relative 'game'
 require_relative 'board'
-#
-# Just a Tic Tac Toe game class
 
 
 class Game 
@@ -12,7 +13,6 @@ class Game
   attr_reader :gamegrid
   
   def initialize(human, computer, board)
-    #bring into existence the board and the players
     @player_human = human
     @player_computer = computer
     @board = board
@@ -49,7 +49,9 @@ class Game
     turn += 1
     end
   end
+  
   # TODO - better WIN detection...add draw
+  # TODO - refactor away comments
   def is_a_human_win(board)
     #all moves as human (X)
     win_moves = {

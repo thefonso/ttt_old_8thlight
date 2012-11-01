@@ -4,12 +4,10 @@ class Computer < Player
 
   def move(board)
     
-    board.grid[@move] = @player_symbol
-    
     puts "computer move..." 
     
     taken_moves = board.grid.select{ |k, v| v != " " }.keys.length
-    # p taken_moves
+    p "taken_moves: "+taken_moves.to_s
     
     if taken_moves == 1 
       @move = ai_first_move(board)
@@ -22,6 +20,8 @@ class Computer < Player
     else
       @move = ai_fifth_move(board)
     end
+    board.grid[@move] = @player_symbol
+    p "symbol "+@player_symbol.to_s
   end
 
 
@@ -61,6 +61,7 @@ class Computer < Player
   end
   
   def ai_fifth_move(board)
+    p "5th move called"
     ai_fourth_move(board)
   end
   
