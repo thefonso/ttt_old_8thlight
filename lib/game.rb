@@ -11,10 +11,10 @@ class Game
   attr_reader :corners
   attr_reader :gamegrid
   
-  def initialize(player_h, player_c, board)
+  def initialize(human, computer, board)
     #bring into existence the board and the players
-    @player_h = player_h
-    @player_c = player_c
+    @player_human = human
+    @player_computer = computer
     @board = board
   end
 
@@ -22,15 +22,16 @@ class Game
   def drawgrid
     @board.printgrid
   end
+  
   def take_turn(turn_value)
     turn = turn_value
     
     if turn.even?          
-      @player_h.move_human(@board)
+      @player_human.move(@board)
         
       is_a_human_win(@board)
     else
-      @player_c.move_computer(@board)
+      @player_computer.move(@board)
       
       is_a_computer_win(@board)
     end   
@@ -48,7 +49,7 @@ class Game
     turn += 1
     end
   end
-  
+  # TODO - better WIN detection...add draw
   def is_a_human_win(board)
     #all moves as human (X)
     win_moves = {

@@ -1,11 +1,13 @@
 require 'game'
 require 'board'
+require 'computer'
+require 'player'
+require 'human'
 
-
-describe 'Player class' do  
+describe 'Human class' do  
   before (:each) do
-    @player_human = Player.new('X')
-    @player_computer = Player.new('O')
+    @player_human = Human.new('X')
+    @player_computer = Computer.new('O')
     @board = Board.new
     @game = Game.new(@player_human, @player_computer, @board)
     @ai_winmoves = {
@@ -55,26 +57,5 @@ describe 'Player class' do
     }
   end
 
-  describe 'human.move' do
-    before (:each) do      
-      @player_human.move.should_receive(:puts).with("human move...")
-      @player_human.move.stub(:gets).and_return("a1")
-    end
-    xit 'receives cli input and prints text to screen' do
-      @player_human.move(@board)
-    end
-    xit 'returns a move value' do
-      @player_human.move(@board).should eq("X")
-    end     
-  end
 
-  describe 'computer.move' do
-    xit 'should print - ...computer move... - to screen' do
-      @player_computer.move.should_receive(:puts).with("computer move...")
-      @player_computer.move(@board)
-    end
-    xit 'returns expected first move b2' do
-      @player_computer.move(@board).should eq("O")
-    end
-  end
 end

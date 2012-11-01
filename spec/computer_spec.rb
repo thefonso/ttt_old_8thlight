@@ -1,11 +1,13 @@
 require 'game'
 require 'board'
+require 'computer'
+require 'player'
+require 'human'
 
-
-describe 'Player class' do  
+describe 'Computer class' do  
   before (:each) do
-    @player_human = Player.new('X')
-    @player_computer = Player.new('O')
+    @player_human = Human.new('X')
+    @player_computer = Computer.new('O')
     @board = Board.new
     @game = Game.new(@player_human, @player_computer, @board)
     @ai_winmoves = {
@@ -55,26 +57,49 @@ describe 'Player class' do
     }
   end
 
-  describe 'human.move' do
-    before (:each) do      
-      @player_human.move.should_receive(:puts).with("human move...")
-      @player_human.move.stub(:gets).and_return("a1")
-    end
-    xit 'receives cli input and prints text to screen' do
-      @player_human.move(@board)
-    end
-    xit 'returns a move value' do
-      @player_human.move(@board).should eq("X")
-    end     
-  end
-
-  describe 'computer.move' do
-    xit 'should print - ...computer move... - to screen' do
-      @player_computer.move.should_receive(:puts).with("computer move...")
+  describe 'move_computer' do
+    it 'should print - ...computer move... - to screen' do
+      @player_computer.should_receive(:puts).with("computer move...")
       @player_computer.move(@board)
     end
-    xit 'returns expected first move b2' do
-      @player_computer.move(@board).should eq("O")
+    it 'returns expected first move b2' do
+      @player_computer.move(@board).should eq(:b2)
     end
+  end
+  
+  describe 'attempt_win' do
+    it 'should return a win move' do
+      myboard = Board.new
+      myboard.grid[:a1] = "O"
+      myboard.grid[:b2] = "O"
+      @player_computer.attempt_win(myboard).should  eq(:c3)
+    end
+  end
+  describe 'attempt_win_check_for_nil' do
+    it 'should return a win move' do
+      myboard = Board.new
+      myboard.grid[:a1] = "O"
+      myboard.grid[:b2] = "O"
+      myboard.grid[:c3] = "X"
+      @player_computer.attempt_win(myboard).should  eq(nil)
+    end
+  end
+  
+  describe 'block_human_win' do
+    it 'returns a blocking move' do
+      code_plugin = ""
+      blockboard = Board.new
+      blockboard.grid[:a1] = "X"
+      blockboard.grid[:b1] = "X"
+      # blockboard.grid[:c1] = "X"
+      @player_computer.block_human_win(blockboard,code_plugin).should  eq(:c1)
+    end
+  end
+  describe 'defend_corners' do
+    it 'returns corner move' do
+      myboard = Board.new
+      
+      @player_computer.defend_corners(myboard).should be_a(Symbol)
+    end  
   end
 end
