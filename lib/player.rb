@@ -2,9 +2,6 @@ require_relative 'board'
 
 class Player
 
-  attr_reader :thegrid
-  attr_reader :boardpiece 
-
   def initialize(player_letter)
     
     @player_symbol = player_letter

@@ -7,8 +7,7 @@ class Computer < Player
     puts "computer move..." 
     
     taken_moves = board.grid.select{ |k, v| v != " " }.keys.length
-    p "taken_moves: "+taken_moves.to_s
-    
+  
     if taken_moves == 1 
       @move = ai_first_move(board)
     elsif board.grid[:b2] != " " and taken_moves == 3
@@ -20,8 +19,7 @@ class Computer < Player
     else
       @move = ai_fifth_move(board)
     end
-    board.grid[@move] = @player_symbol
-    p "symbol "+@player_symbol.to_s
+    board.grid[@move] = @player_symbol    
   end
 
 
@@ -202,7 +200,7 @@ class Computer < Player
           end           
         end
       end
-    end # END @human_winmoves.each do |k,v|
+    end
   end
  
   def attempt_win(board)
@@ -217,7 +215,7 @@ class Computer < Player
       
       intersection = ai_winmoves_keys_with_o_detected & @places_on_board_with_o
       
-      if intersection.length >=2 # two O's are on the board
+      if intersection.length >=2 # two O's on board
         
         @answers_array << key 
 
@@ -225,7 +223,7 @@ class Computer < Player
 
           answer = @anskey[key].to_sym
         
-          if board.grid[answer] == " " #if win move space is empty take it
+          if board.grid[answer] == " "
             
             @move = answer
             return @move
@@ -236,7 +234,7 @@ class Computer < Player
       else
         @move = nil
       end
-    end # END @ai_winmoves.each do |k,v|
+    end
     
     return @move  
   end

@@ -62,8 +62,8 @@ describe 'Computer class' do
       @player_computer.should_receive(:puts).with("computer move...")
       @player_computer.move(@board)
     end
-    it 'returns expected first move b2' do
-      @player_computer.move(@board).should eq(:b2)
+    it 'returns expected first move O' do
+      @player_computer.move(@board).should eq("O")
     end
   end
   
