@@ -1,9 +1,11 @@
-require_relative 'player'
+require_relative 'computer'
+require_relative 'human'
 require_relative 'game'
+require_relative 'board'
 
 board = Board.new
-player_h = Player.new("X")
-player_c = Player.new("O")
+human = Human.new('X')
+computer = Computer.new('O')
 
-game = Game.new(player_h, player_c, board)
+game = Game.new(human, computer, board)
 game.play

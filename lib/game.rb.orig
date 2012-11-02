@@ -2,6 +2,26 @@ require_relative 'windetection'
 require_relative 'computer'
 require_relative 'human'
 
+<<<<<<< HEAD
+class Game 
+
+  attr_reader :win_moves
+  attr_reader :thegrid
+  attr_reader :corners
+  attr_reader :gamegrid
+  
+  #create players
+  def initialize(player_h, player_c, board)
+    @player_h = player_h
+    @player_c = player_c
+    @board = board
+  end
+
+  def drawgrid
+    @board.printgrid
+  end
+
+=======
 
 class Game 
   include WinDetection
@@ -17,6 +37,7 @@ class Game
     @board.printgrid
   end
   
+>>>>>>> polymorphic
   def take_turn(turn_value)
     turn = turn_value
     

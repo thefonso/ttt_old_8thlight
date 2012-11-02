@@ -1,8 +1,10 @@
 require 'game'
 require 'board'
+require 'computer'
+require 'player'
+require 'human'
 
-
-describe 'Player class' do  
+describe 'Human class' do  
   before (:each) do
     @player_human = Human.new('X')
     @player_computer = Computer.new('O')
@@ -54,4 +56,18 @@ describe 'Player class' do
         :wm40 => {:a1=>" ", :a2=>" ", :a3=>" ", :b1=>" ", :b2=>" ", :b3=>"O", :c1=>" ", :c2=>"O", :c3=>" "}
     }
   end
+
+  describe 'move_human' do
+    before (:each) do      
+      @player_human.should_receive(:puts).with("human move...")
+      @player_human.stub(:gets).and_return("a1")
+    end
+    it 'receives cli input and prints text to screen' do
+      @player_human.move(@board)
+    end
+    it 'returns a move value' do
+      @player_human.move(@board).should eq("X")
+    end     
+  end
+
 end
