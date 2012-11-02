@@ -1,6 +1,5 @@
 require_relative 'windetection'
-require_relative 'computer'
-require_relative 'human'
+require_relative 'player'
 
 
 class Game 

@@ -1,5 +1,4 @@
-module WinDetection
-  
+module WinDetection  
 
   def is_a_human_win(board)
 
