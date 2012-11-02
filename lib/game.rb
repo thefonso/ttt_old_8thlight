@@ -1,16 +1,8 @@
-require_relative 'player'
 require_relative 'computer'
 require_relative 'human'
-require_relative 'game'
-require_relative 'board'
 
 
 class Game 
-
-  attr_reader :win_moves
-  attr_reader :thegrid
-  attr_reader :corners
-  attr_reader :gamegrid
   
   def initialize(human, computer, board)
     @player_human = human
@@ -51,9 +43,8 @@ class Game
   end
   
   # TODO - better WIN detection...add draw
-  # TODO - refactor away comments
   def is_a_human_win(board)
-    #all moves as human (X)
+
     win_moves = {
       :wm01 => {:a1=>"X", :a2=>" ", :a3=>" ", :b1=>" ", :b2=>"X", :b3=>" ", :c1=>" ", :c2=>" ", :c3=>"X"},
       :wm02 => {:a1=>" ", :a2=>"X", :a3=>" ", :b1=>" ", :b2=>"X", :b3=>" ", :c1=>" ", :c2=>"X", :c3=>" "},
@@ -64,14 +55,13 @@ class Game
       :wm07 => {:a1=>"X", :a2=>" ", :a3=>" ", :b1=>"X", :b2=>" ", :b3=>" ", :c1=>"X", :c2=>" ", :c3=>" "},
       :wm08 => {:a1=>" ", :a2=>" ", :a3=>"X", :b1=>" ", :b2=>" ", :b3=>"X", :c1=>" ", :c2=>" ", :c3=>"X"}
     }
-    #select all values where value is X for thegrid and copy those into keys_with_x
+
     keys_with_x = board.grid.select{ |k, v| v == "X" }.keys
 
     matching_moves = win_moves.select{ |k, v| v.select{ |k, v| v == "X" }.keys == keys_with_x }
 
-    # if matching_moves.keys contains anything with wm print results
-    str = matching_moves.keys.to_s
-    if str =~ /wm/ #match found then...
+    string_contains = matching_moves.keys.to_s
+    if string_contains =~ /wm/ #match found then...
       puts "WIN DETECTED - Human"
       puts drawgrid
       exit
@@ -81,7 +71,7 @@ class Game
   end
   
   def is_a_computer_win(board)
-    # all possible third moves as 'O' (computer)
+
     ai_winmoves = {
       :wm01 => {:a1=>"O", :a2=>" ", :a3=>" ", :b1=>" ", :b2=>"O", :b3=>" ", :c1=>" ", :c2=>" ", :c3=>"O"},
       :wm02 => {:a1=>" ", :a2=>"O", :a3=>" ", :b1=>" ", :b2=>"O", :b3=>" ", :c1=>" ", :c2=>"O", :c3=>" "},
@@ -92,14 +82,13 @@ class Game
       :wm07 => {:a1=>"O", :a2=>" ", :a3=>" ", :b1=>"O", :b2=>" ", :b3=>" ", :c1=>"O", :c2=>" ", :c3=>" "},
       :wm08 => {:a1=>" ", :a2=>" ", :a3=>"O", :b1=>" ", :b2=>" ", :b3=>"O", :c1=>" ", :c2=>" ", :c3=>"O"}
     }
-    # select all values where value is X for thegrid and copy those into keys_with_x
+
     keys_with_o = board.grid.select{ |k, v| v == "O" }.keys
     
     matching_moves = ai_winmoves.select{ |k, v| v.select{ |k, v| v == "O" }.keys == keys_with_o }
     
-    # if matching_moves.keys contains anything with wm print results
-    test_str = matching_moves.keys.to_s
-    if test_str =~ /wm/ #match found then...
+    test_string_contains = matching_moves.keys.to_s
+    if test_string_contains =~ /wm/ #match found then...
       puts "WIN DETECTED - computer "+test_str
       puts drawgrid
       exit

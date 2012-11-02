@@ -24,7 +24,6 @@ class Computer < Player
 
 
   def ai_first_move(board)
-    p "1st move called"
     if board.grid[:b2] == "X"
       ai_defends_corners(board)
     elsif board.grid[:b2] == " "
@@ -32,8 +31,7 @@ class Computer < Player
     end
   end
   
-  def ai_second_move(board)
-    p "2nd move called"    
+  def ai_second_move(board) 
     if board.grid[:b2] == "X"
       block_human_win_defend_corners(board)
     elsif board.grid[:b2] == "O"
@@ -43,13 +41,11 @@ class Computer < Player
   end
   
   def ai_third_move(board)
-    p "3rd move called" 
       block_human_win_only(board) unless !attempt_win(board).nil?
     return @move
   end
   
   def ai_fourth_move(board)
-    p "4th move called"
     if board.grid[:b2] == "O"
       block_human_win_and_random_move(board) unless !attempt_win(board).nil? 
     elsif board.grid[:b2] == "X"
@@ -59,7 +55,6 @@ class Computer < Player
   end
   
   def ai_fifth_move(board)
-    p "5th move called"
     ai_fourth_move(board)
   end
   
@@ -87,12 +82,10 @@ class Computer < Player
   end
   
   def ai_defends_corners(board)
-    p "ai_defends_corners called"
     @move = defend_corners(board)
   end
   
   def ai_takes_center(board)
-    p "ai_takes_center called"
       ai_spot = "b2"
       @move = ai_spot.to_sym
   end
@@ -100,7 +93,6 @@ class Computer < Player
     
   
   def defend_corners(board)
-    p "defend_corners called"
     answers_array = []
   
     corners = {
@@ -121,18 +113,16 @@ class Computer < Player
           
         @random_corner = intersection.sample 
         @move = @random_corner
-        puts @move.to_s+" corner move"
-        puts intersection.to_s+" intersects"
+
         return @move
       else
-        p "no intersects"
+
         return nil
       end
     end
   end
   
   def defend_cross(board)
-    p "defend_cross called"
     answers_array = []
     cross = {
         :a2 => " ", :b1 => " ",
@@ -152,18 +142,15 @@ class Computer < Player
           
         @random_cross = intersection.sample 
         @move = @random_cross
-        puts @move.to_s+" cross move"
-        puts intersection.to_s+" cross intersects"
+
         return @move
       else
-        p "no cross intersects"
         return nil
       end
     end
   end
   
   def random_move(board)
-    p 'random_move called'
     open_spaces_on_board = board.grid.select{ |k, v| v == " " }.keys
     @move = open_spaces_on_board.sample
     return @move
@@ -174,7 +161,6 @@ class Computer < Player
   def block_human_win(board, code_plugin)
 
   @block_keys_array = []
-  p "block_human_win called"
     
     @keys_with_x = board.grid.select{ |k, v| v == "X" }.keys  
     
@@ -191,10 +177,10 @@ class Computer < Player
           answer = @anskey[key].to_sym
                      
           if board.grid[answer] != " " 
-            p 'spot taken cannot block: '+answer.to_s
+            
             code_plugin
           else
-            p answer.to_s+" blocked"
+            
             @move = answer  
             return @move        
           end           
@@ -204,7 +190,7 @@ class Computer < Player
   end
  
   def attempt_win(board)
-    p "attempt_win called"
+
     @answers_array = []
     @board = board
     @places_on_board_with_o = board.grid.select{ |k, v| v == "O" }.keys
