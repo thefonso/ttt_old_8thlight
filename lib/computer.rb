@@ -1,7 +1,8 @@
 require_relative 'player'
 
 class Computer < Player
-
+  
+  
   def move(board)
     
     puts "computer move..." 
@@ -9,7 +10,7 @@ class Computer < Player
     taken_moves = board.grid.select{ |k, v| v != " " }.keys.length
   
     if taken_moves == 1 
-      @move = ai_first_move(board)
+      @move = ai_first_move(board)      
     elsif board.grid[:b2] != " " and taken_moves == 3
       @move = ai_second_move(board)
     elsif board.grid[:b2] != " " and taken_moves == 5
