@@ -1,5 +1,6 @@
 require_relative 'board'
-
+# TODO give choice of who can make first move
+# TODO implement minimax algroithum 
 
 class Human
   def move(board)

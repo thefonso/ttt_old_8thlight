@@ -15,7 +15,7 @@ class Game
   def drawgrid
     @board.printgrid
   end
-  
+  # TODO proper use of OOP needed here
   def take_turn(turn_value)
     turn = turn_value
     
@@ -26,7 +26,7 @@ class Game
     else
       @player_computer.move(@board)
       puts drawgrid 
-      is_a_computer_win(@board)         
+      is_a_computer_win(@board)    
     end   
   end
 
