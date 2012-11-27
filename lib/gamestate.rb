@@ -2,7 +2,7 @@
     # win  = 1
     # draw = 0
     # lose = -1  
-    # return 1 if current human wins, return -1 if computer wins
+    # return 1 if human wins, return -1 if computer wins
 
     # TODO win loose draw goes here
 
@@ -35,8 +35,7 @@
           string_contains = k.to_s
           if string_contains =~ /wm/ 
             puts "Human Wins"
-            # return 1
-            # exit
+            return 1
           else
 
           end
@@ -72,12 +71,12 @@
           test_string_contains = k.to_s
           if test_string_contains =~ /wm/ 
             puts "Computer Wins"
-            # return -1
-            # exit
+            return -1
           else
 
           end
         end
       end
     end
+    
   end

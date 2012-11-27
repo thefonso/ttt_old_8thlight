@@ -14,7 +14,7 @@ describe 'Game class' do
     end
   end
   describe 'take_turn method' do
-    it 'draws the game grid' do
+    xit 'draws the game grid' do
       test_value = 1
       @game.should_receive(:drawgrid).at_least(:once)
       @game.take_turn(test_value)

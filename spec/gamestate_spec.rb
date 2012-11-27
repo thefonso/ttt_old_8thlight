@@ -17,7 +17,7 @@
         myboard.grid[:a1] = "X"
         myboard.grid[:b2] = "X"
         myboard.grid[:c3] = "X"
-        human_win_test.should_receive(:puts).with("Human Wins")
+        human_win_test.should_receive(:puts).with("Human Wins").and_return('1')
         human_win_test.is_a_human_win(myboard)
       end
     end
@@ -31,7 +31,8 @@
         myboard.grid[:a1] = "O"
         myboard.grid[:b2] = "O"
         myboard.grid[:c3] = "O"
-        computer_win_test.should_receive(:puts).with("Computer Wins")
+
+        computer_win_test.should_receive(:puts).with("Computer Wins").and_return('-1')
         computer_win_test.is_a_computer_win(myboard)
       end
     end

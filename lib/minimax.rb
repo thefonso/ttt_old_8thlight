@@ -1,10 +1,14 @@
 
-    module Minimax
-      def analyze(position, player)
+    class Minimax
+      def max(board)
 
       end
-    private
-      def search( position, player, depth=1 )
+    
+      def min(board)
 
+      end
+      
+      def score()
+      
       end
     end
