@@ -1,6 +1,13 @@
-module WinDetection  
+  module GameState
+    # win  = 1
+    # draw = 0
+    # lose = -1  
+    # return 1 if current human wins, return -1 if computer wins
 
-  def is_a_human_win(board)
+    # TODO win loose draw goes here
+
+  
+    def is_a_human_win(board)
 
     win_moves = {
       :wm01 => {:a1=>"X", :a2=>" ", :a3=>" ", :b1=>" ", :b2=>"X", :b3=>" ", :c1=>" ", :c2=>" ", :c3=>"X"},
@@ -16,29 +23,28 @@ module WinDetection
     x_on_the_gameboard = board.grid.select{ |k, v| v == "X" }.keys
 
       
-    win_moves.each do |k,v|
-      win_moves_keys = v.select{ |k, v| v == "X"}.keys
+      win_moves.each do |k,v|
+        win_moves_keys = v.select{ |k, v| v == "X"}.keys
         
-      matching_moves = win_moves_keys & x_on_the_gameboard
+        matching_moves = win_moves_keys & x_on_the_gameboard
         
-      if matching_moves.length >= 3 
+        if matching_moves.length >= 3 
         
-        p 'key: '+k.to_s
+          p 'key: '+k.to_s
           
-        string_contains = k.to_s
-        if string_contains =~ /wm/ 
-          puts "WIN DETECTED - Human"
+          string_contains = k.to_s
+          if string_contains =~ /wm/ 
+            puts "Human Wins"
+            # return 1
+            # exit
+          else
 
-          exit
-        else
-
+          end
         end
       end
     end
-  end
-    
-  
-  def is_a_computer_win(board)
+      
+    def is_a_computer_win(board)
 
     ai_winmoves = {
       :wm01 => {:a1=>"O", :a2=>" ", :a3=>" ", :b1=>" ", :b2=>"O", :b3=>" ", :c1=>" ", :c2=>" ", :c3=>"O"},
@@ -54,24 +60,24 @@ module WinDetection
     o_on_the_gameboard = board.grid.select{ |k, v| v == "O" }.keys
     
     
-    ai_winmoves.each do |k,v|
-      ai_winmoves_keys = v.select{ |k, v| v == "O"}.keys
+      ai_winmoves.each do |k,v|
+        ai_winmoves_keys = v.select{ |k, v| v == "O"}.keys
         
-      matching_moves = ai_winmoves_keys & o_on_the_gameboard
+        matching_moves = ai_winmoves_keys & o_on_the_gameboard
         
-      if matching_moves.length >= 3 
+        if matching_moves.length >= 3 
         
-        p 'key: '+k.to_s
+          p 'key: '+k.to_s
           
-        test_string_contains = k.to_s
-        if test_string_contains =~ /wm/ 
-          puts "WIN DETECTED - computer "
+          test_string_contains = k.to_s
+          if test_string_contains =~ /wm/ 
+            puts "Computer Wins"
+            # return -1
+            # exit
+          else
 
-          exit
-        else
-
+          end
         end
       end
     end
-  end 
-end
+  end
