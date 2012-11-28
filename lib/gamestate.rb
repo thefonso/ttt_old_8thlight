@@ -35,7 +35,7 @@
           string_contains = k.to_s
           if string_contains =~ /wm/ 
             puts "Human Wins"
-            return 1
+            return -1
           else
 
           end
@@ -71,7 +71,7 @@
           test_string_contains = k.to_s
           if test_string_contains =~ /wm/ 
             puts "Computer Wins"
-            return -1
+            return 1
           else
 
           end
