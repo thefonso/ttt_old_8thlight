@@ -1,19 +1,14 @@
 require_relative 'library'
 require_relative 'player'
 
-
-
-
 class Game 
-  include Library #TODO namespace these methods
-  
+  include Library #TODO namespace these methods  
   
   def initialize(human, computer, board)
     @player_human = human
     @player_computer = computer
     @board = board
   end
-
 
   def drawgrid
     @board.printgrid
@@ -29,7 +24,6 @@ class Game
     end
   end
 
-
   def play
     puts drawgrid
  
@@ -42,5 +36,4 @@ class Game
     puts drawgrid
     end
   end
-  
 end

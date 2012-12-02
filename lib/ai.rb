@@ -21,41 +21,5 @@ module Algorithm
       end
       board.grid[@move] = @player_symbol 
     end
-
-    def ai_first_move(board)
-      if board.grid[:b2] == "X"
-        ai_defends_corners(board)
-      elsif board.grid[:b2] == " "
-        ai_takes_center(board)
-      end
-    end # Intermediate Game State
-
-    def ai_second_move(board) 
-      if board.grid[:b2] == "X"
-        block_human_win_defend_corners(board)
-      elsif board.grid[:b2] == "O"
-        block_human_win_defend_cross(board)
-      end
-      return @move
-    end # Intermediate Game State 
-
-    def ai_third_move(board)
-      block_human_win_only(board) unless !attempt_win(board).nil?
-      return @move
-    end # Intermediate Game State 
-
-    def ai_fourth_move(board)
-      if board.grid[:b2] == "O"
-        block_human_win_and_random_move(board) unless !attempt_win(board).nil? 
-      elsif board.grid[:b2] == "X"
-        block_human_win_and_random_move(board)     
-      end
-      return @move
-    end # Intermediate Game State
-
-    def ai_fifth_move(board)
-      ai_fourth_move(board)
-    end # Final Game State
-
   end
 end

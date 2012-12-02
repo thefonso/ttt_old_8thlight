@@ -12,36 +12,56 @@ module Algorithm
         return -1
       end
     end
+
+    def best_answers(board)
+      best_answer = 0
+      scores = {}
+      scores = find_max_answer(board).merge(find_min_answer(board))
+      p scores
+      scores.each do |k,v|
+        if v == 1000
+          best_answer = k; break
+        elsif v == -1000
+          best_answer = k; break
+        end
+      end
+      p 'BEST_ANSWER'
+      p best_answer = scores.min.first
+      return best_answer
+    end
+
     def find_max_answer(board)
-      # find_max receives board...looks for computer win match...assigns +1000 to it
-      # note: find top win move(1000) then top block move(500)
-      # note: whaat if you assign 500 to results of defense moves in library
       ai_win_move_array = potential_computer_win_moves(board)
-      p 'AI_WIN_MOVE_array'+ai_win_move_array.to_s
-
+      #p 'AI_WIN_MOVE_array'+ai_win_move_array.to_s
+      
       empty_spaces_array = board.grid.select{ |k, v| v == " " }.keys
-      p 'EMPTY_SPACES_array'+empty_spaces_array.to_s
-
+      # p 'EMPTY_SPACES_array'+empty_spaces_array.to_s
+      
       matches = ai_win_move_array & empty_spaces_array
-
+      
       scoreboard = {}
       matches.each do |match|
         scoreboard[match] = 1000
       end
-
-      p scoreboard
+      
+     # p scoreboard
       scoreboard
     end
     def find_min_answer(board)
       human_winmove_array = potential_human_win_moves(board)
-      p 'HUMAN_MOVES '+human_winmove_array.to_s
+     # p 'HUMAN_MOVES '+human_winmove_array.to_s
+
       empty_spaces_array = board.grid.select{ |k, v| v == " " }.keys
-      p 'EMPTY SPACES '+empty_spaces_array.to_s
-      empty_spaces_array.each do |k,v|
-          match = human_winmove_array & empty_spaces_array
-          p 'MATCH ' +match.to_s
-          return match # TODO add -1000 as index
+      #p 'EMPTY SPACES '+empty_spaces_array.to_s
+
+      matches = human_winmove_array & empty_spaces_array
+
+      scoreboard = {}
+      matches.each do |match|
+        scoreboard[match] = -1000
       end
+      #p scoreboard
+      scoreboard
     end
     def potential_computer_win_moves(board)
       ai_winmoves = {
