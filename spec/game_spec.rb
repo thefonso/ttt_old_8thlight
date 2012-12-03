@@ -1,5 +1,6 @@
 require 'game'
 
+
 describe 'Game class' do
   before (:each) do
     @player_human = Player.get_player('X')
