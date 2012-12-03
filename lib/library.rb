@@ -188,7 +188,7 @@ module Library
 
     @block_keys_array = []
 
-    @keys_with_x = board.grid.select{ |k, v| v == "X" }.key
+    @keys_with_x = board.grid.select{ |k, v| v == "X" }.keys
 
     @human_winmoves.each do |k,v| 
       human_winmoves_keys = v.select{ |k, v| v == "X"}.keys

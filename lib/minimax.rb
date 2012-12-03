@@ -31,7 +31,7 @@ module Algorithm
 
     def max_move(board)
       ai_winmove = attempt_win(board)
-            
+
       scoreboard = {}
       scoreboard[ai_winmove] = 1000
       scoreboard
