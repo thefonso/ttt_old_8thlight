@@ -39,7 +39,7 @@ module Algorithm
 
     def min_move(board)
       code_plugin = ""
-      human_winmove = block_human_win(board)
+      human_winmove = block_human_win(board,code_plugin)
 
       scoreboard = {}
       scoreboard[human_winmove] = -1000
