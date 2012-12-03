@@ -1,12 +1,9 @@
+#require_relative 'ai'
 
 module Algorithm
   class Minimax # I return the best_move (win or block)
     include Library # TODO namespace these methods
 
-    def minmax(ply, board)
-      return max_move(board)
-    end
-    
     def score(board)  # scores move as win or lose
       if is_a_computer_win(board) == 1
         return 1
@@ -33,19 +30,19 @@ module Algorithm
     end
 
     def max_move(board)
-      best_answer = attempt_win(board)
-
+      ai_winmove = attempt_win(board)
+            
       scoreboard = {}
-      scoreboard[best_answer] = 1000
+      scoreboard[ai_winmove] = 1000
       scoreboard
     end
 
     def min_move(board)
-      plugin = ""
-      best_move = block_human_win(board,plugin)
+      code_plugin = ""
+      human_winmove = block_human_win(board)
 
       scoreboard = {}
-      scoreboard[best_move] = -1000
+      scoreboard[human_winmove] = -1000
       scoreboard
     end
 

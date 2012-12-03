@@ -6,7 +6,7 @@ describe Algorithm::Minimax do
 
   describe 'best_answers' do
     it 'should return best answer' do
-       board = Board.new
+      board = Board.new
       minimax = described_class.new
       board.grid[:a1] = "X"
       board.grid[:a2] = "X"
@@ -36,7 +36,7 @@ describe Algorithm::Minimax do
       minimax.max_move(board).is_a?(Symbol)
     end
   end
-   describe 'min_move' do
+  describe 'min_move' do
     it 'should hold array of all moves'do
       board = Board.new
       minimax = described_class.new
@@ -52,26 +52,5 @@ describe Algorithm::Minimax do
       minimax.min_move(board).is_a?(Symbol)
     end
   end
-  describe 'score' do
-    it 'should score a board with a computer winning move' do
-      board = Board.new
-      minimax = described_class.new
-      board.grid[:a1] = "O"
-      board.grid[:b2] = "O"
-      board.grid[:c3] = "O"
-      minimax.score(board).should == 1
-      minimax.score(board)
-    end
-    
-    it 'should score a board with a human winning move' do
-      board = Board.new
-      minimax = described_class.new
-      board.grid[:a1] = "X"
-      board.grid[:b2] = "X"
-      board.grid[:c3] = "X"
-      minimax.score(board).should == -1
-      minimax.score(board)
-    end
-    
-  end
+ 
 end
