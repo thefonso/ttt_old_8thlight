@@ -3,24 +3,26 @@
 module Algorithm
   class Minimax # I return the best_move (win or block)
     include Library # TODO namespace these methods
-    
+
     def minmax(board)
-      return max_move(board)
+      ply = board.grid.select{ |k, v| v != " " }.keys.length
+
+      return max_move(board, ply)
     end
 
-    def max_move(board)
+    def max_move(board, ply)
       ai_winmove = attempt_win(board)
-      #what ply here?      
+      #what ply here?
       scoreboard = {}
       scoreboard[ai_winmove] = 1000
 
       #compare values find greatest value
       scores = {}
-      scores = scoreboard.merge(min_move(board))
-      
+      scores = scoreboard.merge(min_move(board, ply))
+
     end
 
-    def min_move(board)
+    def min_move(board, ply)
       #what ply here?
       code_plugin = ""
       human_winmove = block_human_win(board,code_plugin)
