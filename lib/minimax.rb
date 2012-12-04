@@ -1,6 +1,6 @@
 
 module Algorithm
-  class Minimax # I return the best_move (win or block)
+  module Minimax # I return the best_move (win or block)
     include Library # TODO namespace these methods
 
     def minimax(board)
@@ -12,7 +12,10 @@ module Algorithm
       #
       # if not won then return max_move
 
-      return max_move(board, turn_number).max_by{|k,v|v}[0] # returns bestmove in hash
+      move = max_move(board, turn_number).max_by{|k,v|v}[0] # returns bestmove in hash
+      # return move
+      p "minimax result "+move.inspect
+      board.grid[move] = @player_symbol 
     end
 
     def max_move(board, turn_number)

@@ -1,5 +1,6 @@
 require_relative 'board'
 require_relative 'ai'
+require_relative 'minimax'
 # TODO give choice of who can make first move
 
 

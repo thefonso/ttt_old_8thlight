@@ -55,7 +55,7 @@ describe 'Player class' do
     }
   end
 
-  describe 'move_human' do
+  describe 'Human.move' do
     before (:each) do      
       @player_human.should_receive(:puts).with("human move...")
       @player_human.stub(:gets).and_return("a1")
@@ -68,7 +68,7 @@ describe 'Player class' do
     end     
   end
 
-  describe 'move_computer' do
+  describe 'Computer.move' do
     it 'should print - ...computer move... - to screen' do
       @player_computer.should_receive(:puts).with("computer move...")
       @player_computer.move(@board)
