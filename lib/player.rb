@@ -29,13 +29,13 @@ end
 
 
 class Computer
-  include Algorithm::Regular
+  include Algorithm::Minimax
 
   def move(board)
     @player_symbol = 'O'
-    puts "computer move..." 
-    
-    ai_moves(board)
+    puts "computer move..."
+    ai_moves(board) # old ai
+   # minimax(board) # new ai
     
   end
 
