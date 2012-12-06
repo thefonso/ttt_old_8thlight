@@ -32,7 +32,7 @@ end
       end
     end
     describe 'min_move method' do
-      xit 'should return array of minimum moves'do
+      it 'should return array of minimum moves'do
         @minimax.min_move(@board, @ply).is_a?(Symbol)
       end
     end

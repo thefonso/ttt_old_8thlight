@@ -34,9 +34,7 @@ class Computer
   def move(board)
     @player_symbol = 'O'
     puts "computer move..."
-    ai_moves(board) # old ai
-   # minimax(board) # new ai
-    
+    ai_moves(board)
   end
 
 end

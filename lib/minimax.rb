@@ -22,7 +22,6 @@ module Algorithm
       ply = turn_number
       virtual_board = board.dup
       available_moves = virtual_board.grid.select{ |k, v| v == " " }.keys
-      p "available_moves "+available_moves.length.to_s
       scoreboard_hash = {}
       ai_score = {}
 
