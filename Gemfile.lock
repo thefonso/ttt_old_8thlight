@@ -3,9 +3,18 @@ GEM
   specs:
     archive-tar-minitar (0.5.2)
     cheat (1.3.0)
+    coderay (1.0.7)
     columnize (0.3.6)
     linecache19 (0.5.12)
       ruby_core_source (>= 0.1.4)
+    method_source (0.8)
+    pry (0.9.10)
+      coderay (~> 1.0.5)
+      method_source (~> 0.8)
+      slop (~> 3.3.1)
+    pry-doc (0.4.4)
+      pry (>= 0.9.9.6)
+      yard (~> 0.8.1)
     ruby-debug-base19 (0.11.25)
       columnize (>= 0.3.1)
       linecache19 (>= 0.5.11)
@@ -16,10 +25,14 @@ GEM
       ruby-debug-base19 (>= 0.11.19)
     ruby_core_source (0.1.5)
       archive-tar-minitar (>= 0.5.2)
+    slop (3.3.2)
+    yard (0.8.3)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
   cheat
+  pry
+  pry-doc
   ruby-debug19

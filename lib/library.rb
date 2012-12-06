@@ -22,7 +22,6 @@ module Library
     block_human_win_only(board) unless !attempt_win(board).nil?
     return @move
   end # Intermediate Game State 
-
   def ai_fourth_move(board)
     if board.grid[:b2] == "O"
       block_human_win_and_random_move(board) unless !attempt_win(board).nil? 
@@ -285,6 +284,21 @@ module Library
     end
 
     return @move  
+  end
+
+  def win_lose_draw(board)
+    available_moves = board.grid.select{ |k, v| v == " " }.keys.length
+    if available_moves == 0
+      if is_a_human_win(board) == -1
+        is_a_human_win(board)
+      elsif is_a_computer_win(board) == 1
+        is_a_computer_win(board)
+      else
+        puts "D R A W"
+      end
+    else
+      return nil
+    end
   end
 
   def is_a_human_win(board)

@@ -69,11 +69,14 @@ describe 'Player class' do
   end
 
   describe 'Computer.move' do
+    before (:each) do
+     @board.grid[:b2] = "X"
+    end
     it 'should print - ...computer move... - to screen' do
       @player_computer.should_receive(:puts).with("computer move...")
       @player_computer.move(@board)
     end
-    it 'returns expected first move O' do
+    it 'returns a move of O' do
       @player_computer.move(@board).should eq("O")
     end
   end

@@ -17,10 +17,8 @@ class Game
   def take_turn(turn_value)
     if turn_value.even?
       Player.get_player('X').move(@board)
-      is_a_human_win(@board)
     else
       Player.get_player('O').move(@board)
-      is_a_computer_win(@board)
     end
   end
 
