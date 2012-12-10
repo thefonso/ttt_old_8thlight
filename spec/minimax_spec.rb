@@ -22,18 +22,23 @@ end
       @board.grid[:c3] = "X" 
     end
     describe 'ai_move method'do
-     it 'should return the max move for the ai'do
+     xit 'should return the max move for the ai'do
        @minimax.ai_moves(@board).is_a?(Symbol)
       end
     end
-    describe 'max_move method' do
-      it 'should hold array of all max and min moves'do
-       @minimax.max_move(@board, @ply).is_a?(Symbol)
+    describe 'minimax method' do
+      xit 'should retrun a hash of answers' do
+       @minimax.minimax(@board, @ply).is_a?(Symbol)
+      end
+    end
+    describe 'generate_board method' do
+      it 'should hold array of all max moves'do
+       @minimax.generate_board(@board, @ply).is_a?(Hash)
       end
     end
     describe 'min_move method' do
-      it 'should return array of minimum moves'do
-        @minimax.min_move(@board, @ply).is_a?(Symbol)
+      xit 'should return array of minimum moves'do
+       @minimax.min_move(@board, @ply).is_a?(Symbol)
       end
     end
   end

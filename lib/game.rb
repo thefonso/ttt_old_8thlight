@@ -1,8 +1,8 @@
-require_relative 'library'
+require_relative 'library_rulebased'
 require_relative 'player'
 
 class Game 
-  include Library #TODO namespace these methods  
+  include LibraryRulebased #TODO namespace these methods  
   
   def initialize(human, computer, board)
     @player_human = human

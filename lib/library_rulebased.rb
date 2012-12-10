@@ -1,4 +1,4 @@
-module Library
+module LibraryRulebased
 
 
   def ai_first_move(board)
@@ -285,7 +285,7 @@ module Library
 
     return @move  
   end
-
+# move to minimax_library.rb
   def win_lose_draw(board)
     available_moves = board.grid.select{ |k, v| v == " " }.keys.length
     if available_moves == 0

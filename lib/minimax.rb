@@ -1,75 +1,70 @@
-require_relative 'library'
+require_relative 'library_minimax'
+require 'pry'
 
 module Algorithm
   module Minimax 
-    include Library 
-    # max_move-find winningest Computer move, scores it, add it to answer hash
-    # min_move-find winningest Human move,    scores it, add it to answer hash
+    include LibraryMinimax
+
     def ai_moves(board)
-      turn_number = board.grid.select{ |k, v| v != " " }.keys.length
-
-      move = max_move(board, turn_number)
-      if turn_number != 9 && move != {}
-        best_move = move.max_by{|k,v|v}[0]
-        board.grid[best_move] = @player_symbol 
+      real_board = board
+      turn_number = 1
+      best_move_virtual_board = minimax(board,turn_number)#returns a best_move_virtual_board based on real board input
+      if best_move_virtual_board != nil
+        if best_move_virtual_board == 1
+          puts 'Computer Wins'
+        elsif best_move_virtual_board == -1
+          puts 'Human Wins'
+        elsif best_move_virtual_board == 0
+          puts 'D R A W'
+        end
       else
-        win_lose_draw(board)
+        best_move = best_move_virtual_board & real_board
       end
-
+      return best_move
     end
 
-    def max_move(board, turn_number)
+    def minimax(board, turn_number)
       ply = turn_number
       virtual_board = board.dup
-      available_moves = virtual_board.grid.select{ |k, v| v == " " }.keys
+      spaces_on_virtual_board = virtual_board.grid.select{ |k, v| v == " " }.keys
+
       scoreboard_hash = {}
       ai_score = {}
 
-      available_moves.each do
-      ai_winmove = attempt_win(virtual_board) #suspect
+      # take first empty space...put move on board...send board back via recursive loop
+      # check for win
 
-      if ai_winmove == nil && ply == 1
-        ai_winmove = ai_first_move(virtual_board)
-        ai_score[ai_winmove] = 1000
-        ai_score
-      elsif ai_winmove == nil && ply >= 2
-        ai_winmove = ai_second_move(virtual_board)
-        ai_score[ai_winmove] = 1000
-        ai_score
+      result = win_lose_draw(board)
+      # if result == nil # game is not over
+      if ply != 10
+
+        spaces_on_virtual_board.each do |turn|
+          puts "TURN "+turn.to_s
+          minimax(virtual_board,(ply+1))
+        end
+
+        p "AI SCORE "+ai_score.to_s #when loop ends return stack_hash
+        return ai_score
+      elsif result == 1
+        return 1 # Computer win
+      elsif result == -1
+        return -1 # Human win
+      elsif result == 0
+        return 0
       end
-
-      if ai_winmove != nil && ply == 1 #ai win in one move
-        ai_score[ai_winmove] = 1000
-        ai_score 
-      elsif ai_winmove != nil && ply >= 2
-        ai_score[ai_winmove] = (1000 - ply)
-        ai_score
-      end
-
-      ai_min_move = min_move(virtual_board, ply)  # grab the human max moves...the computer min_move
-
-      scoreboard_hash = ai_score.merge(ai_min_move)
-     end
-
-      #p scoreboard_hash
-      best_answer = scoreboard_hash
-      return best_answer
     end
+    
+    def generate_board(board, ply)
+      #STEP 1 - receive a board
+      #STEP 2 - place a move on the board
+      #STEP 3 - return the new board
+      turn = ply
 
-    def min_move(board, ply)
-      human_score = {}
-      code_plugin = ""
-      human_winmove = block_human_win(board, code_plugin)
-
-      if human_winmove != nil && ply == 1 #human win in one move
-        human_score[human_winmove] = -1000
-        human_score
-      elsif human_winmove != nil && ply >= 2
-        human_score[human_winmove] = (-1000 + ply)
-        human_score
-      end
-
-     return human_score
+      @player_symbol = 'X'
+      empty_spaces_on_board = board.grid.select{ |k, v| v == " " }.keys
+      answer = empty_spaces_on_board[0].to_sym
+      board.grid[answer] = @player_symbol
+      return board.grid[answer]
     end
 
   end
