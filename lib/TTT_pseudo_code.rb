@@ -8,23 +8,28 @@ module Algorithm
   module Minimax 
     include LibraryMinimax
 
-
+    def minimax
+      
+    end
 
     def score_the_boards(board, player)
 
-      # virtual_boards_hash = build_virtual_boards_hash(board, player).each_key # returns virtual_boards_hash
-      virtual_boards_hash = build_virtual_boards_hash(board, player).select{ |k, v| v }.values
+      # virtual_boards_hash = generate_boards(board, player).each_key # returns virtual_boards_hash
+      virtual_boards_hash = generate_boards(board, player).select{ |k, v| v }.values
       p "VALUES "+virtual_boards_hash.to_s
       scores_hash = {}
 
       #find_win_lose_draw_scores
       virtual_boards_hash.each do |test_board|
+        
         p "TEST_BOARD "+test_board.to_s
-        if ai_win_moves(test_board) != nil #game continues
-          if ai_win_moves(test_board) == 1
+        p "AI_WIN_MOVES "+is_a_computer_win(test_board).to_s
+        
+        if is_a_computer_win(test_board) != nil #game continues
+          if is_a_computer_win(test_board) == 1
             scores_hash[test_board] = (1000 - ply) # computer_win
             p scores_hash[test_board]
-          elsif human_win_moves(test_board) == 1
+          elsif is_a_human_win(test_board) == 1
             scores_hash[test_board] = (-1000 + ply) # human_win
             p scores_hash[test_board] 
           else
@@ -41,27 +46,37 @@ module Algorithm
     end
 
 
-
     #builds hash of hash of fake boards
-    def build_virtual_boards_hash(board, player)
+    def generate_boards(board, player)
       virtual_board = board.dup
       i = 0
       virtual_board_hash = {}
       new_board_hash = {}
+      hash1={}
+      hash2={}
       
-      empty_spaces_on_board = virtual_board.grid.select{ |k, v| v == " " }.keys
+      empty_spaces = virtual_board.grid.select{ |k, v| v == " " }.keys
       
-      
-      while i < empty_spaces_on_board.length do
-        empty_space_symbol = empty_spaces_on_board[i]
-        index_mark = 'VB'+i.to_s
-                  
-        new_board_hash = {index_mark => move_as_somebody(board, player, empty_space_symbol).grid}
-                
-        virtual_board_hash = virtual_board_hash.merge(new_board_hash)        
+        empty_spaces.each do |space|      
+          
+          cloned_board = Board.new
+          cloned_board.grid = board.grid.clone
+          if player == 'O'
+            new_board = move_as_somebody(cloned_board, 'X', space)
+            new_player = 'X'
+            hash1 = hash1.merge(new_board.grid)
+          else
+            new_board = move_as_somebody(cloned_board, 'O', space)
+            new_player = 'O'
+            hash2 = hash2.merge(new_board.grid)
+          end
+          generate_boards(new_board, new_player)
+          # new_board_hash = new_board_hash.merge(new_board.grid)
+          p virtual_board_hash = hash1.merge(hash2)
 
-        i += 1
-      end
+        end
+        
+      # index_mark = "vb"+i.to_s
       return virtual_board_hash
     end
 
@@ -69,14 +84,10 @@ module Algorithm
 
     #takes board....returns new board
     def move_as_somebody(board, player, empty_space)
-      new_board = board
-      if player == 'X'
-        new_board.grid[empty_space] = player
-      else
-        player == 'O'
-        new_board.grid[empty_space] = player
-      end
-      return new_board
+      
+        board.grid[empty_space] = player
+      
+      return board
     end
 
   end

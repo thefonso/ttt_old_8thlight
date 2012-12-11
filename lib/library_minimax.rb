@@ -70,7 +70,7 @@ module LibraryMinimax
     }
 
     o_on_the_gameboard = board.grid.select{ |k, v| v == "O" }.keys
-
+    p "BOARD LOOKS LIKE "+board
 
     ai_winmoves.each do |k,v|
       ai_winmoves_keys = v.select{ |k, v| v == "O"}.keys

@@ -1,5 +1,5 @@
 class Board
-  attr_reader :grid
+  attr_accessor :grid
 
   def initialize(cell_value = " ")
     @grid = {
@@ -24,4 +24,6 @@ class Board
     cell_value = cell_location
     @grid[cell_value] != " "
   end
+  
+ # TODO build a clone method
 end
