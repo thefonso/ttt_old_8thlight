@@ -14,13 +14,13 @@ end
       @board = Board.new
       @minimax = Pseudo_Minimax_Ai.new
       @board.grid[:a1] = "X"
-      @board.grid[:a2] = "X"
-      @board.grid[:a3] = "O"
+      @board.grid[:a2] = " "
+      @board.grid[:a3] = " "
       @board.grid[:b1] = "O"
-      @board.grid[:b2] = "O"
+      @board.grid[:b2] = " "
       @board.grid[:b3] = " "
-      @board.grid[:c1] = "O"
-      @board.grid[:c2] = "X"
+      @board.grid[:c1] = " "
+      @board.grid[:c2] = " "
       @board.grid[:c3] = " "
     end
 
@@ -29,17 +29,21 @@ end
        @minimax.score_the_boards(@board, @player).is_a?(Hash)
       end
     end
-    
+    describe 'go' do
+      it 'calls generate_boards' do
+        @minimax.go(@board, @player)
+      end
+    end
     describe 'generate_boards(board, player, count)' do
       xit 'returns a hash' do
         @minimax.generate_boards(@board, @player, @count).is_a?(Hash)
       end
 
-      it 'holds all the boards' do
+      xit 'holds all the boards' do
                
         # # 7
         # # turn is X
-        boards = @minimax.generate_boards(@board, @player, @count) # what follows are from this branch
+        boards = @minimax.generate_boards(@board, @player) # what follows are from this branch
         # boards.should include({:a1=>"X", :a2=>"X", :a3=>" ", :b1=>" ", :b2=>"O", :b3=>" ", :c1=>" ", :c2=>" ", :c3=>" "})
         # boards.should include({:a1=>"X", :a2=>" ", :a3=>" ", :b1=>" ", :b2=>"O", :b3=>" ", :c1=>" ", :c2=>" ", :c3=>"O"})
         boards.should include({:a1=>"X", :a2=>"X", :a3=>"O", :b1=>"O", :b2=>"O", :b3=>"X", :c1=>"O", :c2=>"X", :c3=>"O"})

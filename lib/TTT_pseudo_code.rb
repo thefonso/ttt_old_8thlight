@@ -9,8 +9,9 @@ module Algorithm
     include LibraryMinimax
       
     def initialize
-      @@virtual_board_hash = {}
-      @@count = 0
+      @virtual_board_hash = {}
+      @count = 0
+      @i = 0
     end
 
     def score_the_boards(board, player)
@@ -46,13 +47,13 @@ module Algorithm
       return scores_hash
     end
 
-
+    def go(board, player)
+      p generate_boards(board, player)
+    end
     #builds hash of hashes of fake boards
-    def generate_boards(board, player, count)
-      i = count
+    def generate_boards(board, player)
       virtual_board = board.dup
-      index_mark = "vb"+i.to_s
-
+      
       new_board_hash = {}
       
       empty_spaces = virtual_board.grid.select{ |k, v| v == " " }.keys
@@ -61,26 +62,30 @@ module Algorithm
       
         cloned_board = Board.new
         cloned_board.grid = board.grid.clone
+
         if player == 'O'
           new_board = move_as_somebody(cloned_board, 'X', space)
           new_player = 'X'
-          new_board_hash = new_board_hash.merge(new_board.grid)
+           @virtual_board_hash[@i] = new_board.grid
         else
           new_board = move_as_somebody(cloned_board, 'O', space)
           new_player = 'O'
-          new_board_hash = new_board_hash.merge(new_board.grid)
+           @virtual_board_hash[@i] = new_board.grid
         end
-        generate_boards(new_board, new_player, i+=1)
-        p @@virtual_board_hash = new_board_hash.merge(new_board_hash)
-        # @@virtual_board_hash = new_board_hash.store(index_mark, generate_boards(new_board, new_player, i+=1))
+        generate_boards(new_board, new_player)
+        
+        # @virtual_board_hash = new_board_hash.store(index_mark, generate_boards(new_board, new_player, i+=1))
       end
-      return @@virtual_board_hash
+      @virtual_board_hash
+
+      return @virtual_board_hash
     end
 
 
 
     def move_as_somebody(board, player, empty_space)      
       board.grid[empty_space] = player
+      @i+=1
       return board
     end
 
