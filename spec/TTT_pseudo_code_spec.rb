@@ -14,24 +14,28 @@ end
       @board = Board.new
       @minimax = Pseudo_Minimax_Ai.new
       @board.grid[:a1] = "X"
-      @board.grid[:a2] = " "
+      @board.grid[:a2] = "X"
       @board.grid[:a3] = " "
       @board.grid[:b1] = "O"
-      @board.grid[:b2] = " "
-      @board.grid[:b3] = " "
-      @board.grid[:c1] = " "
-      @board.grid[:c2] = " "
+      @board.grid[:b2] = "O"
+      @board.grid[:b3] = "X"
+      @board.grid[:c1] = "X"
+      @board.grid[:c2] = "O"
       @board.grid[:c3] = " "
     end
 
     describe 'score_the_boards(board, player)' do
+      it 'should return a hash' do
+       @minimax.score_the_boards(@board, @player).is_a?(Hash)
+      end
+
       xit 'should retrun a hash with range of answers 1000 to -1000' do
        @minimax.score_the_boards(@board, @player).is_a?(Hash)
       end
     end
     describe 'go' do
       it 'calls generate_boards' do
-        @minimax.go(@board, @player)
+        @minimax.go(@board, @player).is_a?(Hash)
       end
     end
     describe 'generate_boards(board, player, count)' do

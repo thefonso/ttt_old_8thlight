@@ -15,7 +15,7 @@ class Human
     if board.grid.has_key?(human_spot_to_take)
       if board.grid[human_spot_to_take] == " " 
         mymove = human_spot_to_take.to_sym 
-        board.grid[mymove] = @player_symbol         
+        board.grid[mymove] = @player_symbol 
       else
         puts "spot taken...try again"
         move(board)

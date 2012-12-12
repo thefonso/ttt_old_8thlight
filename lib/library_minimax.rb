@@ -33,8 +33,8 @@ module LibraryMinimax
       :wm07 => {:a1=>"X", :a2=>" ", :a3=>" ", :b1=>"X", :b2=>" ", :b3=>" ", :c1=>"X", :c2=>" ", :c3=>" "},
       :wm08 => {:a1=>" ", :a2=>" ", :a3=>"X", :b1=>" ", :b2=>" ", :b3=>"X", :c1=>" ", :c2=>" ", :c3=>"X"}
     }
-
-    x_on_the_gameboard = board.grid.select{ |k, v| v == "X" }.keys
+    # p "PING "+board.to_s
+    x_on_the_gameboard = board.select{ |k, v| v == "X" }.keys
 
 
     win_moves.each do |k,v|
@@ -44,7 +44,7 @@ module LibraryMinimax
 
       if matching_moves.length >= 3 
 
-        p 'key: '+k.to_s
+        # p 'key: '+k.to_s
 
         string_contains = k.to_s
         if string_contains =~ /wm/ 
@@ -69,8 +69,8 @@ module LibraryMinimax
       :wm08 => {:a1=>" ", :a2=>" ", :a3=>"O", :b1=>" ", :b2=>" ", :b3=>"O", :c1=>" ", :c2=>" ", :c3=>"O"}
     }
 
-    o_on_the_gameboard = board.grid.select{ |k, v| v == "O" }.keys
-    p "BOARD LOOKS LIKE "+board
+    o_on_the_gameboard = board.select{ |k, v| v == "O" }.keys
+    # p "BOARD LOOKS LIKE "+board
 
     ai_winmoves.each do |k,v|
       ai_winmoves_keys = v.select{ |k, v| v == "O"}.keys
@@ -79,7 +79,7 @@ module LibraryMinimax
 
       if matching_moves.length >= 3 
 
-        p 'key: '+k.to_s
+        # p 'key: '+k.to_s
 
         test_string_contains = k.to_s
         if test_string_contains =~ /wm/ 
