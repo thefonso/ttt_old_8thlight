@@ -1,6 +1,6 @@
 require_relative 'board'
-require_relative 'ai'
-require_relative 'minimax'
+require_relative 'ai_rulesbased'
+require_relative 'ai_minimax'
 # TODO give choice of who can make first move
 
 

@@ -7,80 +7,73 @@ require 'pry'
 module Algorithm
   module Minimax 
     include LibraryMinimax
-      
+
+    def minmax(board,player)
+      allboards = score_the_boards(board, player)
+      max_board = allboards.max_by{|k,v| v}[0]
+      #p "Max board "+max_board.to_s
+      min_board = allboards.min_by{|k,v| v}[0]
+      #p "Min board "+min_board.to_s
+      answers = (max_board.to_a - min_board.to_a).flatten
+      intersect = Hash[*answers.flatten]
+
+      max_move = intersect.select{|k,v| v == 'O'}.keys[0]
+      #p min_move = intersect.select{|k,v| v == 'X'}.keys[0]
+    end
 
     def score_the_boards(board, player)
       @virtual_board_hash = {}
       @count = 0
-      ply = 5
+      ply = 0
       @i = 0
       test_boards_hash = {}
-      # virtual_boards_hash = generate_boards(board, player).each_key # returns virtual_boards_hash
       test_boards_hash = generate_boards(board, player)
-      # p virtual_boards_hash
       scores_hash = {}
-      # p "TEST_BOARD = "+test_boards_hash.to_s
-      #find_win_lose_draw_scores
       test_boards_hash.each do |key, value|
-        
-        # p value.to_s
-      
-        # p "AI_WIN_MOVES "+is_a_human_win(value).to_s
-        
-      if is_a_computer_win(value) != nil #game continues
-        if is_a_computer_win(value) == 1
-          scores_hash[value] = (1000 - ply) # computer_win
-          #p scores_hash[test_board]
-        elsif is_a_human_win(value) == 1
-          scores_hash[value] = (-1000 + ply) # human_win
-          #p scores_hash[test_board] 
+        if is_a_computer_win(value) != nil 
+          if is_a_computer_win(value) == 1
+            scores_hash[value] = (1000 - ply)
+          elsif is_a_human_win(value) == 1
+            scores_hash[value] = (-1000 + ply)
+          else
+            #scores_hash[value] = 0 #no value
+            #p scores_hash[test_board] 
+          end
         else
-          scores_hash[value] = 0 #no value
-          #p scores_hash[test_board] 
+          puts 'D R A W'
         end
-      else
-        puts 'D R A W'
+        ply -= 5
       end
-      end
-      #returns all boards
-      p "SCORES HASH "+scores_hash.to_s
+      #p "SCORES HASH "+scores_hash.to_s
       return scores_hash
     end
 
-    def go(board, player)
-      @virtual_board_hash = {}
-      @count = 0
-      @i = 0
-
-      p generate_boards(board, player)
-    end
-    
     def generate_boards(board, player)
       virtual_board = board.dup
       new_board_hash = {}
       empty_spaces = virtual_board.grid.select{ |k, v| v == " " }.keys
 
       empty_spaces.each do |space|
-      
+
         cloned_board = Board.new
         cloned_board.grid = board.grid.clone
 
         if player == 'O'
           new_board = move_as_somebody(cloned_board, 'X', space)
           new_player = 'X'
-           @virtual_board_hash[@i] = new_board.grid
+          @virtual_board_hash[@i] = new_board.grid
         else
           new_board = move_as_somebody(cloned_board, 'O', space)
           new_player = 'O'
-           @virtual_board_hash[@i] = new_board.grid
+          @virtual_board_hash[@i] = new_board.grid
         end
         generate_boards(new_board, new_player)
-        
+
       end
       return @virtual_board_hash
     end
 
-    def move_as_somebody(board, player, empty_space)      
+    def move_as_somebody(board, player, empty_space)
       board.grid[empty_space] = player
       @i+=1
       return board

@@ -1,4 +1,4 @@
-module LibraryRulebased
+module LibraryRulesbased
 
 
   def ai_first_move(board)

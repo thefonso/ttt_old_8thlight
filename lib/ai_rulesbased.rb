@@ -1,9 +1,9 @@
-require_relative 'library_rulebased'
+require_relative 'library_rulesbased'
 
 
 module Algorithm
   module Regular
-    include LibraryRulebased #TODO come back and namespace these methods from Library
+    include LibraryRulesbased #TODO come back and namespace these methods from Library
  
     def ai_moves(board)
       taken_moves = board.grid.select{ |k, v| v != " " }.keys.length
