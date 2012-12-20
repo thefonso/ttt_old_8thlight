@@ -34,7 +34,8 @@ module LibraryMinimax
       :wm08 => {:a1=>" ", :a2=>" ", :a3=>"X", :b1=>" ", :b2=>" ", :b3=>"X", :c1=>" ", :c2=>" ", :c3=>"X"}
     }
     # p "PING "+board.to_s
-    x_on_the_gameboard = board.select{ |k, v| v == "X" }.keys
+    
+    x_on_the_gameboard = board.grid.select { |k, v| v == "X" }.keys
 
 
     win_moves.each do |k,v|
@@ -69,7 +70,7 @@ module LibraryMinimax
       :wm08 => {:a1=>" ", :a2=>" ", :a3=>"O", :b1=>" ", :b2=>" ", :b3=>"O", :c1=>" ", :c2=>" ", :c3=>"O"}
     }
 
-    o_on_the_gameboard = board.select{ |k, v| v == "O" }.keys
+    o_on_the_gameboard = board.grid.select{ |k, v| v == "O" }.keys
     # p "BOARD LOOKS LIKE "+board
 
     ai_winmoves.each do |k,v|
