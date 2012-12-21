@@ -22,7 +22,6 @@ module Algorithm
     end
 
     def score_the_boards(board, player)
-      @virtual_board_hash = {}
       @count = 0
       ply = 0
       @i = 0
@@ -48,7 +47,9 @@ module Algorithm
       return scores_hash
     end
 
+
     def generate_boards(board, player)
+      @virtual_board_hash ||= {}
       virtual_board = board.dup
       new_board_hash = {}
       empty_spaces = virtual_board.grid.select{ |k, v| v == " " }.keys
@@ -67,11 +68,13 @@ module Algorithm
           new_player = 'O'
           @virtual_board_hash[@i] = new_board.grid
         end
+
         generate_boards(new_board, new_player)
 
       end
       return @virtual_board_hash
     end
+
 
     def move_as_somebody(board, player, empty_space)
       board.grid[empty_space] = player
